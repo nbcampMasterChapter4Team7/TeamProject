@@ -16,7 +16,6 @@ extension UIColor {
     }
     enum Asset: String {
         case main = "Main"
-        case white = "White"
         case gray0 = "Gray#0"
         case gray1 = "Gray#1"
         case gray2 = "Gray#2"
