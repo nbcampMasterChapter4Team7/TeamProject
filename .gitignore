@@ -39,7 +39,7 @@ Packages
 .build/
 xcuserdata
 DerivedData/
-*.xcodeproj
+# *.xcodeproj
 
 
 ### SwiftPM ###
@@ -61,5 +61,8 @@ xcuserdata/
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
+
+### API ###
+*.xcconfig
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,xcode,swiftpm,swiftpackagemanager
