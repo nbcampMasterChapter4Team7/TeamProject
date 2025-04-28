@@ -16,7 +16,7 @@ final class RentViewController: KakaoMapViewController, CLLocationManagerDelegat
     
     // MARK: - Properties
     
-    let locationManager = CLLocationManager()
+    private let locationManager = CLLocationManager()
     
     // MARK: - UI Components
 
