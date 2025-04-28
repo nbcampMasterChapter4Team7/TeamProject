@@ -7,6 +7,8 @@
 
 import UIKit
 
+import SnapKit
+
 protocol RegisterKickboardAlertDelegate: AnyObject {
     func didCancelRegister()
 }
@@ -89,7 +91,7 @@ class RegisterKickboardAlertViewController: UIViewController {
         
         registerButton.setTitle("등록", for: .normal)
         registerButton.setTitleColor(.white, for: .normal)
-        registerButton.backgroundColor = .systemGreen
+        registerButton.backgroundColor = UIColor.systemMint
         registerButton.layer.cornerRadius = 8
         registerButton.translatesAutoresizingMaskIntoConstraints = false
         registerButton.addTarget(self, action: #selector(didTapRegister), for: .touchUpInside)
@@ -99,40 +101,52 @@ class RegisterKickboardAlertViewController: UIViewController {
     }
     
     private func setupConstraints() {
-        NSLayoutConstraint.activate([
-            containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            containerView.widthAnchor.constraint(equalToConstant: 300),
-            
-            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
-            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            
-            infoLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            infoLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            infoLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            
-            basicFareTextField.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 20),
-            basicFareTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            basicFareTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            basicFareTextField.heightAnchor.constraint(equalToConstant: 40),
-            
-            hourlyFareTextField.topAnchor.constraint(equalTo: basicFareTextField.bottomAnchor, constant: 12),
-            hourlyFareTextField.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            hourlyFareTextField.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            hourlyFareTextField.heightAnchor.constraint(equalToConstant: 40),
-            
-            cancelButton.topAnchor.constraint(equalTo: hourlyFareTextField.bottomAnchor, constant: 20),
-            cancelButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            cancelButton.trailingAnchor.constraint(equalTo: containerView.centerXAnchor, constant: -8),
-            cancelButton.heightAnchor.constraint(equalToConstant: 44),
-            cancelButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -20),
-            
-            registerButton.topAnchor.constraint(equalTo: hourlyFareTextField.bottomAnchor, constant: 20),
-            registerButton.leadingAnchor.constraint(equalTo: containerView.centerXAnchor, constant: 8),
-            registerButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            registerButton.heightAnchor.constraint(equalToConstant: 44)
-        ])
+        containerView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.width.equalTo(300)
+        }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(containerView.snp.top).offset(20)
+            make.leading.equalTo(containerView.snp.leading).offset(16)
+            make.trailing.equalTo(containerView.snp.trailing).inset(16)
+        }
+        
+        infoLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(8)
+            make.leading.equalTo(containerView.snp.leading).offset(16)
+            make.trailing.equalTo(containerView.snp.trailing).inset(16)
+        }
+        
+        basicFareTextField.snp.makeConstraints { make in
+            make.top.equalTo(infoLabel.snp.bottom).offset(20)
+            make.leading.equalTo(containerView.snp.leading).offset(16)
+            make.trailing.equalTo(containerView.snp.trailing).inset(16)
+            make.height.equalTo(40)
+        }
+        
+        hourlyFareTextField.snp.makeConstraints { make in
+            make.top.equalTo(basicFareTextField.snp.bottom).offset(12)
+            make.leading.equalTo(containerView.snp.leading).offset(16)
+            make.trailing.equalTo(containerView.snp.trailing).inset(16)
+            make.height.equalTo(40)
+        }
+        
+        cancelButton.snp.makeConstraints { make in
+            make.top.equalTo(hourlyFareTextField.snp.bottom).offset(20)
+            make.leading.equalTo(containerView.snp.leading).offset(16)
+            make.trailing.equalTo(containerView.snp.centerX).offset(-8)
+            make.height.equalTo(44)
+            make.bottom.equalTo(containerView.snp.bottom).inset(20)
+        }
+        
+        registerButton.snp.makeConstraints { make in
+            make.top.equalTo(hourlyFareTextField.snp.bottom).offset(20)
+            make.leading.equalTo(containerView.snp.centerX).offset(8)
+            make.trailing.equalTo(containerView.snp.trailing).inset(16)
+            make.height.equalTo(44)
+        }
     }
     
     // MARK: - Actions
