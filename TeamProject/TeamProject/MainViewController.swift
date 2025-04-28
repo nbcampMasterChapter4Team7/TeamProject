@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  TeamProject
 //
 //  Created by yimkeul on 4/25/25.
@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class ViewController: UITabBarController {
+final class MainViewController: UITabBarController {
 
     // MARK: - Override
     
