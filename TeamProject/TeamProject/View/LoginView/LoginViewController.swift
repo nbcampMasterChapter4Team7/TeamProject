@@ -10,11 +10,6 @@ import UIKit
 import SnapKit
 import Then
 
-protocol ExchangeViewProtoocol: AnyObject {
-    func signUpButtonTapped()
-    func loginButtonTapped()
-}
-
 final class LoginViewController: UIViewController {
     
     // MARK: - UI Components
