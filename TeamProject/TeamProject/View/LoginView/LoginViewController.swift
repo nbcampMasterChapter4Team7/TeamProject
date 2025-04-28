@@ -5,16 +5,10 @@
 //  Created by iOS study on 4/28/25.
 //
 
-//
-//  ViewController.swift
-//  TeamProject
-//
-//  Created by yimkeul on 4/25/25.
-//
-
 import UIKit
-import Then
+
 import SnapKit
+import Then
 
 protocol SignUpProtocol: AnyObject {
     func signUpButtonTapped()
@@ -38,10 +32,7 @@ final class LoginViewController: UIViewController {
     
     func setupLoginView() {
         view.addSubview(loginView)
-        
-        loginView.snp.makeConstraints { make in
-            make.top.bottom.leading.trailing.equalToSuperview()
-        }
+        loginView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
     
     // MARK: memebershipView의 네비게이션 뒤로가기 타이틀 없애기

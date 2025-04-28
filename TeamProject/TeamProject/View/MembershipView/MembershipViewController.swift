@@ -6,7 +6,9 @@
 //
 
 import UIKit
+
 import SnapKit
+import Then
 
 class MembershipViewController: UIViewController {
     private var membershipView = MembershipView()
@@ -24,10 +26,7 @@ class MembershipViewController: UIViewController {
     
     private func setupMembershipView() {
         view.addSubview(membershipView)
-        
-        membershipView.snp.makeConstraints { make in
-            make.top.bottom.leading.trailing.equalToSuperview()
-        }
+        membershipView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
     
     // 키보드 확장 옵저버 종료
