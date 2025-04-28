@@ -38,7 +38,7 @@ class MembershipViewController: UIViewController {
     
     // MARK: - Actions
     
-    // 키보드 확장 옵저버 종료
+    /// 키보드 확장 옵저버 종료
     deinit {
         removeKeyboardObserver()
     }

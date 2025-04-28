@@ -57,7 +57,7 @@ final class LoginViewController: UIViewController {
     
     // MARK: - Actions
     
-    // 키보드 확장 옵저버 종료
+    /// 키보드 확장 옵저버 종료
     deinit {
         removeKeyboardObserver()
     }
@@ -68,6 +68,6 @@ final class LoginViewController: UIViewController {
 extension LoginViewController: SignUpProtocol {
     func signUpButtonTapped() {
         let membershipVC = MembershipViewController()
-        navigationController?.pushViewController(membershipVC, animated: false)
+        navigationController?.pushViewController(membershipVC, animated: true)
     }
 }
