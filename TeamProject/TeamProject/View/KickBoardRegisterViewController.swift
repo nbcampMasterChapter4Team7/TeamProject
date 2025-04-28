@@ -34,15 +34,16 @@ class KickBoardRegisterViewController: UIViewController, MapControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         mapContainer = KMViewContainer(frame: view.bounds)
         mapContainer?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.addSubview(mapContainer!)
-
+        
         mapController = KMController(viewContainer: mapContainer!)
         mapController?.delegate = self
+        
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         addObservers()
         _appear = true
@@ -59,7 +60,7 @@ class KickBoardRegisterViewController: UIViewController, MapControllerDelegate {
         _appear = false
         mapController?.pauseEngine()  //렌더링 중지.
     }
-
+    
     override func viewDidDisappear(_ animated: Bool) {
         removeObservers()
         mapController?.resetEngine()     //엔진 정지. 추가되었던 ViewBase들이 삭제된다.
@@ -135,6 +136,8 @@ class KickBoardRegisterViewController: UIViewController, MapControllerDelegate {
         let view = mapController?.getView("mapview") as! KakaoMap
         view.viewRect = mapContainer!.bounds    //뷰 add 도중에 resize 이벤트가 발생한 경우 이벤트를 받지 못했을 수 있음. 원하는 뷰 사이즈로 재조정.
         view.eventDelegate = self
+        createLabelLayer()
+        createPoiStyle()
         viewInit(viewName: viewName)
     }
     
@@ -152,14 +155,14 @@ class KickBoardRegisterViewController: UIViewController, MapControllerDelegate {
     func addObservers(){
         NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
-    
+        
         _observerAdded = true
     }
     
     func removeObservers(){
         NotificationCenter.default.removeObserver(self, name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
-
+        
         _observerAdded = false
     }
     
@@ -186,11 +189,11 @@ class KickBoardRegisterViewController: UIViewController, MapControllerDelegate {
                        delay: duration - 0.4,
                        options: UIView.AnimationOptions.curveEaseOut,
                        animations: {
-                                        toastLabel.alpha = 0.0
-                                    },
+            toastLabel.alpha = 0.0
+        },
                        completion: { (finished) in
-                                        toastLabel.removeFromSuperview()
-                                    })
+            toastLabel.removeFromSuperview()
+        })
     }
     
     var mapContainer: KMViewContainer?
@@ -199,10 +202,60 @@ class KickBoardRegisterViewController: UIViewController, MapControllerDelegate {
     var _auth: Bool
     var _appear: Bool
     var isViewAdded = false
+    
+    // MARK: - Map Setup Helpers
+    private func createLabelLayer() {
+        guard let mapView = mapController?.getView("mapview") as? KakaoMap else { return }
+        let manager = mapView.getLabelManager()
+        
+        let layerOption = LabelLayerOptions(
+            layerID: "PoiLayer",
+            competitionType: .none,
+            competitionUnit: .symbolFirst,
+            orderType: .rank,
+            zOrder: 10
+        )
+        _ = manager.addLabelLayer(option: layerOption)
+    }
+    
+    private func createPoiStyle() {
+        guard let mapView = mapController?.getView("mapview") as? KakaoMap else { return }
+        let manager = mapView.getLabelManager()
+        
+        if let originalImage = UIImage(named: "kickboard") {
+            let targetSize = CGSize(width: 30, height: 30)
+            let renderer = UIGraphicsImageRenderer(size: targetSize)
+            let resizedImage = renderer.image { _ in
+                originalImage.draw(in: CGRect(origin: .zero, size: targetSize))
+            }
+            
+            let iconStyle = PoiIconStyle(
+                symbol: resizedImage,
+                anchorPoint: CGPoint(x: 0.5, y: 1.0)
+            )
+
+            let poiStyle = PoiStyle(styleID: "kickboardMarkStyleID", styles: [
+                PerLevelPoiStyle(iconStyle: iconStyle, level: 5),
+            ])
+            
+            manager.addPoiStyle(poiStyle)
+        } else {
+            print("kickboard 이미지 로드 실패")
+        }
+    }
 }
 
 extension KickBoardRegisterViewController: KakaoMapEventDelegate {
     func terrainDidLongPressed(kakaoMap: KakaoMap, position: MapPoint) {
         print("Tapped")
+        let mapView: KakaoMap = mapController?.getView("mapview") as! KakaoMap
+        let manager = mapView.getLabelManager()
+        let layer = manager.getLabelLayer(layerID: "PoiLayer")
+        let option = PoiOptions(styleID: "kickboardMarkStyleID")
+        option.clickable = true
+        
+        let poi = layer?.addPoi(option: option, at: position)
+        poi?.show()
     }
 }
+
