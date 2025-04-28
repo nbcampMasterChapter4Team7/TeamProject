@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol RegisterKickboardAlertDelegate: AnyObject {
+    func didCancelRegister()
+}
+
 class RegisterKickboardAlertViewController: UIViewController {
+    
+    weak var delegate: RegisterKickboardAlertDelegate?
 
     // MARK: - UI Components
     private let backgroundView = UIView()
@@ -127,6 +133,7 @@ class RegisterKickboardAlertViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func didTapCancel() {
+        delegate?.didCancelRegister()
         dismiss(animated: true, completion: nil)
     }
     

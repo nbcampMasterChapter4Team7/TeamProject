@@ -202,6 +202,7 @@ class KickBoardRegisterViewController: UIViewController, MapControllerDelegate {
     var _auth: Bool
     var _appear: Bool
     var isViewAdded = false
+    var lastAddedPoi: Poi?
     
     // MARK: - Map Setup Helpers
     private func createLabelLayer() {
@@ -253,12 +254,21 @@ extension KickBoardRegisterViewController: KakaoMapEventDelegate {
         let option = PoiOptions(styleID: "kickboardMarkStyleID")
         option.clickable = true
         
-        let poi = layer?.addPoi(option: option, at: position)
-        poi?.show()
+        if let poi = layer?.addPoi(option: option, at: position) {
+            poi.show()
+            self.lastAddedPoi = poi
+        }
         
         let alertVC = RegisterKickboardAlertViewController()
+        alertVC.delegate = self
         alertVC.modalPresentationStyle = .overFullScreen
         present(alertVC, animated: true)
     }
 }
 
+extension KickBoardRegisterViewController: RegisterKickboardAlertDelegate {
+    func didCancelRegister() {
+        lastAddedPoi?.hide()
+        lastAddedPoi = nil
+    }
+}
