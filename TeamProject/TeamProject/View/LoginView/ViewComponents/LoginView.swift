@@ -14,7 +14,7 @@ final class LoginView: UIView, UITextFieldDelegate {
     
     // MARK: - Properties
     
-    weak var delegate: SignUpProtocol?
+    weak var delegate: ExchangeViewProtoocol?
     
     private let loginPageTitle = UILabel().then {
         $0.text = "안녕하세요.\nGodRide입니다."
@@ -71,11 +71,11 @@ final class LoginView: UIView, UITextFieldDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .systemBackground
         setup()
         textFieldSetupDelegate()
         
-        signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
+        signUpButton.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
+        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -96,6 +96,7 @@ final class LoginView: UIView, UITextFieldDelegate {
     }
     
     private func setup() {
+        self.backgroundColor = .systemBackground
         self.addSubviews(loginPageTitle, loginPageDescription, idTextField, passwordTextField, loginButton, signUpButton)
         setLayout()
     }
@@ -154,8 +155,13 @@ final class LoginView: UIView, UITextFieldDelegate {
     }
     
     // MARK: - @objc Methods
-    
-    @objc private func signUpButtonTapped() {
+
+    @objc private func signupButtonTapped() {
         delegate?.signUpButtonTapped()
     }
+    
+    @objc private func loginButtonTapped() {
+        delegate?.loginButtonTapped()
+    }
+    
 }
