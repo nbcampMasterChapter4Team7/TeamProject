@@ -247,7 +247,6 @@ class KickBoardRegisterViewController: UIViewController, MapControllerDelegate {
 
 extension KickBoardRegisterViewController: KakaoMapEventDelegate {
     func terrainDidLongPressed(kakaoMap: KakaoMap, position: MapPoint) {
-        print("Tapped")
         let mapView: KakaoMap = mapController?.getView("mapview") as! KakaoMap
         let manager = mapView.getLabelManager()
         let layer = manager.getLabelLayer(layerID: "PoiLayer")
@@ -256,6 +255,10 @@ extension KickBoardRegisterViewController: KakaoMapEventDelegate {
         
         let poi = layer?.addPoi(option: option, at: position)
         poi?.show()
+        
+        let alertVC = RegisterKickboardAlertViewController()
+        alertVC.modalPresentationStyle = .overFullScreen
+        present(alertVC, animated: true)
     }
 }
 
