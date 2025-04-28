@@ -6,16 +6,18 @@
 //
 
 import UIKit
+
 import SnapKit
+import Then
 
 final class MyPageTableViewCell: UITableViewCell {
     
     static let id = "TableViewCell"
     
-    // 데이터 구성: 섹션별로 데이터를 배열로 관리
     static let data: [(title: String, details: [String])] = [
         ("이용 내역", ["전체 이용 내역 보기"]),
-        ("등록한 킥보드", ["전체 등록 내역 보기"])
+        ("등록한 킥보드", ["전체 등록 내역 보기"]),
+        ("고객센터", ["자주 묻는 질문", "1:1 문의하기", "공지사항"])
     ]
 
     private let titleLabel = UILabel().then {
@@ -23,9 +25,11 @@ final class MyPageTableViewCell: UITableViewCell {
         $0.textColor = .secondaryLabel
     }
     
-    private let detailLabel = UILabel().then {
-        $0.font = UIFont.fontGuide(.MyPageTotalRegistrationKickboardLabel)
-        $0.textColor = .label
+    private let stackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 20
+        $0.alignment = .leading
+        $0.distribution = .fillProportionally
     }
 
     private let arrowButton = UIButton().then {
@@ -37,38 +41,48 @@ final class MyPageTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
-        selectionStyle = .none  // 선택 시 스타일을 없애기
+        selectionStyle = .none
     }
 
     private func setup() {
         contentView.addSubview(titleLabel)
-        contentView.addSubview(detailLabel)
+        contentView.addSubview(stackView)
         contentView.addSubview(arrowButton)
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(10)
-            make.leading.equalToSuperview()
+            make.top.equalToSuperview().offset(20)
+            make.leading.trailing.equalToSuperview()
         }
         
-        detailLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(5)
+        stackView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(20)
             make.leading.equalToSuperview()
             make.trailing.equalTo(arrowButton.snp.leading)
             make.bottom.equalToSuperview().offset(-10)
         }
         
-        arrowButton.snp.makeConstraints {make in
-            make.centerY.equalTo(detailLabel)
+        arrowButton.snp.makeConstraints { make in
+            make.centerY.equalTo(stackView)
             make.trailing.equalToSuperview()
         }
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func configure(with title: String, details: [String]) {
+        titleLabel.text = title
+        
+        // 스택뷰 초기화
+        stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
+        details.forEach { detailText in
+            let label = UILabel()
+            label.text = detailText
+            label.font = UIFont.fontGuide(.MyPageTotalRegistrationKickboardLabel)
+            label.textColor = .label
+            stackView.addArrangedSubview(label)
+        }
     }
 
-    func configure(with title: String, detail: String) {
-        titleLabel.text = title
-        detailLabel.text = detail
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
