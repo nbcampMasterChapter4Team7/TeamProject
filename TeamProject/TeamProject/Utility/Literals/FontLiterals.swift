@@ -62,6 +62,9 @@ enum FontLiterals {
     case RegistrationHistoryDate
     case RegistrationHistoryBasicCharge
     case RegistrationHistoryHourlyCharge
+    
+    // MARK: - TabBar
+    case TabBarTitle
 }
 
 extension FontLiterals {
@@ -107,6 +110,8 @@ extension FontLiterals {
         case .RegistrationHistoryDate: return 13
         case .RegistrationHistoryBasicCharge,
              .RegistrationHistoryHourlyCharge: return 10
+            
+        case .TabBarTitle: return 17
         }
     }
 
@@ -134,7 +139,8 @@ extension FontLiterals {
              .RegistrationHistoryKickboardID,
              .RegistrationHistoryDate,
              .RegistrationHistoryBasicCharge,
-             .RegistrationHistoryHourlyCharge
+             .RegistrationHistoryHourlyCharge,
+             .TabBarTitle
             : return .bold
 
         case .SignUpNickName,
