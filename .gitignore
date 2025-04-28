@@ -63,7 +63,7 @@ xcuserdata/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 ### API ###
-*.xcconfig
+# *.xcconfig
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,xcode,swiftpm,swiftpackagemanager
-TeamProject/KakaoAPIKey.xcconfig
+# TeamProject/KakaoAPIKey.xcconfig
