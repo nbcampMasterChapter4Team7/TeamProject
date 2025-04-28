@@ -45,14 +45,12 @@ class RegisterKickboardAlertViewController: UIViewController {
         // Container
         containerView.backgroundColor = .white
         containerView.layer.cornerRadius = 8
-        containerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(containerView)
         
         // Title
         titleLabel.text = "현재 위치에 등록"
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
         titleLabel.textAlignment = .center
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(titleLabel)
         
         // Info
@@ -64,14 +62,12 @@ class RegisterKickboardAlertViewController: UIViewController {
         infoLabel.textColor = .secondaryLabel
         infoLabel.numberOfLines = 0
         infoLabel.textAlignment = .center
-        infoLabel.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(infoLabel)
         
         // TextFields
         [basicFareTextField, hourlyFareTextField].forEach {
             $0.borderStyle = .roundedRect
             $0.backgroundColor = UIColor.systemGray6
-            $0.translatesAutoresizingMaskIntoConstraints = false
             containerView.addSubview($0)
         }
         
@@ -86,14 +82,12 @@ class RegisterKickboardAlertViewController: UIViewController {
         cancelButton.setTitleColor(.white, for: .normal)
         cancelButton.backgroundColor = .systemGray3
         cancelButton.layer.cornerRadius = 8
-        cancelButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.addTarget(self, action: #selector(didTapCancel), for: .touchUpInside)
         
         registerButton.setTitle("등록", for: .normal)
         registerButton.setTitleColor(.white, for: .normal)
         registerButton.backgroundColor = UIColor.systemMint
         registerButton.layer.cornerRadius = 8
-        registerButton.translatesAutoresizingMaskIntoConstraints = false
         registerButton.addTarget(self, action: #selector(didTapRegister), for: .touchUpInside)
         
         containerView.addSubview(cancelButton)

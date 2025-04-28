@@ -90,19 +90,19 @@ class KickBoardRegisterViewController: UIViewController, MapControllerDelegate {
         _auth = false
         switch errorCode {
         case 400:
-            showToast(self.view, message: "지도 종료(API인증 파라미터 오류)")
+            print("지도 종료(API인증 파라미터 오류)")
             break;
         case 401:
-            showToast(self.view, message: "지도 종료(API인증 키 오류)")
+            print("지도 종료(API인증 키 오류)")
             break;
         case 403:
-            showToast(self.view, message: "지도 종료(API인증 권한 오류)")
+            print("지도 종료(API인증 권한 오류)")
             break;
         case 429:
-            showToast(self.view, message: "지도 종료(API 사용쿼터 초과)")
+            print("지도 종료(API 사용쿼터 초과)")
             break;
         case 499:
-            showToast(self.view, message: "지도 종료(네트워크 오류) 5초 후 재시도..")
+            print("지도 종료(네트워크 오류) 5초 후 재시도..")
             
             // 인증 실패 delegate 호출 이후 5초뒤에 재인증 시도..
             DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
