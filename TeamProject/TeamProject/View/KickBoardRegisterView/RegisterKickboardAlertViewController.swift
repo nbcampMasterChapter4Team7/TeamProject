@@ -14,7 +14,11 @@ protocol RegisterKickboardAlertDelegate: AnyObject {
 class RegisterKickboardAlertViewController: UIViewController {
     
     weak var delegate: RegisterKickboardAlertDelegate?
-
+    
+    var latitude: Double = 0.0
+    var longitude: Double = 0.0
+    var recognitionNumber: String = ""
+    
     // MARK: - UI Components
     private let backgroundView = UIView()
     private let containerView = UIView()
@@ -51,8 +55,8 @@ class RegisterKickboardAlertViewController: UIViewController {
         
         // Info
         infoLabel.text = """
-        위도 : 22222 경도 : 22222
-        킥보드 인식번호: ABCDEF
+        위도: \(latitude) 경도: \(longitude)
+        킥보드 인식번호: \(recognitionNumber)
         """
         infoLabel.font = UIFont.systemFont(ofSize: 13)
         infoLabel.textColor = .secondaryLabel
@@ -141,6 +145,9 @@ class RegisterKickboardAlertViewController: UIViewController {
         let basicFare = basicFareTextField.text ?? ""
         let hourlyFare = hourlyFareTextField.text ?? ""
         
+        print("위도: \(latitude)")
+        print("경도: \(longitude)")
+        print("킥보드 인식번호: \(recognitionNumber)")
         print("기본 요금: \(basicFare)")
         print("시간당 요금: \(hourlyFare)")
         

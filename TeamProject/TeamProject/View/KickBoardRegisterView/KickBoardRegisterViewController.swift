@@ -259,10 +259,17 @@ extension KickBoardRegisterViewController: KakaoMapEventDelegate {
             self.lastAddedPoi = poi
         }
         
-        let alertVC = RegisterKickboardAlertViewController()
-        alertVC.delegate = self
-        alertVC.modalPresentationStyle = .overFullScreen
-        present(alertVC, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            guard let self else { return }
+            
+            let alertVC = RegisterKickboardAlertViewController()
+            alertVC.delegate = self
+            alertVC.latitude = position.wgsCoord.latitude
+            alertVC.longitude = position.wgsCoord.longitude
+            alertVC.recognitionNumber = UUID().uuidString
+            alertVC.modalPresentationStyle = .overFullScreen
+            self.present(alertVC, animated: true)
+        }
     }
 }
 
