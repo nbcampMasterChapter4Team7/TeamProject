@@ -61,7 +61,7 @@ final class LoginViewController: UIViewController {
 
 // MARK: - ExchangeViewProtoocol
 
-extension LoginViewController: ExchangeViewProtoocol {
+extension LoginViewController: LoginViewContollerProtocol {
     func loginButtonTapped() {
         let mainVC = MainViewController()
         mainVC.modalPresentationStyle = .fullScreen

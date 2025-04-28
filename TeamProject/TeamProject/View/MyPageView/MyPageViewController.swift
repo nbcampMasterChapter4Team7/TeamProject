@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class MyPageViewController: UIViewController {
+class MyPageViewController: UIViewController, LogoutViewControllerProtocol {
     
     private var mypageView = MyPageView()
     

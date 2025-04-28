@@ -14,7 +14,7 @@ final class LoginView: UIView, UITextFieldDelegate {
     
     // MARK: - Properties
     
-    weak var delegate: ExchangeViewProtoocol?
+    weak var delegate: LoginViewContollerProtocol?
     
     private let loginPageTitle = UILabel().then {
         $0.text = "안녕하세요.\nGodRide입니다."

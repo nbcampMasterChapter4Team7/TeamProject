@@ -13,7 +13,7 @@ import Then
 final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
     
     static let id = "TableViewCell"
-    weak var delegate: MyPageViewDelegate?
+    weak var delegate: LogoutViewControllerProtocol?
     
     let userNameLabel = UILabel().then {
         $0.text = "Test님"
@@ -28,7 +28,6 @@ final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
         $0.titleLabel?.font = UIFont.fontGuide(.MyPageLogoutButton)
         $0.layer.cornerRadius = 10
         $0.tintColor = .white
-        $0.addTarget(.self, action: #selector(logoutButtpnTapped), for: .touchUpInside)
     }
     
     let tableView = UITableView().then {
@@ -54,6 +53,7 @@ final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
         tableView.dataSource = self
         tableView.delegate = self
         
+        logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
     }
     
     private func setup() {
@@ -62,7 +62,7 @@ final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
         
         // 레이아웃 설정
         userNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(20)
+            make.top.equalTo(safeAreaLayoutGuide).offset(35)
             make.leading.equalToSuperview().inset(35)
         }
         
@@ -86,7 +86,7 @@ final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    private func logoutButtpnTapped() {
+    @objc private func logoutButtonTapped() {
         delegate?.logoutButtonTapped()
     }
     
