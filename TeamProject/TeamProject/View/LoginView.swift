@@ -5,6 +5,8 @@
 //  Created by iOS study on 4/28/25.
 //
 
+<<<<<<< HEAD
+=======
 //
 //  LoginView.swift
 //  KickboardAppPractice
@@ -12,12 +14,18 @@
 //  Created by iOS study on 4/27/25.
 //
 
+>>>>>>> origin/feat/#5
 import UIKit
 import Then
 import SnapKit
 
 final class LoginView: UIView, UITextFieldDelegate {
     
+<<<<<<< HEAD
+    weak var delegate: SignUpProtocol?
+    
+=======
+>>>>>>> origin/feat/#5
     let loginPageTitle = UILabel().then {
         $0.text = "안녕하세요.\nGodRide입니다."
         $0.textColor = .label
@@ -73,6 +81,11 @@ final class LoginView: UIView, UITextFieldDelegate {
         self.backgroundColor = .systemBackground
         setup()
         textFieldSetupDelegate()
+<<<<<<< HEAD
+        
+        signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
+=======
+>>>>>>> origin/feat/#5
     }
     
     private func textFieldSetupDelegate() {
@@ -91,6 +104,13 @@ final class LoginView: UIView, UITextFieldDelegate {
         setLayout()
     }
     
+<<<<<<< HEAD
+    @objc private func signUpButtonTapped() {
+           delegate?.signUpButtonTapped()
+       }
+    
+=======
+>>>>>>> origin/feat/#5
     // 확장을 사용하여 영어, 숫자, 특수문자만 입력 가능하도록 바꿈
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == idTextField {

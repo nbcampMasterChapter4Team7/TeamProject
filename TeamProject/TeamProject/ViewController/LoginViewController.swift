@@ -9,6 +9,13 @@ import UIKit
 import Then
 import SnapKit
 
+<<<<<<< HEAD
+protocol SignUpProtocol: AnyObject {
+    func signUpButtonTapped()
+}
+
+=======
+>>>>>>> origin/feat/#5
 final class LoginViewController: UIViewController {
     private var loginView = LoginView()
 
@@ -17,6 +24,14 @@ final class LoginViewController: UIViewController {
         setupLoginView()
         addKeyboardObserver() // 키보드 확장 옵저버 사용
         setupNavigationBar()
+<<<<<<< HEAD
+        loginViewDelegate()
+    }
+    
+    func loginViewDelegate() {
+        loginView.delegate = self // 델리게이트 설정
+=======
+>>>>>>> origin/feat/#5
     }
 
     func setupLoginView() {
@@ -32,10 +47,29 @@ final class LoginViewController: UIViewController {
         navigationItem.backButtonTitle = ""
     }
     
+<<<<<<< HEAD
+    @objc private func navigateToMembershipViewController() {
+        let membershipVC = MembershipViewController()
+        navigationController?.pushViewController(membershipVC, animated: true)
+    }
+    
+=======
+>>>>>>> origin/feat/#5
     // 키보드 확장 옵저버 종료
     deinit {
         removeKeyboardObserver()
     }
+<<<<<<< HEAD
+}
+
+extension LoginViewController: SignUpProtocol {
+    func signUpButtonTapped() {
+        let membershipVC = MembershipViewController()
+        navigationController?.pushViewController(membershipVC, animated: false)
+    }
+}
+=======
     
     
 }
+>>>>>>> origin/feat/#5
