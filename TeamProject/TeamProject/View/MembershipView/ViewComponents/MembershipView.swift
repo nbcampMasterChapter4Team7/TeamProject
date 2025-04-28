@@ -16,46 +16,47 @@ final class MembershipView: UIView, UITextFieldDelegate {
     
     let nicknameLabel = UILabel().then {
         $0.text = "닉네임"
-        $0.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        $0.textColor = .label
+        $0.font = UIFont.fontGuide(.SignUpNickName)
     }
     
     let nicknameTextField = UITextField().then {
         $0.placeholder = "닉네임을 입력하세요"
         $0.borderStyle = .roundedRect
         $0.backgroundColor = .systemGray6
-        $0.font = UIFont.systemFont(ofSize: 17)
+        $0.font = UIFont.fontGuide(.LoginPlaceholder)
     }
     
     let idLabel = UILabel().then {
         $0.text = "아이디"
-        $0.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        $0.font = UIFont.fontGuide(.SignUpID)
     }
     
     let idTextField = UITextField().then {
         $0.placeholder = "아이디를 입력하세요"
         $0.borderStyle = .roundedRect
         $0.backgroundColor = .systemGray6
-        $0.font = UIFont.systemFont(ofSize: 17)
+        $0.font = UIFont.fontGuide(.LoginPlaceholder)
     }
     
     let passwordLabel = UILabel().then {
         $0.text = "비밀번호"
-        $0.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        $0.font = UIFont.fontGuide(.SignUpPassword)
     }
     
     let passwordTextField = UITextField().then {
         $0.placeholder = "비밀번호를 입력하세요"
         $0.borderStyle = .roundedRect
         $0.backgroundColor = .systemGray6
-        $0.font = UIFont.systemFont(ofSize: 17)
+        $0.font = UIFont.fontGuide(.LoginPlaceholder)
         $0.isSecureTextEntry = true
     }
     
     let signUpButton = UIButton(type: .system).then {
         $0.setTitle("회원가입", for: .normal)
         $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = UIColor.systemMint
-        $0.titleLabel?.font = UIFont.boldSystemFont(ofSize: 21)
+        $0.backgroundColor = UIColor.asset(.main)
+        $0.titleLabel?.font = UIFont.fontGuide(.SignUpButtonText)
         $0.layer.cornerRadius = 5
     }
     
