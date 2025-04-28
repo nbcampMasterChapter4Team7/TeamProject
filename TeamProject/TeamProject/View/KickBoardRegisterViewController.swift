@@ -202,7 +202,7 @@ class KickBoardRegisterViewController: UIViewController, MapControllerDelegate {
 }
 
 extension KickBoardRegisterViewController: KakaoMapEventDelegate {
-    func terrainDidTapped(kakaoMap: KakaoMap, position: MapPoint) {
+    func terrainDidLongPressed(kakaoMap: KakaoMap, position: MapPoint) {
         print("Tapped")
     }
 }
