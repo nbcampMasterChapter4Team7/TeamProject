@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		86146A212DBEA53C002AE8BB /* KakaoMapsSDK-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 86146A202DBEA53C002AE8BB /* KakaoMapsSDK-SPM */; };
-		865CA87B2DBF4616003009A2 /* KakaoAPIKey.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 865CA87A2DBF4616003009A2 /* KakaoAPIKey.xcconfig */; };
 		86BF27FD2DBB29B50070E0A2 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 86BF27FC2DBB29B50070E0A2 /* Alamofire */; };
 		86BF28002DBB29C40070E0A2 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 86BF27FF2DBB29C40070E0A2 /* Then */; };
 		86BF28032DBB29DE0070E0A2 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 86BF28022DBB29DE0070E0A2 /* SnapKit */; };
@@ -32,7 +31,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		865CA87A2DBF4616003009A2 /* KakaoAPIKey.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = KakaoAPIKey.xcconfig; sourceTree = "<group>"; };
 		86BF27432DBB287B0070E0A2 /* TeamProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeamProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86BF27592DBB287C0070E0A2 /* TeamProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TeamProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		86BF27632DBB287C0070E0A2 /* TeamProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TeamProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,7 +99,6 @@
 		86BF273A2DBB287B0070E0A2 = {
 			isa = PBXGroup;
 			children = (
-				865CA87A2DBF4616003009A2 /* KakaoAPIKey.xcconfig */,
 				86BF27452DBB287B0070E0A2 /* TeamProject */,
 				86BF275C2DBB287C0070E0A2 /* TeamProjectTests */,
 				86BF27662DBB287C0070E0A2 /* TeamProjectUITests */,
@@ -249,7 +246,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				865CA87B2DBF4616003009A2 /* KakaoAPIKey.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
