@@ -20,5 +20,6 @@ extension UIColor {
         case gray1 = "Gray#1"
         case gray2 = "Gray#2"
         case gray3 = "Gray#3"
+        case gray4 = "Gray#4"
     }
 }

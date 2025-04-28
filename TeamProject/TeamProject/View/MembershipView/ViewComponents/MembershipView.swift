@@ -23,7 +23,7 @@ final class MembershipView: UIView, UITextFieldDelegate {
     let nicknameTextField = UITextField().then {
         $0.placeholder = "닉네임을 입력하세요"
         $0.borderStyle = .roundedRect
-        $0.backgroundColor = .systemGray6
+        $0.backgroundColor = UIColor.asset(.gray4)
         $0.font = UIFont.fontGuide(.LoginPlaceholder)
     }
     
@@ -35,7 +35,7 @@ final class MembershipView: UIView, UITextFieldDelegate {
     let idTextField = UITextField().then {
         $0.placeholder = "아이디를 입력하세요"
         $0.borderStyle = .roundedRect
-        $0.backgroundColor = .systemGray6
+        $0.backgroundColor = UIColor.asset(.gray4)
         $0.font = UIFont.fontGuide(.LoginPlaceholder)
     }
     
@@ -47,7 +47,7 @@ final class MembershipView: UIView, UITextFieldDelegate {
     let passwordTextField = UITextField().then {
         $0.placeholder = "비밀번호를 입력하세요"
         $0.borderStyle = .roundedRect
-        $0.backgroundColor = .systemGray6
+        $0.backgroundColor = UIColor.asset(.gray4)
         $0.font = UIFont.fontGuide(.LoginPlaceholder)
         $0.isSecureTextEntry = true
     }
