@@ -75,7 +75,7 @@ final class MembershipView: UIView, UITextFieldDelegate {
     // MARK: - Properties
     
     private func setup() {
-        [nicknameLabel, nicknameTextField, idLabel, idTextField, passwordLabel, passwordTextField, signUpButton].forEach { self.addSubview($0) }
+        self.addSubviews(nicknameLabel, nicknameTextField, idLabel, idTextField, passwordLabel, passwordTextField, signUpButton)
         setLayout()
     }
     

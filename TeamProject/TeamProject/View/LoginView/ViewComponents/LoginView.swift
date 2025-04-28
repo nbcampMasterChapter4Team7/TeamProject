@@ -20,37 +20,38 @@ final class LoginView: UIView, UITextFieldDelegate {
         $0.text = "안녕하세요.\nGodRide입니다."
         $0.textColor = .label
         $0.textAlignment = .left
-        $0.font = UIFont.systemFont(ofSize: 31, weight: .bold)
         $0.numberOfLines = 0
+        $0.textColor = .label
+        $0.font = UIFont.fontGuide(.LoginTitle)
     }
     
     private let loginPageDescription = UILabel().then {
         $0.text = "서비스 이용을 위해 로그인을 해주세요."
-        $0.textColor = .lightGray
         $0.textAlignment = .left
-        $0.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        $0.textColor = UIColor.asset(.gray2)
+        $0.font = UIFont.fontGuide(.LoginDescription)
     }
     
     private let idTextField = UITextField().then {
         $0.placeholder = "아이디를 입력하세요"
         $0.borderStyle = .roundedRect
         $0.backgroundColor = .systemGray6
-        $0.font = UIFont.systemFont(ofSize: 17)
+        $0.font = UIFont.fontGuide(.LoginPlaceholder)
     }
     
     private let passwordTextField = UITextField().then {
         $0.placeholder = "비밀번호를 입력하세요"
         $0.borderStyle = .roundedRect
         $0.backgroundColor = .systemGray6
-        $0.font = UIFont.systemFont(ofSize: 17)
+        $0.font = UIFont.fontGuide(.LoginPlaceholder)
         $0.isSecureTextEntry = true /// 입력된 텍스트를 보이지 않게 설정
     }
     
     private let loginButton = UIButton(type: .system).then {
         $0.setTitle("로그인", for: .normal)
         $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = UIColor.systemMint
-        $0.titleLabel?.font = UIFont.boldSystemFont(ofSize: 21)
+        $0.backgroundColor = UIColor.asset(.main)
+        $0.titleLabel?.font = UIFont.fontGuide(.LoginButtonText)
         $0.layer.cornerRadius = 5
     }
     
@@ -59,8 +60,8 @@ final class LoginView: UIView, UITextFieldDelegate {
             string: "회원가입하기",
             attributes: [
                 .underlineStyle: NSUnderlineStyle.single.rawValue,
-                .foregroundColor: UIColor.secondaryLabel,
-                .font: UIFont.systemFont(ofSize: 15)
+                .foregroundColor: UIColor.asset(.gray3),
+                .font: UIFont.fontGuide(.LoginSignUpText)
             ]
         )
         $0.setAttributedTitle(attrubutedString, for: .normal)
@@ -95,7 +96,7 @@ final class LoginView: UIView, UITextFieldDelegate {
     }
     
     private func setup() {
-        [ loginPageTitle, loginPageDescription, idTextField, passwordTextField, loginButton, signUpButton ].forEach { self.addSubview($0) }
+        self.addSubviews(loginPageTitle, loginPageDescription, idTextField, passwordTextField, loginButton, signUpButton)
         setLayout()
     }
     
