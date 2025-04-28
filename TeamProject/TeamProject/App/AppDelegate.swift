@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        } else {
 //            fatalError("KAKAO_API 키를 읽어올 수 없습니다.")
 //        }
-        SDKInitializer.InitSDK(appKey: "d6b052fb04b20a9be1fbb390a64bff21")
+        SDKInitializer.InitSDK(appKey: "")
         return true
     }
 

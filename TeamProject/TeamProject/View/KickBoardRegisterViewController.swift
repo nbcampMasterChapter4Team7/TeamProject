@@ -54,7 +54,7 @@ class KickBoardRegisterViewController: UIViewController, MapControllerDelegate {
             mapController?.activateEngine()
         }
     }
-        
+    
     override func viewWillDisappear(_ animated: Bool) {
         _appear = false
         mapController?.pauseEngine()  //렌더링 중지.
@@ -75,6 +75,10 @@ class KickBoardRegisterViewController: UIViewController, MapControllerDelegate {
         
         if _appear && mapController?.isEngineActive == false {
             mapController?.activateEngine()
+        }
+        if !isViewAdded {
+            addViews()
+            isViewAdded = true
         }
     }
     
@@ -127,14 +131,16 @@ class KickBoardRegisterViewController: UIViewController, MapControllerDelegate {
     
     //addView 성공 이벤트 delegate. 추가적으로 수행할 작업을 진행한다.
     func addViewSucceeded(_ viewName: String, viewInfoName: String) {
+        print("AddView succeeded: \(viewName), \(viewInfoName)")
         let view = mapController?.getView("mapview") as! KakaoMap
         view.viewRect = mapContainer!.bounds    //뷰 add 도중에 resize 이벤트가 발생한 경우 이벤트를 받지 못했을 수 있음. 원하는 뷰 사이즈로 재조정.
+        view.eventDelegate = self
         viewInit(viewName: viewName)
     }
     
     //addView 실패 이벤트 delegate. 실패에 대한 오류 처리를 진행한다.
     func addViewFailed(_ viewName: String, viewInfoName: String) {
-        print("Failed")
+        print("AddView failed: \(viewName), \(viewInfoName)")
     }
     
     //Container 뷰가 리사이즈 되었을때 호출된다. 변경된 크기에 맞게 ViewBase들의 크기를 조절할 필요가 있는 경우 여기에서 수행한다.
@@ -142,25 +148,25 @@ class KickBoardRegisterViewController: UIViewController, MapControllerDelegate {
         let mapView: KakaoMap? = mapController?.getView("mapview") as? KakaoMap
         mapView?.viewRect = CGRect(origin: CGPoint(x: 0.0, y: 0.0), size: size)   //지도뷰의 크기를 리사이즈된 크기로 지정한다.
     }
-       
+    
     func addObservers(){
         NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
     
         _observerAdded = true
     }
-     
+    
     func removeObservers(){
         NotificationCenter.default.removeObserver(self, name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
 
         _observerAdded = false
     }
-
+    
     @objc func willResignActive(){
         mapController?.pauseEngine()  //뷰가 inactive 상태로 전환되는 경우 렌더링 중인 경우 렌더링을 중단.
     }
-
+    
     @objc func didBecomeActive(){
         mapController?.activateEngine() //뷰가 active 상태가 되면 렌더링 시작. 엔진은 미리 시작된 상태여야 함.
     }
@@ -192,4 +198,11 @@ class KickBoardRegisterViewController: UIViewController, MapControllerDelegate {
     var _observerAdded: Bool
     var _auth: Bool
     var _appear: Bool
+    var isViewAdded = false
+}
+
+extension KickBoardRegisterViewController: KakaoMapEventDelegate {
+    func terrainDidTapped(kakaoMap: KakaoMap, position: MapPoint) {
+        print("Tapped")
+    }
 }
