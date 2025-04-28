@@ -5,8 +5,8 @@
 //  Created by yimkeul on 4/28/25.
 //
 
-import UIKit
 import CoreLocation
+import UIKit
 
 import SnapKit
 import Then
@@ -46,17 +46,6 @@ final class RentViewController: KakaoMapViewController, CLLocationManagerDelegat
         addViews()
     }
     
-    private func setLocationService() {
-        // 포그라운드일 때 위치 추적 권한 요청
-        locationManager.requestWhenInUseAuthorization()
-        
-        // 배터리에 맞게 권장되는 최적의 정확도
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        
-        // 위치 업데이트
-        locationManager.startUpdatingLocation()
-    }
-
     // MARK: - Layout Helper
     
     private func setLayout() {
@@ -70,6 +59,19 @@ final class RentViewController: KakaoMapViewController, CLLocationManagerDelegat
         view.bringSubviewToFront(locationButton)
     }
 
+    // MARK: - Methods
+    
+    private func setLocationService() {
+        // 포그라운드일 때 위치 추적 권한 요청
+        locationManager.requestWhenInUseAuthorization()
+        
+        // 배터리에 맞게 권장되는 최적의 정확도
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        // 위치 업데이트
+        locationManager.startUpdatingLocation()
+    }
+    
     // MARK: - @objc Methods
     
     /// 현재 위치 받아오는 버튼
