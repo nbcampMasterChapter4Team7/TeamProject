@@ -12,17 +12,19 @@ import Then
 
 final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
     
+    // MARK: - Properties
     static let id = "TableViewCell"
     weak var delegate: LogoutViewControllerProtocol?
     
-    let userNameLabel = UILabel().then {
+    // MARK: - UI Components
+    private let userNameLabel = UILabel().then {
         $0.text = "Test님"
         $0.font = UIFont.fontGuide(.MyPageUserName)
         $0.textColor = .label
         $0.textAlignment = .left
     }
     
-    let logoutButton = UIButton().then {
+    private let logoutButton = UIButton().then {
         $0.setTitle("로그아웃", for: .normal)
         $0.backgroundColor = UIColor.asset(.gray1)
         $0.titleLabel?.font = UIFont.fontGuide(.MyPageLogoutButton)
@@ -30,12 +32,12 @@ final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
         $0.tintColor = .white
     }
     
-    let tableView = UITableView().then {
+    private let tableView = UITableView().then {
         $0.separatorStyle = .singleLine
         $0.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.id)
         $0.isScrollEnabled = false
-        $0.rowHeight = UITableView.automaticDimension  // 고정값 대신 자동
-        $0.estimatedRowHeight = 110 // 대략적인 예상 높이
+        $0.rowHeight = UITableView.automaticDimension  /// 고정값 대신 자동
+        $0.estimatedRowHeight = 110 /// 대략적인 예상 높이
         $0.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         $0.tableFooterView = UIView()
     }
@@ -48,22 +50,25 @@ final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
         $0.layer.cornerRadius = 5
     }
     
+    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
-        
-        // 테이블뷰의 데이터소스와 델리게이트 설정
-        tableView.dataSource = self
-        tableView.delegate = self
+        tableViewDelegate()
         
         logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Layout Helper
     private func setup() {
         backgroundColor = .systemBackground
         addSubviews(userNameLabel, logoutButton, tableView, rentalButtonLabel)
         
-        // 레이아웃 설정
+        /// 레이아웃 설정
         userNameLabel.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(40)
             make.leading.equalToSuperview().inset(35)
@@ -89,21 +94,28 @@ final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    // MARK: - @objc Methods
     @objc private func logoutButtonTapped() {
         delegate?.logoutButtonTapped()
     }
 
-    // 테이블뷰 데이터소스 및 델리게이트 메서드 구현
+    // MARK: - Methods
+    private func tableViewDelegate() {
+        tableView.dataSource = self
+        tableView.delegate = self
+    }
+    
+    /// 테이블뷰 데이터소스 및 델리게이트 메서드 구현
     func numberOfSections(in tableView: UITableView) -> Int {
         return MyPageTableViewCell.data.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1 // 한 섹션당 하나의 셀 (타이틀 + 여러 디테일)
+        return 1 /// 한 섹션당 하나의 셀 (타이틀 + 여러 디테일)
     }
     
-    // 마지막 섹션일 때만 footer 높이를 0이 아니라 1로 만들어서 separator를 숨기
-    // 섹션 푸터 높이 설정
+    /// 마지막 섹션일 때만 footer 높이를 0이 아니라 1로 만들어서 separator를 숨기기
+    /// 섹션 푸터 높이 설정
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return section == MyPageTableViewCell.data.count - 1 ? 0 : 1
     }
@@ -118,9 +130,5 @@ final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Selected section: \(indexPath.section)")
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

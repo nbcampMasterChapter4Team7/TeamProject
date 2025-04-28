@@ -12,6 +12,7 @@ import Then
 
 final class MyPageTableViewCell: UITableViewCell {
     
+    // MARK: - Properties
     static let id = "TableViewCell"
     
     static let data: [(title: String, details: [String])] = [
@@ -20,6 +21,7 @@ final class MyPageTableViewCell: UITableViewCell {
         ("고객센터", ["자주 묻는 질문", "1:1 문의하기", "공지사항"])
     ]
 
+    // MARK: - UI Components
     private let titleLabel = UILabel().then {
         $0.font = UIFont.fontGuide(.MyPageRegistrationKickboardLabel)
         $0.textColor = .secondaryLabel
@@ -38,12 +40,18 @@ final class MyPageTableViewCell: UITableViewCell {
         $0.setImage(UIImage(systemName: "chevron.right"), for: .normal)
     }
 
+    // MARK: - Initializer
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
         selectionStyle = .none
     }
 
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Layout Helper
     private func setup() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(stackView)
@@ -67,10 +75,11 @@ final class MyPageTableViewCell: UITableViewCell {
         }
     }
     
+    // MARK: - Methods
     func configure(with title: String, details: [String]) {
         titleLabel.text = title
         
-        // 스택뷰 초기화
+        /// 스택뷰 초기화
         stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
         details.forEach { detailText in
@@ -80,9 +89,5 @@ final class MyPageTableViewCell: UITableViewCell {
             label.textColor = .label
             stackView.addArrangedSubview(label)
         }
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
