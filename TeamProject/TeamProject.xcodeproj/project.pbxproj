@@ -11,7 +11,6 @@
 		86BF27FD2DBB29B50070E0A2 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 86BF27FC2DBB29B50070E0A2 /* Alamofire */; };
 		86BF28002DBB29C40070E0A2 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 86BF27FF2DBB29C40070E0A2 /* Then */; };
 		86BF28032DBB29DE0070E0A2 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 86BF28022DBB29DE0070E0A2 /* SnapKit */; };
-		D1E549E52DBF195200E01662 /* APIKey.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = D1E549E42DBF195200E01662 /* APIKey.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +34,6 @@
 		86BF27432DBB287B0070E0A2 /* TeamProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeamProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86BF27592DBB287C0070E0A2 /* TeamProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TeamProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		86BF27632DBB287C0070E0A2 /* TeamProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TeamProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D1E549E42DBF195200E01662 /* APIKey.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = APIKey.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -105,7 +103,6 @@
 				86BF275C2DBB287C0070E0A2 /* TeamProjectTests */,
 				86BF27662DBB287C0070E0A2 /* TeamProjectUITests */,
 				86BF27442DBB287B0070E0A2 /* Products */,
-				D1E549E42DBF195200E01662 /* APIKey.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -249,7 +246,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1E549E52DBF195200E01662 /* APIKey.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,7 +305,6 @@
 /* Begin XCBuildConfiguration section */
 		86BF276D2DBB287C0070E0A2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D1E549E42DBF195200E01662 /* APIKey.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -337,7 +332,6 @@
 		};
 		86BF276E2DBB287C0070E0A2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D1E549E42DBF195200E01662 /* APIKey.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
