@@ -49,6 +49,7 @@ enum FontLiterals {
     case MyPageCustomerService
     case MyPageOthers
     case MyPageRentalButtonText
+    case MyPageLogoutButton
 
     // MARK: - UsageHistory
     case UsageHistoryKickboardID
@@ -96,6 +97,7 @@ extension FontLiterals {
         case .MyPageUsageHistory,
              .MyPageCustomerService,
              .MyPageRegistrationKickboardLabel: return 15
+        case .MyPageLogoutButton: return 11
         case .MyPageTotalUsageHistoryLabel,
              .MyPageTotalRegistrationKickboardLabel,
              .MyPageOthers: return 17
@@ -160,7 +162,8 @@ extension FontLiterals {
              .LoginSignUpText,
              .SignUPPlaceholder,
              .RegistrationKickboardPosition,
-             .RegistrationKickboardID
+             .RegistrationKickboardID,
+             .MyPageLogoutButton
             : return .regular
         }
     }

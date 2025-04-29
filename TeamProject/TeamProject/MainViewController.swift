@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 final class MainViewController: UITabBarController {
-
+    
     // MARK: - Override
     
     override func viewDidLoad() {
@@ -44,19 +44,22 @@ final class MainViewController: UITabBarController {
     private func setAttribute() {
         viewControllers = [
             createViewController(for: RentViewController(), title: "대여"),
-            createViewController(for: KickBoardRegisterViewController(), title: "킥보드 등록")
+
+            createViewController(for: KickBoardRegisterViewController(), title: "킥보드 등록"),
+
+            createViewController(for: MyPageViewController(), title: "마이페이지")
+
         ]
     }
     
     // UIViewController 생성
-    
     private func createViewController(for vc: UIViewController, title: String?) -> UIViewController {
         vc.tabBarItem = UITabBarItem(title: title, image: nil, selectedImage: nil)
         return vc
     }
     
     // Navigation이 포함된 UIViewController 생성
-    
+
     private func createNavigationController(for vc: UIViewController, title: String?) -> UIViewController {
         let navigationController = UINavigationController(rootViewController: vc)
         navigationController.navigationBar.isTranslucent = false

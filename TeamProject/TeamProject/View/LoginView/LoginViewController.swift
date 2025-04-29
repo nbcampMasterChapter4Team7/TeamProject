@@ -10,10 +10,6 @@ import UIKit
 import SnapKit
 import Then
 
-protocol SignUpProtocol: AnyObject {
-    func signUpButtonTapped()
-}
-
 final class LoginViewController: UIViewController {
     
     // MARK: - UI Components
@@ -63,9 +59,15 @@ final class LoginViewController: UIViewController {
     }
 }
 
-// MARK: - SignUpProtocol
+// MARK: - ExchangeViewProtoocol
 
-extension LoginViewController: SignUpProtocol {
+extension LoginViewController: LoginViewContollerProtocol {
+    func loginButtonTapped() {
+        let mainVC = MainViewController()
+        mainVC.modalPresentationStyle = .fullScreen
+        present(mainVC, animated: true, completion: nil)
+    }
+    
     func signUpButtonTapped() {
         let membershipVC = MembershipViewController()
         navigationController?.pushViewController(membershipVC, animated: true)
