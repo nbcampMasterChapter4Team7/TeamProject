@@ -106,7 +106,7 @@ final class MembershipViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    // MARK: - Keyboard Observer
+    // MARK: - Actions
     deinit {
         removeKeyboardObserver()
     }

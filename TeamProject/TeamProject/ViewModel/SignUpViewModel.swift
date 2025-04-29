@@ -5,13 +5,6 @@
 //  Created by iOS study on 4/29/25.
 //  사용자 입력 검증 및 회원가입 로직 처리
 
-// MARK: - Properties
-
-enum ValidationResult {
-    case success
-    case failure(String)
-}
-
 final class SignUpViewModel {
     
     // MARK: - Methods

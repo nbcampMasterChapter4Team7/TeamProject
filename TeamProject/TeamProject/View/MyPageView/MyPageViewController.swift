@@ -12,10 +12,12 @@ import SnapKit
 final class MyPageViewController: UIViewController, LogoutViewControllerProtocol, MyPageTableViewCellProtocol {
     
     // MARK: - Properties
+    
     private var mypageView = MyPageView()
     private var mypageTableViewCell = MyPageTableViewCell()
     
     // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMyPageView()
@@ -24,6 +26,7 @@ final class MyPageViewController: UIViewController, LogoutViewControllerProtocol
     }
     
     // MARK: - Layout Helper
+    
     private func setupMyPageView() {
         view.addSubviews(mypageView)
         mypageView.snp.makeConstraints { $0.edges.equalToSuperview()
@@ -36,13 +39,13 @@ final class MyPageViewController: UIViewController, LogoutViewControllerProtocol
     }
     
     // MARK: - Methods
+    
     /// 화면 전환을 위한 델리게이트 설정
     private func setupDelegates() {
         mypageView.delegate = self
         mypageView.cellDelegate = self
     }
     
-    // MARK: - Actions
     // MyPageViewController.swift
     func logoutButtonTapped() {
         let alert = UIAlertController(title: "로그아웃",
