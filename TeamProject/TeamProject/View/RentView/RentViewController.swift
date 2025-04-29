@@ -144,4 +144,20 @@ final class RentViewController: KakaoMapViewController {
         present(vc, animated: true, completion: nil)
     }
 }
+// MARK: - Extension
 
+extension RentViewController {
+    func poiDidTapped(kakaoMap: KakaoMap, layerID: String, poiID: String, position: MapPoint) {
+        print("Tap - \(layerID) - \(poiID) - \(position.wgsCoord.latitude) : \(position.wgsCoord.longitude)")
+        let vc = RentModalViewController()
+        if let sheet = vc.sheetPresentationController {
+            sheet.detents = [.custom(resolver: { _ in
+                return SizeLiterals.Screen.screenHeight * 257 / 874
+            })]
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 20
+        }
+        present(vc, animated: true, completion: nil)
+        
+    }
+}
