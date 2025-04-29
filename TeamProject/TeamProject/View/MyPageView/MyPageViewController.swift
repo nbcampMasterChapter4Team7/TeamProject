@@ -44,9 +44,21 @@ final class MyPageViewController: UIViewController, LogoutViewControllerProtocol
     
     // MARK: - Actions
     func logoutButtonTapped() {
+        // 루트 뷰 컨트롤러로 LoginViewController를 설정
         let loginVC = LoginViewController()
-        loginVC.modalPresentationStyle = .fullScreen
-        present(loginVC, animated: true, completion: nil)
+        let navigationController = UINavigationController(rootViewController: loginVC)
+        navigationController.modalPresentationStyle = .fullScreen
+        
+        // 윈도우의 루트 뷰 컨트롤러를 변경
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            window.rootViewController = navigationController
+            UIView.transition(with: window,
+                             duration: 0.3,
+                             options: .transitionCrossDissolve,
+                             animations: nil,
+                             completion: nil)
+        }
     }
     
     func usageHistoryButtonTapped() {
