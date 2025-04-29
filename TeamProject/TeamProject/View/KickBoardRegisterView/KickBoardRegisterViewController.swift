@@ -87,12 +87,12 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
 
     //addView 성공 이벤트 delegate. 추가적으로 수행할 작업을 진행한다.
     override func addViewSucceeded(_ viewName: String, viewInfoName: String) {
-        print("AddView succeeded: \(viewName), \(viewInfoName)")
-        let view = mapController?.getView("mapview") as! KakaoMap
-        view.viewRect = mapViewContainer!.bounds //뷰 add 도중에 resize 이벤트가 발생한 경우 이벤트를 받지 못했을 수 있음. 원하는 뷰 사이즈로 재조정.
-        view.eventDelegate = self
-        createLabelLayer()
-        createPoiStyle()
+        super.addViewSucceeded(viewName, viewInfoName: viewInfoName)
+
+//        let view = mapController?.getView("mapview") as! KakaoMap
+//        view.viewRect = mapViewContainer!.bounds
+//        view.eventDelegate = self
+        //뷰 add 도중에 resize 이벤트가 발생한 경우 이벤트를 받지 못했을 수 있음. 원하는 뷰 사이즈로 재조정.
         setupBindings()
         viewmodel.fetchKickBoardRecords()
     }
@@ -115,46 +115,6 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
         NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
 
         _observerAdded = false
-    }
-
-    private func createLabelLayer() {
-        guard let mapView = mapController?.getView("mapview") as? KakaoMap else { return }
-        let manager = mapView.getLabelManager()
-
-        let layerOption = LabelLayerOptions(
-            layerID: "PoiLayer",
-            competitionType: .none,
-            competitionUnit: .symbolFirst,
-            orderType: .rank,
-            zOrder: 10
-        )
-        _ = manager.addLabelLayer(option: layerOption)
-    }
-
-    private func createPoiStyle() {
-        guard let mapView = mapController?.getView("mapview") as? KakaoMap else { return }
-        let manager = mapView.getLabelManager()
-
-        if let originalImage = UIImage(named: "kickboard") {
-            let targetSize = CGSize(width: 30, height: 30)
-            let renderer = UIGraphicsImageRenderer(size: targetSize)
-            let resizedImage = renderer.image { _ in
-                originalImage.draw(in: CGRect(origin: .zero, size: targetSize))
-            }
-
-            let iconStyle = PoiIconStyle(
-                symbol: resizedImage,
-                anchorPoint: CGPoint(x: 0.5, y: 1.0)
-            )
-
-            let poiStyle = PoiStyle(styleID: "kickboardMarkStyleID", styles: [
-                PerLevelPoiStyle(iconStyle: iconStyle, level: 5),
-                ])
-
-            manager.addPoiStyle(poiStyle)
-        } else {
-            print("kickboard 이미지 로드 실패")
-        }
     }
 
     private func setupBindings() {
@@ -187,9 +147,9 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
 
 // MARK: - Extension
 
-extension KickBoardRegisterViewController: KakaoMapEventDelegate {
+extension KickBoardRegisterViewController {
     func terrainDidLongPressed(kakaoMap: KakaoMap, position: MapPoint) {
-        let mapView: KakaoMap = mapController?.getView("mapview") as! KakaoMap
+        guard let mapView = mapController?.getView("mapview") as? KakaoMap else { return }
         let manager = mapView.getLabelManager()
         let layer = manager.getLabelLayer(layerID: "PoiLayer")
         let option = PoiOptions(styleID: "kickboardMarkStyleID")

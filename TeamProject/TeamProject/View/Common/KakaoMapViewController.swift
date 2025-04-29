@@ -11,7 +11,7 @@ import KakaoMapsSDK
 /**
  -KakaoMapViewController : KakaoMap의 뷰트롤러 관리
  */
-class KakaoMapViewController: UIViewController, MapControllerDelegate {
+class KakaoMapViewController: UIViewController, MapControllerDelegate, KakaoMapEventDelegate {
 
     // MARK: - Properties
     var mapViewContainer: KMViewContainer!
@@ -25,7 +25,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
 
         mapController = KMController(viewContainer: mapViewContainer)
         mapController?.delegate = self
-        
+
     }
 
     override func viewDidLoad() {
@@ -61,9 +61,59 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate {
     // MARK: - MapControllerDelegate Methods
     func addViewSucceeded(_ viewName: String, viewInfoName: String) {
         print("맵 뷰 추가 성공: \(viewName)")
+        backupMapView()
+        createLabelLayer()
+        createPoiStyle()
     }
+
     func addViewFailed(_ viewName: String, viewInfoName: String) {
         print("맵 뷰 추가 실패: \(viewName)")
+    }
+
+    func backupMapView() {
+        guard let mapView = mapController?.getView("mapview") as? KakaoMap else { return }
+        mapView.viewRect = UIScreen.main.bounds
+        mapView.eventDelegate = self
+    }
+
+    func createLabelLayer() {
+        guard let mapView = mapController?.getView("mapview") as? KakaoMap else { return }
+        let manager = mapView.getLabelManager()
+
+        let layerOption = LabelLayerOptions(
+            layerID: "PoiLayer",
+            competitionType: .none,
+            competitionUnit: .symbolFirst,
+            orderType: .rank,
+            zOrder: 10
+        )
+        _ = manager.addLabelLayer(option: layerOption)
+    }
+
+    func createPoiStyle() {
+        guard let mapView = mapController?.getView("mapview") as? KakaoMap else { return }
+        let manager = mapView.getLabelManager()
+
+        if let originalImage = UIImage(named: "kickboard") {
+            let targetSize = CGSize(width: 30, height: 30)
+            let renderer = UIGraphicsImageRenderer(size: targetSize)
+            let resizedImage = renderer.image { _ in
+                originalImage.draw(in: CGRect(origin: .zero, size: targetSize))
+            }
+
+            let iconStyle = PoiIconStyle(
+                symbol: resizedImage,
+                anchorPoint: CGPoint(x: 0.5, y: 1.0)
+            )
+
+            let poiStyle = PoiStyle(styleID: "kickboardMarkStyleID", styles: [
+                PerLevelPoiStyle(iconStyle: iconStyle, level: 5),
+                ])
+
+            manager.addPoiStyle(poiStyle)
+        } else {
+            print("kickboard 이미지 로드 실패")
+        }
     }
 
     // MARK: - Authentication Handling
