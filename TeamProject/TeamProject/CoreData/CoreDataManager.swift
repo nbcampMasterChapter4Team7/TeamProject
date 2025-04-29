@@ -9,13 +9,13 @@ import CoreData
 import UIKit
 
 final class CoreDataManager {
-    
+
     // MARK: - Singleton Instance
 
     static let shared = CoreDataManager()
-    
+
     // MARK: - Properties
-    
+
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Model")
         container.loadPersistentStores { _, error in
@@ -25,17 +25,17 @@ final class CoreDataManager {
         }
         return container
     }()
-    
+
     var context: NSManagedObjectContext {
         persistentContainer.viewContext
     }
-    
+
     // MARK: - Initializer
 
-    private init() {}
-    
+    private init() { }
+
     // MARK: - Methods
-    
+
     func save(record: KickBoardRecord) {
         let entity = KickBoardRecordEntity(context: context)
         entity.latitude = record.latitude
@@ -43,10 +43,11 @@ final class CoreDataManager {
         entity.kickboardIdentifier = record.kickboardIdentifier
         entity.basicCharge = Int32(record.basicCharge)
         entity.hourlyCharge = Int32(record.hourlyCharge)
-        
+        entity.poiId = record.poiId
+
         saveContext()
     }
-    
+
     func deleteRecord(with identifier: UUID) {
         let fetchRequest: NSFetchRequest<KickBoardRecordEntity> = KickBoardRecordEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "kickboardIdentifier == %@", identifier as CVarArg)
@@ -59,10 +60,10 @@ final class CoreDataManager {
             print("Delete error: \(error.localizedDescription)")
         }
     }
-    
+
     func fetchAllRecords() -> [KickBoardRecord] {
         let request: NSFetchRequest<KickBoardRecordEntity> = KickBoardRecordEntity.fetchRequest()
-        
+
         do {
             let entities = try context.fetch(request)
             return entities.compactMap { entity -> KickBoardRecord in
@@ -71,7 +72,8 @@ final class CoreDataManager {
                     longitude: entity.longitude,
                     kickboardIdentifier: entity.kickboardIdentifier,
                     basicCharge: Int(entity.basicCharge),
-                    hourlyCharge: Int(entity.hourlyCharge)
+                    hourlyCharge: Int(entity.hourlyCharge),
+                    poiId: entity.poiId
                 )
             }
         } catch {
@@ -79,7 +81,7 @@ final class CoreDataManager {
             return []
         }
     }
-    
+
     private func saveContext() {
         if context.hasChanges {
             do {

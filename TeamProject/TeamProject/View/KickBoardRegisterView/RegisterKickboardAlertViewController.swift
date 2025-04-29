@@ -24,6 +24,7 @@ class RegisterKickboardAlertViewController: UIViewController {
     
     var latitude: Double = 0.0
     var longitude: Double = 0.0
+    var poiId:String = ""
     var recognitionNumber: UUID = UUID()
     
     // MARK: - UI Components
@@ -159,6 +160,7 @@ class RegisterKickboardAlertViewController: UIViewController {
         
         print("위도: \(latitude)")
         print("경도: \(longitude)")
+        print("poiId: \(poiId)")
         print("킥보드 인식번호: \(recognitionNumber)")
         print("기본 요금: \(basicCharge)")
         print("시간당 요금: \(hourlyCharge)")
@@ -168,7 +170,8 @@ class RegisterKickboardAlertViewController: UIViewController {
             longitude: longitude,
             kickboardIdentifier: recognitionNumber,
             basicCharge: basicCharge,
-            hourlyCharge: hourlyCharge
+            hourlyCharge: hourlyCharge,
+            poiId: poiId
         ))
         
         dismiss(animated: true, completion: nil)

@@ -164,19 +164,22 @@ extension KickBoardRegisterViewController {
         if let poi = layer?.addPoi(option: option, at: position) {
             poi.show()
             self.lastAddedPoi = poi
+            print("TEST: \(String(describing: self.lastAddedPoi))")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+                guard let self else { return }
+                
+                let alertVC = RegisterKickboardAlertViewController()
+                alertVC.delegate = self
+                alertVC.latitude = position.wgsCoord.latitude
+                alertVC.longitude = position.wgsCoord.longitude
+                alertVC.poiId = poi.itemID
+                alertVC.recognitionNumber = UUID()
+                alertVC.modalPresentationStyle = .overFullScreen
+                self.present(alertVC, animated: true)
+            }
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            guard let self else { return }
-            
-            let alertVC = RegisterKickboardAlertViewController()
-            alertVC.delegate = self
-            alertVC.latitude = position.wgsCoord.latitude
-            alertVC.longitude = position.wgsCoord.longitude
-            alertVC.recognitionNumber = UUID()
-            alertVC.modalPresentationStyle = .overFullScreen
-            self.present(alertVC, animated: true)
-        }
+        
     }
     
     func poiDidTapped(kakaoMap: KakaoMap, layerID: String, poiID: String, position: MapPoint) {
