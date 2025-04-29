@@ -21,7 +21,7 @@ final class MembershipView: UIView, UITextFieldDelegate {
     }
     
     let nicknameTextField = UITextField().then {
-        $0.placeholder = "닉네임을 입력하세요"
+        $0.placeholder = "닉네임 입력 (최대 10자)"
         $0.borderStyle = .roundedRect
         $0.backgroundColor = UIColor.asset(.gray4)
         $0.font = UIFont.fontGuide(.LoginPlaceholder)
@@ -33,7 +33,7 @@ final class MembershipView: UIView, UITextFieldDelegate {
     }
     
     let idTextField = UITextField().then {
-        $0.placeholder = "아이디를 입력하세요"
+        $0.placeholder = "아이디 입력 (영문, 숫자만 가능, 최대 12자)"
         $0.borderStyle = .roundedRect
         $0.backgroundColor = UIColor.asset(.gray4)
         $0.font = UIFont.fontGuide(.LoginPlaceholder)
@@ -45,10 +45,11 @@ final class MembershipView: UIView, UITextFieldDelegate {
     }
     
     let passwordTextField = UITextField().then {
-        $0.placeholder = "비밀번호를 입력하세요"
+        $0.placeholder = "비밀번호 입력 (영문, 숫자, 특수문자 가능, 최대 18자)"
         $0.borderStyle = .roundedRect
         $0.backgroundColor = UIColor.asset(.gray4)
         $0.font = UIFont.fontGuide(.LoginPlaceholder)
+        $0.textContentType = .oneTimeCode // 자동 비밀번호 제안 비활성화
         $0.isSecureTextEntry = true
     }
     

@@ -24,6 +24,10 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
         addKeyboardObserver()
         setupNavigationBar()
         loginViewDelegate()
+        
+        print("ID:", UserDefaults.standard.string(forKey: "userId") ?? "없음")
+        print("비밀번호:", UserDefaults.standard.string(forKey: "userPassword") ?? "없음")
+        print("이름:", UserDefaults.standard.string(forKey: "userName") ?? "없음")
     }
     
     // MARK: - Methods

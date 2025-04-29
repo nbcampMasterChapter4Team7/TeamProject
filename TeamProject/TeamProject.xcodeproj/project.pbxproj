@@ -49,6 +49,16 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		781A6AF82DC0BF1200D49F22 /* Model */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Model;
+			sourceTree = "<group>";
+		};
+		781A6B7D2DC0C54200D49F22 /* UserDefaults */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = UserDefaults;
+			sourceTree = "<group>";
+		};
 		86BF27452DBB287B0070E0A2 /* TeamProject */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -101,11 +111,13 @@
 		86BF273A2DBB287B0070E0A2 = {
 			isa = PBXGroup;
 			children = (
+				781A6AF82DC0BF1200D49F22 /* Model */,
 				860312952DBF4D8100B5474A /* KakaoAPIKey.xcconfig */,
 				86BF27452DBB287B0070E0A2 /* TeamProject */,
 				86BF275C2DBB287C0070E0A2 /* TeamProjectTests */,
 				86BF27662DBB287C0070E0A2 /* TeamProjectUITests */,
 				86BF27442DBB287B0070E0A2 /* Products */,
+				781A6B7D2DC0C54200D49F22 /* UserDefaults */,
 			);
 			sourceTree = "<group>";
 		};
@@ -135,6 +147,8 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				781A6AF82DC0BF1200D49F22 /* Model */,
+				781A6B7D2DC0C54200D49F22 /* UserDefaults */,
 				86BF27452DBB287B0070E0A2 /* TeamProject */,
 			);
 			name = TeamProject;
