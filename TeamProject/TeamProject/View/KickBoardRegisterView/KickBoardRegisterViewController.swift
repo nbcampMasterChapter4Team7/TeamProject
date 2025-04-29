@@ -19,7 +19,7 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
     private var isViewAdded = false
     private var lastAddedPoi: Poi?
     
-    private let viewmodel = KickBoardRecordViewModel.shared
+    private let viewModel = KickBoardRecordViewModel.shared
     
     private var poiToRecordMap: [String: KickBoardRecord] = [:]
     
@@ -90,7 +90,8 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
     override func addViewSucceeded(_ viewName: String, viewInfoName: String) {
         super.addViewSucceeded(viewName, viewInfoName: viewInfoName)
         setupBindings()
-        viewmodel.fetchKickBoardRecords()
+        viewModel.fetchKickBoardRecords()
+        setupCurrentLocationToMap()
     }
     
     //Container 뷰가 리사이즈 되었을때 호출된다. 변경된 크기에 맞게 ViewBase들의 크기를 조절할 필요가 있는 경우 여기에서 수행한다.
@@ -114,7 +115,7 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
     }
     
     private func setupBindings() {
-        viewmodel.onRecordsUpdated = { [weak self] records in
+        viewModel.onRecordsUpdated = { [weak self] records in
             guard self != nil else { return }
             guard let mapView = self?.mapController?.getView("mapview") as? KakaoMap else { return }
             guard let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer") else { return }
@@ -133,6 +134,17 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
                 }
             }
         }
+    }
+    
+    private func setupCurrentLocationToMap() {
+        if let coord = viewModel.currentLocation,
+            let mapView = mapController?.getView("mapview") as? KakaoMap {
+             let point = MapPoint(longitude: coord.longitude, latitude: coord.latitude)
+             let cameraUpdate = CameraUpdate.make(target: point, mapView: mapView)
+             mapView.moveCamera(cameraUpdate)
+         } else {
+             viewModel.startUpdatingLocation()
+         }
     }
     
     // MARK: - @objc Methods
