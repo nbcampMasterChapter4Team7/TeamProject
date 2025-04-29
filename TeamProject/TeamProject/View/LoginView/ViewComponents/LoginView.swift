@@ -16,6 +16,8 @@ final class LoginView: UIView, UITextFieldDelegate {
     
     weak var delegate: LoginViewContollerProtocol?
     
+    // MARK: 
+    
     private let loginPageTitle = UILabel().then {
         $0.text = "안녕하세요.\nGodRide입니다."
         $0.textColor = .label

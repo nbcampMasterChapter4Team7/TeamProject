@@ -12,8 +12,8 @@ import Then
 
 class MembershipViewController: UIViewController {
     
-    // MARK: - UI Components
-    
+    // MARK: - Properties
+
     private var membershipView = MembershipView()
     
     // MARK: - View Life Cycle
