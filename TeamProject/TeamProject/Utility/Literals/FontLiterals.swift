@@ -27,6 +27,7 @@ enum FontLiterals {
     case RentKickboardID
     case RentBasicCharge
     case RentHourlyCharge
+    case RentButtonText
     case RentPauseButtonText
     case RentReturnButtonText
 
@@ -82,7 +83,7 @@ extension FontLiterals {
         case .SignUpButtonText: return 21
 
         case .RentKickboardID: return 23
-        case .RentBasicCharge, .RentHourlyCharge,
+        case .RentBasicCharge, .RentHourlyCharge, .RentButtonText,
              .RentPauseButtonText, .RentReturnButtonText: return 17
 
         case .RegistrationModalTitle: return 17
@@ -125,6 +126,7 @@ extension FontLiterals {
              .RentKickboardID,
              .RentBasicCharge,
              .RentHourlyCharge,
+             .RentButtonText,
              .RentPauseButtonText,
              .RentReturnButtonText,
              .RegistrationBasicCharge,
