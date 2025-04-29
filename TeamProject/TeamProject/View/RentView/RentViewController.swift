@@ -26,13 +26,6 @@ final class RentViewController: KakaoMapViewController {
         make.layer.cornerRadius = 25
     }
 
-    private let samplePopUpModealButton = UIButton().then { make in
-        make.setTitle("모달", for: .normal)
-        make.backgroundColor = .white
-        make.setTitleColor(UIColor.asset(.main), for: .normal)
-
-    }
-
     // MARK: - View Life Cycle
 
     override func loadView() {
@@ -58,26 +51,19 @@ final class RentViewController: KakaoMapViewController {
     
     private func setupAction() {
         locationButton.addTarget(self, action: #selector(didTapLocationButton), for: .touchUpInside)
-        samplePopUpModealButton.addTarget(self, action: #selector(didTapPingButton), for: .touchUpInside)
     }
 
     // MARK: - Layout Helper
 
     private func setLayout() {
-        view.addSubviews(locationButton, samplePopUpModealButton)
+        view.addSubview(locationButton)
 
         locationButton.snp.makeConstraints {
             $0.width.height.equalTo(53)
             $0.trailing.equalToSuperview().inset(16)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
-
-        samplePopUpModealButton.snp.makeConstraints {
-            $0.width.height.equalTo(50)
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
-        }
-
+        
         view.bringSubviewToFront(locationButton)
     }
 
