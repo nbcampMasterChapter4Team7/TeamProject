@@ -13,3 +13,8 @@ protocol LoginViewContollerProtocol: AnyObject {
 protocol LogoutViewControllerProtocol: AnyObject {
     func logoutButtonTapped()
 }
+
+protocol MyPageTableViewCellProtocol: AnyObject {
+    func registrationHistoryButtonTapped()
+    func usageHistoryButtonTapped()
+}
