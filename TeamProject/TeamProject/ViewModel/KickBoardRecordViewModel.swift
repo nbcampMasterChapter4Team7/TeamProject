@@ -10,9 +10,11 @@ import Foundation
 final class KickBoardRecordViewModel {
     
     // MARK: - Singleton Instance
+    
     static let shared = KickBoardRecordViewModel()
     
     // MARK: - Properties
+    
     private let coreDataManager: CoreDataManager
     
     private(set) var records: [KickBoardRecord] = [] {
@@ -24,11 +26,12 @@ final class KickBoardRecordViewModel {
     var onRecordsUpdated: (([KickBoardRecord]) -> Void)?
     
     // MARK: - Initializer
+    
     init(coreDataManager: CoreDataManager = .shared) {
         self.coreDataManager = coreDataManager
     }
     
-    // MARK: - Public Methods
+    // MARK: - Methods
     
     func fetchKickBoardRecords() {
         let fetchedRecords = coreDataManager.fetchAllRecords()

@@ -10,9 +10,11 @@ import UIKit
 
 final class CoreDataManager {
     
+    // MARK: - Singleton Instance
+
     static let shared = CoreDataManager()
     
-    private init() {}
+    // MARK: - Properties
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Model")
@@ -28,7 +30,12 @@ final class CoreDataManager {
         persistentContainer.viewContext
     }
     
-    // MARK: - Save KickBoardRecord
+    // MARK: - Initializer
+
+    private init() {}
+    
+    // MARK: - Methods
+    
     func save(record: KickBoardRecord) {
         let entity = KickBoardRecordEntity(context: context)
         entity.latitude = record.latitude
@@ -40,7 +47,6 @@ final class CoreDataManager {
         saveContext()
     }
     
-    // MARK: - Fetch All Records
     func fetchAllRecords() -> [KickBoardRecord] {
         let request: NSFetchRequest<KickBoardRecordEntity> = KickBoardRecordEntity.fetchRequest()
         
@@ -61,7 +67,6 @@ final class CoreDataManager {
         }
     }
     
-    // MARK: - Save Context
     private func saveContext() {
         if context.hasChanges {
             do {

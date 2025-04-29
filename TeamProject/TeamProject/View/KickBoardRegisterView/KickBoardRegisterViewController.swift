@@ -12,7 +12,16 @@ import KakaoMapsSDK
 
 class KickBoardRegisterViewController: KakaoMapViewController {
     
+    // MARK: - Properties
+    
+    var _observerAdded: Bool
+    var _appear: Bool
+    var isViewAdded = false
+    var lastAddedPoi: Poi?
+    
     private let viewmodel = KickBoardRecordViewModel.shared
+    
+    // MARK: - Initializer
     
     required init?(coder aDecoder: NSCoder) {
         _observerAdded = false
@@ -28,32 +37,10 @@ class KickBoardRegisterViewController: KakaoMapViewController {
         auth = false
     }
     
-    deinit {
-        mapController?.pauseEngine()
-        mapController?.resetEngine()
-        
-        print("deinit")
-    }
+    // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    private func setupBindings() {
-        viewmodel.onRecordsUpdated = { [weak self] records in
-            guard self != nil else { return }
-            guard let mapView = self?.mapController?.getView("mapview") as? KakaoMap else { return }
-            guard let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer") else { return }
-            for record in records {
-                let position = MapPoint(longitude: record.longitude, latitude: record.latitude)
-                let option = PoiOptions(styleID: "kickboardMarkStyleID")
-                option.clickable = true
-                
-                if let poi = layer.addPoi(option: option, at: position) {
-                    poi.show()
-                }
-            }
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,6 +64,8 @@ class KickBoardRegisterViewController: KakaoMapViewController {
         removeObservers()
         mapController?.resetEngine()     //엔진 정지. 추가되었던 ViewBase들이 삭제된다.
     }
+    
+    // MARK: - Methods
     
     // 인증 성공시 delegate 호출.
     func authenticationSucceeded() {
@@ -104,10 +93,6 @@ class KickBoardRegisterViewController: KakaoMapViewController {
         
     }
     
-    func viewInit(viewName: String) {
-        print("OK")
-    }
-    
     //addView 성공 이벤트 delegate. 추가적으로 수행할 작업을 진행한다.
     override func addViewSucceeded(_ viewName: String, viewInfoName: String) {
         print("AddView succeeded: \(viewName), \(viewInfoName)")
@@ -119,6 +104,10 @@ class KickBoardRegisterViewController: KakaoMapViewController {
         viewInit(viewName: viewName)
         setupBindings()
         viewmodel.fetchKickBoardRecords()
+    }
+    
+    func viewInit(viewName: String) {
+        print("OK")
     }
     
     //addView 실패 이벤트 delegate. 실패에 대한 오류 처리를 진행한다.
@@ -146,20 +135,6 @@ class KickBoardRegisterViewController: KakaoMapViewController {
         _observerAdded = false
     }
     
-    @objc func willResignActive(){
-        mapController?.pauseEngine()  //뷰가 inactive 상태로 전환되는 경우 렌더링 중인 경우 렌더링을 중단.
-    }
-    
-    @objc func didBecomeActive(){
-        mapController?.activateEngine() //뷰가 active 상태가 되면 렌더링 시작. 엔진은 미리 시작된 상태여야 함.
-    }
-    
-    var _observerAdded: Bool
-    var _appear: Bool
-    var isViewAdded = false
-    var lastAddedPoi: Poi?
-    
-    // MARK: - Map Setup Helpers
     private func createLabelLayer() {
         guard let mapView = mapController?.getView("mapview") as? KakaoMap else { return }
         let manager = mapView.getLabelManager()
@@ -199,7 +174,36 @@ class KickBoardRegisterViewController: KakaoMapViewController {
             print("kickboard 이미지 로드 실패")
         }
     }
+    
+    private func setupBindings() {
+        viewmodel.onRecordsUpdated = { [weak self] records in
+            guard self != nil else { return }
+            guard let mapView = self?.mapController?.getView("mapview") as? KakaoMap else { return }
+            guard let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer") else { return }
+            for record in records {
+                let position = MapPoint(longitude: record.longitude, latitude: record.latitude)
+                let option = PoiOptions(styleID: "kickboardMarkStyleID")
+                option.clickable = true
+                
+                if let poi = layer.addPoi(option: option, at: position) {
+                    poi.show()
+                }
+            }
+        }
+    }
+    
+    // MARK: - @objc Methods
+
+    @objc func willResignActive(){
+        mapController?.pauseEngine()  //뷰가 inactive 상태로 전환되는 경우 렌더링 중인 경우 렌더링을 중단.
+    }
+    
+    @objc func didBecomeActive(){
+        mapController?.activateEngine() //뷰가 active 상태가 되면 렌더링 시작. 엔진은 미리 시작된 상태여야 함.
+    }
 }
+
+// MARK: - Extension
 
 extension KickBoardRegisterViewController: KakaoMapEventDelegate {
     func terrainDidLongPressed(kakaoMap: KakaoMap, position: MapPoint) {
