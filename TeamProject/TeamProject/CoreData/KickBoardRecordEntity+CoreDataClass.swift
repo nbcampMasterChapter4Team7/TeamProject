@@ -2,7 +2,7 @@
 //  KickBoardRecordEntity+CoreDataClass.swift
 //  TeamProject
 //
-//  Created by tlswo on 4/29/25.
+//  Created by yimkeul on 4/29/25.
 //
 //
 
