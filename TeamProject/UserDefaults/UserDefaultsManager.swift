@@ -8,10 +8,12 @@
 import Foundation
 
 final class UserDefaultsManager {
+    
+    // MARK: - Properties
+    
     static let shared = UserDefaultsManager()
     private let defaults = UserDefaults.standard
     
-    // MARK: - Properties
     // UserDefaults 키 값들
     private enum Keys {
         static let userId = "userId"
@@ -21,6 +23,7 @@ final class UserDefaultsManager {
     }
     
     // MARK: - Methods
+    
     func saveUserInfo(id: String, password: String, name: String) {
         defaults.set(id, forKey: Keys.userId)
         defaults.set(password, forKey: Keys.userPassword)

@@ -72,7 +72,7 @@ final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
         
         /// 레이아웃 설정
         userNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(40)
+            make.top.equalToSuperview()
             make.leading.equalToSuperview().inset(35)
         }
         

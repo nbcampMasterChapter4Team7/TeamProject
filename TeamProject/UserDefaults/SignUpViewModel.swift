@@ -5,7 +5,17 @@
 //  Created by iOS study on 4/29/25.
 //  사용자 입력 검증 및 회원가입 로직 처리
 
+// MARK: - Properties
+
+enum ValidationResult {
+    case success
+    case failure(String)
+}
+
 final class SignUpViewModel {
+    
+    // MARK: - Methods
+    
     // 입력값 검증
     func validateSignUp(id: String, password: String, name: String) -> ValidationResult {
         // ID 검증
@@ -36,9 +46,4 @@ final class SignUpViewModel {
         UserDefaultsManager.shared.saveUserInfo(id: id, password: password, name: name)
         completion(true)
     }
-}
-
-enum ValidationResult {
-    case success
-    case failure(String)
 }

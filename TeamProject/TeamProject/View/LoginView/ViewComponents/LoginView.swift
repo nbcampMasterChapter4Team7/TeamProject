@@ -119,6 +119,20 @@ final class LoginView: UIView, UITextFieldDelegate {
         return true
     }
     
+    // 아이디와 비밀번호를 가져오는 메서드
+    func getId() -> String? {
+        return idTextField.text
+    }
+    
+    func getPassword() -> String? {
+        return passwordTextField.text
+    }
+    
+    // 아이디 설정 메서드 (자동완성용)
+    func setId(_ id: String) {
+        idTextField.text = id
+    }
+    
     // MARK: - Layout Helper
     
     private func setLayout() {
