@@ -20,6 +20,8 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
     private var lastAddedPoi: Poi?
 
     private let viewmodel = KickBoardRecordViewModel.shared
+    
+    private var poiToRecordMap: [String: KickBoardRecord] = [:]
 
     // MARK: - Initializer
 
@@ -128,6 +130,7 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
 
                 if let poi = layer.addPoi(option: option, at: position) {
                     poi.show()
+                    self?.poiToRecordMap[poi.itemID] = record
                 }
             }
         }
@@ -173,7 +176,11 @@ extension KickBoardRegisterViewController {
     }
     
     func poiDidTapped(kakaoMap: KakaoMap, layerID: String, poiID: String, position: MapPoint) {
-        print("poiDidTapped")
+        guard let record = poiToRecordMap[poiID] else {
+            print("Record not found for tapped POI")
+            return
+        }
+        print("Tapped record: \(record)")
     }
 }
 
