@@ -34,7 +34,7 @@ final class MainViewController: UITabBarController {
         
         tabBar.tintColor = UIColor.asset(.main)
         tabBar.backgroundColor = .systemBackground
-        
+
     }
     
     // MARK: - SetAttribute
@@ -44,7 +44,11 @@ final class MainViewController: UITabBarController {
     private func setAttribute() {
         viewControllers = [
             createViewController(for: RentViewController(), title: "대여"),
+
+            createViewController(for: KickBoardRegisterViewController(), title: "킥보드 등록"),
+
             createViewController(for: MyPageViewController(), title: "마이페이지")
+
         ]
     }
     
