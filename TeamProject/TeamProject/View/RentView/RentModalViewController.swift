@@ -17,77 +17,77 @@ final class RentModalViewController: UIViewController {
     
     // MARK: - UI Components
 
-    private let kickboardImage = UIImageView().then {
+    private let kickboardImage = UIImageView().then { make in
         let img = ImageLiterals.kickboard
-        $0.contentMode = .scaleAspectFit
-        $0.image = img
+        make.contentMode = .scaleAspectFit
+        make.image = img
     }
 
-    private let kickboardID = UILabel().then {
-        $0.font = UIFont.fontGuide(.RentKickboardID)
-        $0.textColor = .label
-        $0.textAlignment = .left
-        $0.text = "MK111"
+    private let kickboardID = UILabel().then { make in
+        make.font = UIFont.fontGuide(.RentKickboardID)
+        make.textColor = .label
+        make.textAlignment = .left
+        make.text = "MK111"
     }
 
-    private let basicChargeTitle = UILabel().then {
-        $0.font = UIFont.fontGuide(.RentBasicCharge)
-        $0.textColor = UIColor.asset(.gray3)
-        $0.textAlignment = .left
-        $0.text = "기본 이용료:"
+    private let basicChargeTitle = UILabel().then { make in
+        make.font = UIFont.fontGuide(.RentBasicCharge)
+        make.textColor = UIColor.asset(.gray3)
+        make.textAlignment = .left
+        make.text = "기본 이용료:"
     }
-    private let basicCharge = UILabel().then {
-        $0.font = UIFont.fontGuide(.RentBasicCharge)
-        $0.textColor = UIColor.asset(.gray3)
-        $0.textAlignment = .left
-        $0.text = "1,000원"
-    }
-
-    private let hourlyChargeTitle = UILabel().then {
-        $0.font = UIFont.fontGuide(.RentHourlyCharge)
-        $0.textColor = UIColor.asset(.gray3)
-        $0.textAlignment = .left
-        $0.text = "시간당 요금:"
+    private let basicCharge = UILabel().then { make in
+        make.font = UIFont.fontGuide(.RentBasicCharge)
+        make.textColor = UIColor.asset(.gray3)
+        make.textAlignment = .left
+        make.text = "1,000원"
     }
 
-    private let hourlyCharge = UILabel().then {
-        $0.font = UIFont.fontGuide(.RentHourlyCharge)
-        $0.textColor = UIColor.asset(.gray3)
-        $0.textAlignment = .left
-        $0.text = "200원"
+    private let hourlyChargeTitle = UILabel().then { make in
+        make.font = UIFont.fontGuide(.RentHourlyCharge)
+        make.textColor = UIColor.asset(.gray3)
+        make.textAlignment = .left
+        make.text = "시간당 요금:"
     }
 
-    private let rentButton = UIButton().then {
-        $0.setTitle("대여하기", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = UIColor.asset(.main)
-        $0.titleLabel?.font = UIFont.fontGuide(.RentButtonText)
-        $0.layer.cornerRadius = 8
+    private let hourlyCharge = UILabel().then { make in
+        make.font = UIFont.fontGuide(.RentHourlyCharge)
+        make.textColor = UIColor.asset(.gray3)
+        make.textAlignment = .left
+        make.text = "200원"
     }
 
-    private let buttonStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.spacing = 16
-        $0.distribution = .fillEqually
-        $0.alignment = .center
-        $0.isHidden = true
+    private let rentButton = UIButton().then { make in
+        make.setTitle("대여하기", for: .normal)
+        make.setTitleColor(.white, for: .normal)
+        make.backgroundColor = UIColor.asset(.main)
+        make.titleLabel?.font = UIFont.fontGuide(.RentButtonText)
+        make.layer.cornerRadius = 8
     }
 
-    private let pauseButton = UIButton().then {
-        $0.setTitle("일시정지", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = UIColor.asset(.gray1)
-        $0.titleLabel?.font = UIFont.fontGuide(.RentButtonText)
-        $0.layer.cornerRadius = 8
+    private let buttonStackView = UIStackView().then { make in
+        make.axis = .horizontal
+        make.spacing = 16
+        make.distribution = .fillEqually
+        make.alignment = .center
+        make.isHidden = true
+    }
+
+    private let pauseButton = UIButton().then { make in
+        make.setTitle("일시정지", for: .normal)
+        make.setTitleColor(.white, for: .normal)
+        make.backgroundColor = UIColor.asset(.gray1)
+        make.titleLabel?.font = UIFont.fontGuide(.RentButtonText)
+        make.layer.cornerRadius = 8
     }
 
 
-    private let returnButton = UIButton().then {
-        $0.setTitle("반납하기", for: .normal)
-        $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = UIColor.asset(.main)
-        $0.titleLabel?.font = UIFont.fontGuide(.RentButtonText)
-        $0.layer.cornerRadius = 8
+    private let returnButton = UIButton().then { make in
+        make.setTitle("반납하기", for: .normal)
+        make.setTitleColor(.white, for: .normal)
+        make.backgroundColor = UIColor.asset(.main)
+        make.titleLabel?.font = UIFont.fontGuide(.RentButtonText)
+        make.layer.cornerRadius = 8
     }
     
     // MARK: - View Life Cycle

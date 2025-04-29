@@ -20,17 +20,17 @@ final class RentViewController: KakaoMapViewController, CLLocationManagerDelegat
     
     // MARK: - UI Components
 
-    private let locationButton = UIButton().then {
+    private let locationButton = UIButton().then { make in
         let img = ImageLiterals.location.resize(newWidth: 32)
-        $0.setImage(img, for: .normal)
-        $0.backgroundColor = .white
-        $0.layer.cornerRadius = 25
+        make.setImage(img, for: .normal)
+        make.backgroundColor = .white
+        make.layer.cornerRadius = 25
     }
     
-    private let samplePopUpModealButton = UIButton().then {
-        $0.setTitle("모달", for: .normal)
-        $0.backgroundColor = .white
-        $0.setTitleColor(UIColor.asset(.main), for: .normal)
+    private let samplePopUpModealButton = UIButton().then { make in
+        make.setTitle("모달", for: .normal)
+        make.backgroundColor = .white
+        make.setTitleColor(UIColor.asset(.main), for: .normal)
         
     }
     
