@@ -6,3 +6,24 @@
 //
 
 import Foundation
+
+final class RentModalViewModel {
+    
+    // MARK: - Singleton Instance
+    
+    static let shared = RentModalViewModel()
+    
+    // MARK: - Properties
+
+    private let coreDataManager = CoreDataManager.shared
+    
+    // MARK: - Initializer
+    
+    private init () { }
+    
+    // MARK: - Methods
+    
+    func fetchKickBoardRecord(with Id: UUID) -> KickBoardRecord? {
+        return  coreDataManager.fetchRecord(with: Id)
+    }
+}
