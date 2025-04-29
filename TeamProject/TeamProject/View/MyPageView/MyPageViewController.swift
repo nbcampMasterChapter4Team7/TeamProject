@@ -54,9 +54,8 @@ final class MyPageViewController: UIViewController, LogoutViewControllerProtocol
         
         alert.addAction(UIAlertAction(title: "취소", style: .cancel))
         alert.addAction(UIAlertAction(title: "확인", style: .destructive) { [weak self] _ in
-            // UserDefaults 로그인 상태 초기화
-            UserDefaultsManager.shared.defaults.set(false, forKey: UserDefaultsManager.Keys.isLoggedIn)
-            UserDefaultsManager.shared.defaults.removeObject(forKey: UserDefaultsManager.Keys.userName)
+            // UserDefaults 로그인 상태만 초기화
+            UserDefaultsManager.shared.logout()
             
             // 로그인 화면으로 이동
             let loginVC = LoginViewController()
@@ -76,6 +75,7 @@ final class MyPageViewController: UIViewController, LogoutViewControllerProtocol
         
         present(alert, animated: true)
     }
+
 
     
     func usageHistoryButtonTapped() {

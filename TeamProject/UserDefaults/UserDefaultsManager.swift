@@ -53,9 +53,7 @@ final class UserDefaultsManager {
     
     /// 로그아웃 메서드
     func logout() {
-        // 로그인 상태만 초기화하고 저장된 정보(userId, password)는 유지
         defaults.set(false, forKey: Keys.isLoggedIn)
-        defaults.removeObject(forKey: Keys.userName)
     }
 }
 
