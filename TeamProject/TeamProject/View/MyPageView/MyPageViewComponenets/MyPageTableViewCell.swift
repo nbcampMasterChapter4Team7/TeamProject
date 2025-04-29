@@ -13,6 +13,7 @@ import Then
 final class MyPageTableViewCell: UITableViewCell {
     
     // MARK: - Properties
+    
     static let id = "TableViewCell"
     weak var delegate: MyPageTableViewCellProtocol?
     
@@ -23,6 +24,7 @@ final class MyPageTableViewCell: UITableViewCell {
     ]
     
     // MARK: - UI Components
+    
     private let titleLabel = UILabel().then {
         $0.font = UIFont.fontGuide(.MyPageRegistrationKickboardLabel)
         $0.textColor = .secondaryLabel
@@ -36,6 +38,7 @@ final class MyPageTableViewCell: UITableViewCell {
     }
     
     // MARK: - Initializer
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
@@ -47,6 +50,7 @@ final class MyPageTableViewCell: UITableViewCell {
     }
     
     // MARK: - Layout Helper
+    
     private func setup() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(stackView)
@@ -64,6 +68,7 @@ final class MyPageTableViewCell: UITableViewCell {
     }
     
     // MARK: - Methods
+    
     func configure(with title: String, details: [String]) {
         titleLabel.text = title
         
@@ -106,6 +111,8 @@ final class MyPageTableViewCell: UITableViewCell {
             }
         }
     }
+    
+    // MARK: - @objc Methods
     
     @objc private func arrowButtonTapped(_ sender: UIButton) {
         guard let text = sender.accessibilityLabel else { return }

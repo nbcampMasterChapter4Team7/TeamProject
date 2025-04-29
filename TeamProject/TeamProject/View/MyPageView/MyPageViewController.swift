@@ -11,7 +11,7 @@ import SnapKit
 
 final class MyPageViewController: UIViewController, LogoutViewControllerProtocol, MyPageTableViewCellProtocol {
     
-    // MARK: - UI Components
+    // MARK: - Properties
     private var mypageView = MyPageView()
     private var mypageTableViewCell = MyPageTableViewCell()
     

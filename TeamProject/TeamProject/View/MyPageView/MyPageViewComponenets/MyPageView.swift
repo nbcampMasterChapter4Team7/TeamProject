@@ -13,11 +13,12 @@ import Then
 final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: - Properties
-    static let id = "TableViewCell"
+    
     weak var delegate: LogoutViewControllerProtocol?
     weak var cellDelegate: MyPageTableViewCellProtocol?  // 추가
     
     // MARK: - UI Components
+    
     private let userNameLabel = UILabel().then {
         $0.text = "Test님"
         $0.font = UIFont.fontGuide(.MyPageUserName)

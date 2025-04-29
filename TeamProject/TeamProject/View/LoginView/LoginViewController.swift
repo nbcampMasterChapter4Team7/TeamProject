@@ -27,6 +27,7 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
     }
     
     // MARK: - Methods
+    
     /// loginView의 화면 제약
     private func setupLoginView() {
         view.addSubview(loginView)

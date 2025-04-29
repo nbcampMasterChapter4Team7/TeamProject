@@ -11,7 +11,8 @@ import SnapKit
 
 final class RegistrationHistoryViewController: UIViewController {
     
-    // MARK: - UI Components
+    // MARK: - Properties
+    
     private var registrationHistoryView = RegistrationHistoryView()
        
     // MARK: - View Life Cycle
@@ -23,7 +24,7 @@ final class RegistrationHistoryViewController: UIViewController {
     }
     
     // MARK: - Methods
-
+    
     private func setupNavigationBar() {
         navigationItem.title = "등록 내역"
     }
