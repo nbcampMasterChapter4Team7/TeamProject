@@ -12,6 +12,8 @@ import KakaoMapsSDK
 
 class KickBoardRegisterViewController: KakaoMapViewController {
     
+    private let viewmodel = KickBoardRecordViewModel.shared
+    
     required init?(coder aDecoder: NSCoder) {
         _observerAdded = false
         _appear = false
@@ -31,6 +33,27 @@ class KickBoardRegisterViewController: KakaoMapViewController {
         mapController?.resetEngine()
         
         print("deinit")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    private func setupBindings() {
+        viewmodel.onRecordsUpdated = { [weak self] records in
+            guard self != nil else { return }
+            guard let mapView = self?.mapController?.getView("mapview") as? KakaoMap else { return }
+            guard let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer") else { return }
+            for record in records {
+                let position = MapPoint(longitude: record.longitude, latitude: record.latitude)
+                let option = PoiOptions(styleID: "kickboardMarkStyleID")
+                option.clickable = true
+                
+                if let poi = layer.addPoi(option: option, at: position) {
+                    poi.show()
+                }
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,6 +117,8 @@ class KickBoardRegisterViewController: KakaoMapViewController {
         createLabelLayer()
         createPoiStyle()
         viewInit(viewName: viewName)
+        setupBindings()
+        viewmodel.fetchKickBoardRecords()
     }
     
     //addView 실패 이벤트 delegate. 실패에 대한 오류 처리를 진행한다.
@@ -196,7 +221,7 @@ extension KickBoardRegisterViewController: KakaoMapEventDelegate {
             alertVC.delegate = self
             alertVC.latitude = position.wgsCoord.latitude
             alertVC.longitude = position.wgsCoord.longitude
-            alertVC.recognitionNumber = UUID().uuidString
+            alertVC.recognitionNumber = UUID()
             alertVC.modalPresentationStyle = .overFullScreen
             self.present(alertVC, animated: true)
         }
