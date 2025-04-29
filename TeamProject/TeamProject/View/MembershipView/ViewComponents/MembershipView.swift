@@ -140,7 +140,7 @@ final class MembershipView: UIView, UITextFieldDelegate {
         if textField == nicknameTextField {
             return newLength <= 10
         } else if textField == idTextField {
-            let allowCharacters = CharacterSet(charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
+            let allowCharacters = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz0123456789")
             if string.rangeOfCharacter(from: allowCharacters.inverted) != nil || newLength > 12 {
                 return false
             }

@@ -106,7 +106,7 @@ final class LoginView: UIView, UITextFieldDelegate {
     /// 확장을 사용하여 영어, 숫자, 특수문자만 입력 가능하도록 바꿈
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == idTextField {
-            let allowCharacters = CharacterSet(charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
+            let allowCharacters = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz0123456789")
             if string.rangeOfCharacter(from: allowCharacters.inverted) != nil {
                 return false
             }
