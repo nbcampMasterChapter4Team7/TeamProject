@@ -167,7 +167,6 @@ extension KickBoardRegisterViewController {
                 alertVC.delegate = self
                 alertVC.latitude = position.wgsCoord.latitude
                 alertVC.longitude = position.wgsCoord.longitude
-                alertVC.poiId = poi.itemID
                 alertVC.recognitionNumber = UUID()
                 alertVC.modalPresentationStyle = .overFullScreen
                 self.present(alertVC, animated: true)
