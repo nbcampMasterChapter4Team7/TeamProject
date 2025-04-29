@@ -39,35 +39,32 @@ final class DeleteModalViewController: UIViewController {
         $0.image = ImageLiterals.kickboard
     }
 
-    private lazy var kickboardID = UILabel().then {
+    private let kickboardID = UILabel().then {
         $0.font = UIFont.fontGuide(.RentKickboardID)
         $0.textColor = .label
         $0.textAlignment = .left
-        $0.text = kickboardIDText
     }
 
-    private lazy var basicChargeTitle = UILabel().then {
+    private let basicChargeTitle = UILabel().then {
         $0.font = UIFont.fontGuide(.RentBasicCharge)
         $0.textColor = UIColor.asset(.gray3)
         $0.text = "기본 이용료:"
     }
 
-    private lazy var basicCharge = UILabel().then {
+    private let basicCharge = UILabel().then {
         $0.font = UIFont.fontGuide(.RentBasicCharge)
         $0.textColor = UIColor.asset(.gray3)
-        $0.text = basicChargeText
     }
 
-    private lazy var hourlyChargeTitle = UILabel().then {
+    private let hourlyChargeTitle = UILabel().then {
         $0.font = UIFont.fontGuide(.RentHourlyCharge)
         $0.textColor = UIColor.asset(.gray3)
         $0.text = "시간당 요금:"
     }
 
-    private lazy var hourlyCharge = UILabel().then {
+    private let hourlyCharge = UILabel().then {
         $0.font = UIFont.fontGuide(.RentHourlyCharge)
         $0.textColor = UIColor.asset(.gray3)
-        $0.text = hourlyChargeText
     }
 
     private let deleteButton = UIButton().then {
@@ -86,9 +83,12 @@ final class DeleteModalViewController: UIViewController {
         deleteButton.addTarget(self, action: #selector(didTapDeleteButton), for: .touchUpInside)
     }
 
-    // MARK: - Style/Layout
+    // MARK: - Layout Helper
     private func setStyle() {
         view.backgroundColor = .systemBackground
+        kickboardID.text = kickboardIDText
+        basicCharge.text = basicChargeText
+        hourlyCharge.text = hourlyChargeText
     }
 
     private func setLayout() {
@@ -136,9 +136,8 @@ final class DeleteModalViewController: UIViewController {
         }
     }
 
-    // MARK: - Actions
+    // MARK: - Methods
     @objc private func didTapDeleteButton() {
-        // 삭제 동작 처리 로직
         print("삭제하기 버튼이 눌렸습니다.")
         viewmodel.deleteKickBoardRecord(kickBoardIdentifier)
         dismiss(animated: true)
