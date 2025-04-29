@@ -15,6 +15,7 @@ import KakaoMapsSDK
 final class RentViewController: KakaoMapViewController, CLLocationManagerDelegate {
     
     // MARK: - Properties
+    private let viewModel = RentViewModel.shared
     
     private let locationManager = CLLocationManager()
     
@@ -54,6 +55,7 @@ final class RentViewController: KakaoMapViewController, CLLocationManagerDelegat
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         addViews()
+        viewModel.fetchKickBoardRecords()
     }
     
     // MARK: - Layout Helper
@@ -87,6 +89,30 @@ final class RentViewController: KakaoMapViewController, CLLocationManagerDelegat
         
         // 위치 업데이트
         locationManager.startUpdatingLocation()
+    }
+    
+    private func setupBindings() {
+        viewModel.onRecordsUpdated = { [weak self] records in
+            guard self != nil else { return }
+            guard let mapView = self?.mapController?.getView("mapview") as? KakaoMap else { return }
+            guard let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer") else { return }
+            for record in records {
+                let position = MapPoint(longitude: record.longitude, latitude: record.latitude)
+                let option = PoiOptions(styleID: "kickboardMarkStyleID")
+                option.clickable = true
+
+                if let poi = layer.addPoi(option: option, at: position) {
+                    poi.show()
+                }
+            }
+        }
+    }
+    
+    override func addViewSucceeded(_ viewName: String, viewInfoName: String) {
+        print("<<")
+        super.addViewSucceeded(viewName, viewInfoName: viewInfoName)
+        setupBindings()
+        viewModel.fetchKickBoardRecords()
     }
     
     // MARK: - @objc Methods
