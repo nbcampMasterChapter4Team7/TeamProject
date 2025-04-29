@@ -96,7 +96,6 @@ final class RentViewController: KakaoMapViewController {
                     poi.show()
                     self.poiToRecordMap[poi.itemID] = record
                 }
-//                layer.addPoi(option: option, at: position)?.show()
             }
         }
     }
