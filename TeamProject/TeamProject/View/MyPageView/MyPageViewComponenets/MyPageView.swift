@@ -20,7 +20,6 @@ final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
     // MARK: - UI Components
     
     private let userNameLabel = UILabel().then {
-        $0.text = "Test님"
         $0.font = UIFont.fontGuide(.MyPageUserName)
         $0.textColor = .label
         $0.textAlignment = .left
@@ -53,6 +52,7 @@ final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
     
     // MARK: - Initializer
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -66,6 +66,7 @@ final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
     }
     
     // MARK: - Layout Helper
+    
     private func setup() {
         backgroundColor = .systemBackground
         addSubviews(userNameLabel, logoutButton, tableView, rentalButtonLabel)
@@ -95,13 +96,13 @@ final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
             make.height.equalTo(50)
         }
     }
-    
-    // MARK: - @objc Methods
-    @objc private func logoutButtonTapped() {
-        delegate?.logoutButtonTapped()
-    }
 
     // MARK: - Methods
+    
+    func setUserName(_ name: String) {
+        userNameLabel.text = "\(name)님"
+    }
+    
     private func tableViewDelegate() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -133,5 +134,11 @@ final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Selected section: \(indexPath.section)")
+    }
+    
+    // MARK: - @objc Methods
+    
+    @objc private func logoutButtonTapped() {
+        delegate?.logoutButtonTapped()
     }
 }

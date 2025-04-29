@@ -23,6 +23,12 @@ final class MyPageViewController: UIViewController, LogoutViewControllerProtocol
         setupMyPageView()
         setupDelegates()
         setupNavigationBar()
+        updateUserName()
+    }
+    
+    override func viewWillAppear (_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateUserName()
     }
     
     // MARK: - Layout Helper
@@ -44,6 +50,13 @@ final class MyPageViewController: UIViewController, LogoutViewControllerProtocol
     private func setupDelegates() {
         mypageView.delegate = self
         mypageView.cellDelegate = self
+    }
+    
+    // userName 업데이트 메서드
+    private func updateUserName() {
+        if let userName = UserDefaultsManager.shared.getUserName() {
+            mypageView.setUserName(userName)
+        }
     }
     
     // MyPageViewController.swift
