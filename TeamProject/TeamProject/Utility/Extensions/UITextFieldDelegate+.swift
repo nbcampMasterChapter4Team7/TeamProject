@@ -7,7 +7,8 @@
 
 import UIKit
 
-// ===== 텍스트 필드에서 영어, 숫자, 특수문자만 입력하도록 제한 =====
+// MARK: - Methods
+/// 텍스트 필드에서 영어, 숫자, 특수문자만 입력하도록 제한 =====
 /// textField: 변경이 발생한 텍스트 필드를 나타내는 UITextField 객체
 /// range: 변경이 일어날 범위를 나타내는 NSRange 객체, 현재 텍스트에서 변경될 부분
 /// replacementString: 사용자가 입력한 새로운 문자열을 나타내는 String 객체
@@ -19,4 +20,3 @@ extension UITextFieldDelegate {
         return true
     }
 }
-
