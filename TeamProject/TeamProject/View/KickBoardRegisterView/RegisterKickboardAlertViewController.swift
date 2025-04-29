@@ -27,80 +27,75 @@ class RegisterKickboardAlertViewController: UIViewController {
     var recognitionNumber: UUID = UUID()
     
     // MARK: - UI Components
-    
-    private let backgroundView = UIView()
-    
-    private lazy var containerView = UIView().then {
+    private let containerView = UIView().then {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 8
     }
     
-    private lazy var titleLabel = UILabel().then {
+    private let titleLabel = UILabel().then {
         $0.text = "현재 위치에 등록"
         $0.font = UIFont.boldSystemFont(ofSize: 18)
         $0.textAlignment = .center
     }
     
-    private lazy var infoLabel = UILabel().then {
+    private let infoLabel = UILabel().then {
         $0.font = UIFont.systemFont(ofSize: 13)
         $0.textColor = .secondaryLabel
         $0.numberOfLines = 0
         $0.textAlignment = .center
     }
     
-    private lazy var basicChargeTextField = UITextField().then {
+    private let basicChargeTextField = UITextField().then {
         $0.placeholder = "기본 이용 요금"
         $0.borderStyle = .roundedRect
         $0.backgroundColor = UIColor.systemGray6
         $0.keyboardType = .decimalPad
     }
     
-    private lazy var hourlyChargeTextField = UITextField().then {
+    private let hourlyChargeTextField = UITextField().then {
         $0.placeholder = "시간당 요금"
         $0.borderStyle = .roundedRect
         $0.backgroundColor = UIColor.systemGray6
         $0.keyboardType = .decimalPad
     }
     
-    private lazy var cancelButton = UIButton(type: .system).then {
+    private let cancelButton = UIButton(type: .system).then {
         $0.setTitle("취소", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = .systemGray3
         $0.layer.cornerRadius = 8
-        $0.addTarget(self, action: #selector(didTapCancel), for: .touchUpInside)
+        
     }
     
-    private lazy var registerButton = UIButton(type: .system).then {
+    private let registerButton = UIButton(type: .system).then {
         $0.setTitle("등록", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = UIColor.systemMint
         $0.layer.cornerRadius = 8
-        $0.addTarget(self, action: #selector(didTapRegister), for: .touchUpInside)
+        
     }
         
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViews()
-        setupConstraints()
+        setStyle()
+        setLayout()
+        updateInfoLabel()
+        cancelButton.addTarget(self, action: #selector(didTapCancel), for: .touchUpInside)
+        registerButton.addTarget(self, action: #selector(didTapRegister), for: .touchUpInside)
     }
     
     // MARK: - Layout Helper
     
-    private func setupViews() {
+    private func setStyle() {
         view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        
-        view.addSubview(containerView)
-        
-        [titleLabel, infoLabel, basicChargeTextField, hourlyChargeTextField, cancelButton, registerButton].forEach {
-            containerView.addSubview($0)
-        }
-        
-        updateInfoLabel()
     }
     
-    private func setupConstraints() {
+    private func setLayout() {
+        view.addSubview(containerView)
+        containerView.addSubviews(titleLabel, infoLabel, basicChargeTextField, hourlyChargeTextField, cancelButton, registerButton)
+        
         containerView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.centerX.equalToSuperview()
@@ -148,10 +143,7 @@ class RegisterKickboardAlertViewController: UIViewController {
     // MARK: - Methods
     
     private func updateInfoLabel() {
-        infoLabel.text = """
-        위도: \(latitude) 경도: \(longitude)
-        킥보드 인식번호: \(recognitionNumber)
-        """
+        infoLabel.text = "위도: \(latitude) 경도: \(longitude) \n킥보드 인식번호: \(recognitionNumber)"
     }
     
     // MARK: - @objc Methods
