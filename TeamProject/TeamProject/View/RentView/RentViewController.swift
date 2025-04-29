@@ -27,6 +27,13 @@ final class RentViewController: KakaoMapViewController, CLLocationManagerDelegat
         $0.layer.cornerRadius = 25
     }
     
+    private let samplePopUpModealButton = UIButton().then {
+        $0.setTitle("모달", for: .normal)
+        $0.backgroundColor = .white
+        $0.setTitleColor(UIColor.asset(.main), for: .normal)
+        
+    }
+    
     // MARK: - View Life Cycle
     
     override func loadView() {
@@ -38,6 +45,9 @@ final class RentViewController: KakaoMapViewController, CLLocationManagerDelegat
         locationManager.delegate = self
         setLocationService()
         setLayout()
+        
+        locationButton.addTarget(self, action: #selector(didTapLocationButton), for: .touchUpInside)
+        samplePopUpModealButton.addTarget(self, action: #selector(didTapPingButton), for: .touchUpInside)
     }
     
     // 엔진이 준비·활성화된 직후에 지도 추가
@@ -49,13 +59,20 @@ final class RentViewController: KakaoMapViewController, CLLocationManagerDelegat
     // MARK: - Layout Helper
     
     private func setLayout() {
-        view.addSubview(locationButton)
+        view.addSubviews(locationButton, samplePopUpModealButton)
+        
         locationButton.snp.makeConstraints {
             $0.width.height.equalTo(53)
             $0.trailing.equalToSuperview().inset(16)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
-        locationButton.addTarget(self, action: #selector(didTapLocationButton), for: .touchUpInside)
+        
+        samplePopUpModealButton.snp.makeConstraints {
+            $0.width.height.equalTo(50)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
+        }
+        
         view.bringSubviewToFront(locationButton)
     }
 
@@ -92,6 +109,18 @@ final class RentViewController: KakaoMapViewController, CLLocationManagerDelegat
         let cameraUpdate = CameraUpdate.make(target: point, mapView: mapView)
         mapView.moveCamera(cameraUpdate)
         print("지도 중심을 (\(coor.longitude), \(coor.latitude)로 이동했습니다.")
+    }
+    
+    @objc private func didTapPingButton() {
+        let vc = RentModalViewController()
+        if let sheet = vc.sheetPresentationController {
+            sheet.detents = [.custom(resolver: { _  in
+                return SizeLiterals.Screen.screenHeight * 257 / 874
+            })]
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 20
+        }
+        present(vc, animated: true, completion: nil)
     }
 }
 
