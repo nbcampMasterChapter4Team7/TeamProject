@@ -39,27 +39,41 @@ final class MyPageViewController: UIViewController, LogoutViewControllerProtocol
     /// 화면 전환을 위한 델리게이트 설정
     private func setupDelegates() {
         mypageView.delegate = self
-        mypageView.cellDelegate = self  // cellDelegate 설정
+        mypageView.cellDelegate = self
     }
     
     // MARK: - Actions
+    // MyPageViewController.swift
     func logoutButtonTapped() {
-        // 루트 뷰 컨트롤러로 LoginViewController를 설정
-        let loginVC = LoginViewController()
-        let navigationController = UINavigationController(rootViewController: loginVC)
-        navigationController.modalPresentationStyle = .fullScreen
+        let alert = UIAlertController(title: "로그아웃",
+                                     message: "로그아웃 하시겠습니까?",
+                                     preferredStyle: .alert)
         
-        // 윈도우의 루트 뷰 컨트롤러를 변경
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let window = windowScene.windows.first {
-            window.rootViewController = navigationController
-            UIView.transition(with: window,
-                             duration: 0.3,
-                             options: .transitionCrossDissolve,
-                             animations: nil,
-                             completion: nil)
-        }
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        alert.addAction(UIAlertAction(title: "확인", style: .destructive) { [weak self] _ in
+            // UserDefaults 로그인 상태 초기화
+            UserDefaultsManager.shared.defaults.set(false, forKey: UserDefaultsManager.Keys.isLoggedIn)
+            UserDefaultsManager.shared.defaults.removeObject(forKey: UserDefaultsManager.Keys.userName)
+            
+            // 로그인 화면으로 이동
+            let loginVC = LoginViewController()
+            let navigationController = UINavigationController(rootViewController: loginVC)
+            navigationController.modalPresentationStyle = .fullScreen
+            
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let window = windowScene.windows.first {
+                window.rootViewController = navigationController
+                UIView.transition(with: window,
+                                duration: 0.3,
+                                options: .transitionCrossDissolve,
+                                animations: nil,
+                                completion: nil)
+            }
+        })
+        
+        present(alert, animated: true)
     }
+
     
     func usageHistoryButtonTapped() {
         let usageHistoryVC = UsageHistoryViewController()

@@ -12,10 +12,10 @@ final class UserDefaultsManager {
     // MARK: - Properties
     
     static let shared = UserDefaultsManager()
-    private let defaults = UserDefaults.standard
+    let defaults = UserDefaults.standard
     
     // UserDefaults 키 값들
-    private enum Keys {
+    enum Keys {
         static let userId = "userId"
         static let userPassword = "userPassword"
         static let userName = "userName"
