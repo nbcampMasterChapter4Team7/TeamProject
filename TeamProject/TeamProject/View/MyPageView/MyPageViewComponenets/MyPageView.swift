@@ -13,10 +13,12 @@ import Then
 final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: - Properties
-    static let id = "TableViewCell"
+    
     weak var delegate: LogoutViewControllerProtocol?
+    weak var cellDelegate: MyPageTableViewCellProtocol?  // 추가
     
     // MARK: - UI Components
+    
     private let userNameLabel = UILabel().then {
         $0.text = "Test님"
         $0.font = UIFont.fontGuide(.MyPageUserName)
@@ -32,7 +34,7 @@ final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
         $0.tintColor = .white
     }
     
-    private let tableView = UITableView().then {
+    let tableView = UITableView().then {
         $0.separatorStyle = .singleLine
         $0.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.id)
         $0.isScrollEnabled = false
@@ -125,6 +127,7 @@ final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
         let titleText = MyPageTableViewCell.data[indexPath.section].title
         let detailTexts = MyPageTableViewCell.data[indexPath.section].details
         cell.configure(with: titleText, details: detailTexts)
+        cell.delegate = cellDelegate  // cellDelegate 설정
         return cell
     }
     

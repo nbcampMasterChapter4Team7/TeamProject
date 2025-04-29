@@ -105,13 +105,13 @@ extension FontLiterals {
 
         case .UsageHistoryKickboardID: return 15
         case .UsageHistoryDate: return 13
-        case .UsageHistoryUseTime, .UsageHistoryDistance: return 10
+        case .UsageHistoryUseTime, .UsageHistoryDistance: return 11
         case .UsageHistoryCharge: return 14
 
         case .RegistrationHistoryKickboardID: return 15
         case .RegistrationHistoryDate: return 13
         case .RegistrationHistoryBasicCharge,
-             .RegistrationHistoryHourlyCharge: return 10
+             .RegistrationHistoryHourlyCharge: return 11
             
         case .TabBarTitle: return 17
         }

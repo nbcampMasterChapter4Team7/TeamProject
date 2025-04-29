@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController,LoginViewContollerProtocol {
     
     // MARK: - UI Components
     
@@ -28,11 +28,6 @@ final class LoginViewController: UIViewController {
     
     // MARK: - Methods
     
-    /// 화면 전환을 위한 델리게이트 설정
-    private func loginViewDelegate() {
-        loginView.delegate = self
-    }
-    
     /// loginView의 화면 제약
     private func setupLoginView() {
         view.addSubview(loginView)
@@ -42,6 +37,22 @@ final class LoginViewController: UIViewController {
     /// memebershipView의 네비게이션 뒤로가기 타이틀 없애기
     private func setupNavigationBar() {
         navigationItem.backButtonTitle = ""
+    }
+    
+    /// 화면 전환을 위한 델리게이트 설정
+    private func loginViewDelegate() {
+        loginView.delegate = self
+    }
+    
+    func loginButtonTapped() {
+        let mainVC = MainViewController()
+        mainVC.modalPresentationStyle = .fullScreen
+        present(mainVC, animated: true, completion: nil)
+    }
+    
+    func signUpButtonTapped() {
+        let membershipVC = MembershipViewController()
+        navigationController?.pushViewController(membershipVC, animated: true)
     }
     
     // MARK: - @objc Methods
@@ -56,20 +67,5 @@ final class LoginViewController: UIViewController {
     /// 키보드 확장 옵저버 종료
     deinit {
         removeKeyboardObserver()
-    }
-}
-
-// MARK: - ExchangeViewProtoocol
-
-extension LoginViewController: LoginViewContollerProtocol {
-    func loginButtonTapped() {
-        let mainVC = MainViewController()
-        mainVC.modalPresentationStyle = .fullScreen
-        present(mainVC, animated: true, completion: nil)
-    }
-    
-    func signUpButtonTapped() {
-        let membershipVC = MembershipViewController()
-        navigationController?.pushViewController(membershipVC, animated: true)
     }
 }
