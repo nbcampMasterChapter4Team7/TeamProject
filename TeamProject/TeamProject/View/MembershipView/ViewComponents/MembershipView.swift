@@ -64,7 +64,6 @@ final class MembershipView: UIView, UITextFieldDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .systemBackground
         setup()
         textFieldSetupDelegate()
     }
@@ -76,6 +75,7 @@ final class MembershipView: UIView, UITextFieldDelegate {
     // MARK: - Properties
     
     private func setup() {
+        self.backgroundColor = .systemBackground
         self.addSubviews(nicknameLabel, nicknameTextField, idLabel, idTextField, passwordLabel, passwordTextField, signUpButton)
         setLayout()
     }
