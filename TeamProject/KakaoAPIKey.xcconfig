@@ -7,4 +7,4 @@
 
 // Configuration settings file format documentation can be found at:
 // https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
-KAKAO_API_KEY = d6b052fb04b20a9be1fbb390a64bff21
+KAKAO_API_KEY = 
