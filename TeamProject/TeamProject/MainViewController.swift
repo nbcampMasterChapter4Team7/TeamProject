@@ -26,15 +26,22 @@ final class MainViewController: UITabBarController {
     private func setTabBar() {
         let font = UIFont.fontGuide(.TabBarTitle)
         let bottomTabBar = UITabBarAppearance()
-        bottomTabBar.configureWithOpaqueBackground()
-        bottomTabBar.stackedLayoutAppearance.configureWithDefault(for: .inline)
-        bottomTabBar.stackedLayoutAppearance.normal.titleTextAttributes = [.font: font]
-        bottomTabBar.stackedLayoutAppearance.selected.titleTextAttributes = [.font: font]
-        tabBar.standardAppearance = bottomTabBar
         
+        bottomTabBar.configureWithOpaqueBackground()
+        
+        let tabItem = bottomTabBar.stackedLayoutAppearance
+        
+        tabItem.configureWithDefault(for: .inline)
+        tabItem.normal.titleTextAttributes = [.font: font]
+        tabItem.selected.titleTextAttributes = [.font: font]
+
+        let offset = UIOffset(horizontal: 0, vertical: -6)
+        tabItem.normal.titlePositionAdjustment = offset
+        tabItem.selected.titlePositionAdjustment = offset
+        
+        tabBar.standardAppearance = bottomTabBar
         tabBar.tintColor = UIColor.asset(.main)
         tabBar.backgroundColor = .systemBackground
-
     }
     
     // MARK: - SetAttribute
