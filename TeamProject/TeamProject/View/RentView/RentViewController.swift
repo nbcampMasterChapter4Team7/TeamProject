@@ -96,6 +96,7 @@ final class RentViewController: KakaoMapViewController, CLLocationManagerDelegat
             guard self != nil else { return }
             guard let mapView = self?.mapController?.getView("mapview") as? KakaoMap else { return }
             guard let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer") else { return }
+                        
             for record in records {
                 let position = MapPoint(longitude: record.longitude, latitude: record.latitude)
                 let option = PoiOptions(styleID: "kickboardMarkStyleID")

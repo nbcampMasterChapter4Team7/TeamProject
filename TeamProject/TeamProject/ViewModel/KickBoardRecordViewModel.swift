@@ -42,4 +42,9 @@ final class KickBoardRecordViewModel {
         coreDataManager.save(record: record)
         fetchKickBoardRecords()
     }
+    
+    func deleteKickBoardRecord(_ identifier: UUID) {
+        coreDataManager.deleteRecord(with: identifier)
+        fetchKickBoardRecords()
+    }
 }
