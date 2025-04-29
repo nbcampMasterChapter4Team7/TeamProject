@@ -85,7 +85,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate, KakaoMapE
             competitionType: .none,
             competitionUnit: .symbolFirst,
             orderType: .rank,
-            zOrder: 10
+            zOrder: 100
         )
         _ = manager.addLabelLayer(option: layerOption)
     }

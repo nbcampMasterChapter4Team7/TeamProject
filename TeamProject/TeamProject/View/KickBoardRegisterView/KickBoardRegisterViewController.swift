@@ -46,6 +46,13 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
     override func viewWillAppear(_ animated: Bool) {
         addObservers()
         _appear = true
+        if mapController?.isEnginePrepared == false {
+            mapController?.prepareEngine()
+        }
+
+        if mapController?.isEngineActive == false {
+            mapController?.activateEngine()
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
