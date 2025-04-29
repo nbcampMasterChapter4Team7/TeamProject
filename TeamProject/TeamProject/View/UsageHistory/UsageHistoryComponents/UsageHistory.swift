@@ -6,6 +6,8 @@
 //
 import Foundation
 
+// MARK: Properties
+
 struct UsageHistory {
     let kickboardId: String
     let usageTime: String
@@ -33,6 +35,7 @@ struct UsageHistory {
 }
 
 // MARK: - UsageHistory Extensions
+
 extension UsageHistory {
     // 사용 시간을 분으로 계산
     var durationInMinutes: Int? {

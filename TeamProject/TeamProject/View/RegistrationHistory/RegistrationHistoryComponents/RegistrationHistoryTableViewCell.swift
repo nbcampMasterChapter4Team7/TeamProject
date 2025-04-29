@@ -11,11 +11,12 @@ import SnapKit
 import Then
 
 final class RegistrationHistoryTableViewCell: UITableViewCell {
+    
     // MARK: - Properties
     
     static let RegistrationHistoryCellid = "registrationHistoryCell"
     
-    // MARK: UI Components
+    // MARK: - UI Components
     
     private let containerStackView = UIStackView().then {
         $0.axis = .horizontal
@@ -36,27 +37,27 @@ final class RegistrationHistoryTableViewCell: UITableViewCell {
     }
     
     private let kickboardIdLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 16, weight: .medium)
-        $0.textColor = .black
+        $0.font = UIFont.fontGuide(.UsageHistoryKickboardID)
+        $0.textColor = .label
     }
     
     private let basicFeeLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 13)
-        $0.textColor = .darkGray
+        $0.font = UIFont.fontGuide(.RegistrationHistoryBasicCharge)
+        $0.textColor = .secondaryLabel
     }
     
     private let hourlyFeeLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 13)
-        $0.textColor = .darkGray
+        $0.font = UIFont.fontGuide(.RegistrationHistoryHourlyCharge)
+        $0.textColor = .secondaryLabel
     }
     
     private let dateLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 14)
-        $0.textColor = .black
+        $0.font = UIFont.fontGuide(.RegistrationHistoryDate)
+        $0.textColor = .label
         $0.textAlignment = .right
     }
     
-    // MARK: - Init
+    // MARK: - Initializer
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -90,6 +91,11 @@ final class RegistrationHistoryTableViewCell: UITableViewCell {
     }
     
     private func setConstraints() {
+        contentView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.equalTo(370)
+            make.height.equalTo(100)
+        }
         kickboardImageView.snp.makeConstraints { make in
             make.width.height.equalTo(40)
         }
@@ -103,11 +109,6 @@ final class RegistrationHistoryTableViewCell: UITableViewCell {
         dateLabel.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-16)
             make.centerY.equalToSuperview()
-        }
-        
-        contentView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 6, left: 16, bottom: 6, right: 16))
-            make.height.equalTo(80)
         }
     }
     

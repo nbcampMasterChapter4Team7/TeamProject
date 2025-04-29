@@ -12,8 +12,6 @@ import Then
 
 final class RegistrationHistoryView: UIView, UITableViewDataSource, UITableViewDelegate {
     
-    // MARK: - Properties
-    
     // MARK: - UI Components
     
     private lazy var tableView = UITableView().then {
@@ -22,7 +20,7 @@ final class RegistrationHistoryView: UIView, UITableViewDataSource, UITableViewD
         $0.register(RegistrationHistoryTableViewCell.self, forCellReuseIdentifier: RegistrationHistoryTableViewCell.RegistrationHistoryCellid)
     }
     
-    // MARK: - Init
+    // MARK: - Initializer
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,11 +33,11 @@ final class RegistrationHistoryView: UIView, UITableViewDataSource, UITableViewD
     }
     
     // MARK: - Methods
-
+    
     private func setup() {
         backgroundColor = .systemBackground
         addSubviews(tableView)
-
+        
         tableView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(20)
             make.leading.trailing.equalToSuperview()
@@ -73,7 +71,7 @@ final class RegistrationHistoryView: UIView, UITableViewDataSource, UITableViewD
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3 // 섹션 3개로 설정
     }
-
+    
     // numberOfRowsInSection 수정
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1 // 각 섹션당 1개의 셀만 표시

@@ -12,16 +12,15 @@ import Then
 
 final class UsageHistoryView: UIView, UITableViewDataSource, UITableViewDelegate {
     
-    // MARK: - Properties
-    
     // MARK: - UI Components
-
+    
     private lazy var tableView = UITableView().then {
         $0.backgroundColor = .clear
         $0.separatorStyle = .none
         $0.register(UsageHistoryTableViewCell.self, forCellReuseIdentifier: UsageHistoryTableViewCell.usageHistoryCellid)
     }
     
+    // MARK: - Initializer
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,10 +32,12 @@ final class UsageHistoryView: UIView, UITableViewDataSource, UITableViewDelegate
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Methods
+    
     private func setup() {
         backgroundColor = .systemBackground
         addSubviews(tableView)
-
+        
         tableView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(20)
             make.leading.trailing.equalToSuperview()
@@ -70,7 +71,7 @@ final class UsageHistoryView: UIView, UITableViewDataSource, UITableViewDelegate
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3 // 섹션 3개로 설정
     }
-
+    
     // numberOfRowsInSection 수정
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1 // 각 섹션당 1개의 셀만 표시

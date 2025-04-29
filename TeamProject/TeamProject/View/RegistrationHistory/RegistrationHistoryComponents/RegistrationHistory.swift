@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: Properties
+
 struct RegistrationHistory {
     let kickboardId: String
     let basicFee: Int
@@ -21,6 +23,8 @@ struct RegistrationHistory {
         self.date = date
     }
 }
+
+// MARK: - RegistrationHistory Extensions
 
 extension RegistrationHistory {
     // 기본 이용료 포맷팅

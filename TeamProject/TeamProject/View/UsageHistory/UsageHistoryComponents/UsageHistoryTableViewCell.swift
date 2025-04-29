@@ -16,7 +16,7 @@ final class UsageHistoryTableViewCell: UITableViewCell {
     
     static let usageHistoryCellid = "UsageHistoryCell"
     
-    // MARK: UI Components
+    // MARK: - UI Components
     
     private let leftContentStackView = UIStackView().then {
         $0.axis = .horizontal
@@ -43,27 +43,27 @@ final class UsageHistoryTableViewCell: UITableViewCell {
     }
     
     private let kickboardIdLabel = UILabel().then {
-        $0.font = .boldSystemFont(ofSize: 15)
+        $0.font = UIFont.fontGuide(.UsageHistoryKickboardID)
         $0.textAlignment = .left
-        $0.textColor = .black
+        $0.textColor = .label
     }
     
     private let usageTimeLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 10)
+        $0.font = UIFont.fontGuide(.UsageHistoryUseTime)
         $0.textAlignment = .left
-        $0.textColor = .black
+        $0.textColor = .secondaryLabel
     }
     
     private let distanceLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 10)
+        $0.font = UIFont.fontGuide(.UsageHistoryDistance)
         $0.textAlignment = .left
-        $0.textColor = .black
+        $0.textColor = .secondaryLabel
     }
     
     private let dateLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 13)
+        $0.font = UIFont.fontGuide(.UsageHistoryDate)
         $0.textAlignment = .right
-        $0.textColor = .black
+        $0.textColor = .label
     }
     
     private let priceLabel = UILabel().then {
@@ -72,7 +72,7 @@ final class UsageHistoryTableViewCell: UITableViewCell {
         $0.textColor = UIColor.asset(.main)
     }
     
-    // MARK: - Init
+    // MARK: - Initializer
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -85,7 +85,7 @@ final class UsageHistoryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Setup
+    // MARK: - Methods
     
     private func setup() {
         backgroundColor = .clear
@@ -117,7 +117,7 @@ final class UsageHistoryTableViewCell: UITableViewCell {
             make.leading.equalTo(20)
             make.trailing.equalTo(-20)
         }
-
+        
         kickboardImageView.snp.makeConstraints { make in
             make.width.height.equalTo(50)
         }
