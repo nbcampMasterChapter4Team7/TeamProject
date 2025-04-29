@@ -33,11 +33,10 @@ final class RentViewModel: NSObject {
     
     // MARK: - Initializer
     
-    init(coreDataManager: CoreDataManager = .shared) {
-        self.coreDataManager = coreDataManager
+    private override init() {
+        self.coreDataManager = CoreDataManager.shared
         super.init()
         locationManager.delegate = self
-        
     }
     
     // MARK: - Methods
