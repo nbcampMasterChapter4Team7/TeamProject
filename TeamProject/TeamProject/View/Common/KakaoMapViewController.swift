@@ -82,7 +82,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate, KakaoMapE
 
         let layerOption = LabelLayerOptions(
             layerID: "PoiLayer",
-            competitionType: .none,
+            competitionType: .all,
             competitionUnit: .symbolFirst,
             orderType: .rank,
             zOrder: 10

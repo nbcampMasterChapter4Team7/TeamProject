@@ -46,7 +46,13 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
     override func viewWillAppear(_ animated: Bool) {
         addObservers()
         _appear = true
-    }
+        if mapController?.isEnginePrepared == false {
+          mapController?.prepareEngine()
+        }
+        if mapController?.isEngineActive == false {
+          mapController?.activateEngine()
+        }
+      }
 
     override func viewWillDisappear(_ animated: Bool) {
         _appear = false
@@ -164,6 +170,10 @@ extension KickBoardRegisterViewController {
             alertVC.modalPresentationStyle = .overFullScreen
             self.present(alertVC, animated: true)
         }
+    }
+    
+    func poiDidTapped(kakaoMap: KakaoMap, layerID: String, poiID: String, position: MapPoint) {
+        print("poiDidTapped")
     }
 }
 
