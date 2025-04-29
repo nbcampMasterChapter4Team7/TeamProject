@@ -84,6 +84,8 @@ final class RentViewController: KakaoMapViewController {
                   let mapView = self.mapController?.getView("mapview") as? KakaoMap,
                   let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer") else { return }
             
+            layer.clearAllItems()
+            
             records.forEach { record in
                 let position = MapPoint(longitude: record.longitude, latitude: record.latitude)
                 let option = PoiOptions(styleID: "kickboardMarkStyleID")
