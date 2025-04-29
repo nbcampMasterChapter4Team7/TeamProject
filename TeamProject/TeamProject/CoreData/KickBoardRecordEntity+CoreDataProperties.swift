@@ -19,9 +19,9 @@ extension KickBoardRecordEntity {
     @NSManaged public var basicCharge: Int32
     @NSManaged public var hourlyCharge: Int32
     @NSManaged public var kickboardIdentifier: UUID
+    
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
-    @NSManaged public var poiId: String
 
 }
 

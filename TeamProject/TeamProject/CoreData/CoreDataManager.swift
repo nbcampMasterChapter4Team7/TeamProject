@@ -43,7 +43,6 @@ final class CoreDataManager {
         entity.kickboardIdentifier = record.kickboardIdentifier
         entity.basicCharge = Int32(record.basicCharge)
         entity.hourlyCharge = Int32(record.hourlyCharge)
-        entity.poiId = record.poiId
 
         saveContext()
     }
@@ -72,14 +71,31 @@ final class CoreDataManager {
                     longitude: entity.longitude,
                     kickboardIdentifier: entity.kickboardIdentifier,
                     basicCharge: Int(entity.basicCharge),
-                    hourlyCharge: Int(entity.hourlyCharge),
-                    poiId: entity.poiId
+                    hourlyCharge: Int(entity.hourlyCharge)
                 )
             }
         } catch {
             print("Fetch error: \(error.localizedDescription)")
             return []
         }
+    }
+    
+    func fetchRecord(with Id: UUID) -> KickBoardRecord? {
+        let fetchRequest: NSFetchRequest<KickBoardRecordEntity> = KickBoardRecordEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "kickboardIdentifier == %@", Id as CVarArg)
+        
+
+        do {
+            let results = try context.fetch(fetchRequest)
+            if let target = results.first {
+                return KickBoardRecord(latitude: target.latitude, longitude: target.longitude,
+                                       kickboardIdentifier: target.kickboardIdentifier,
+                                       basicCharge: Int(target.basicCharge), hourlyCharge: Int(target.hourlyCharge))
+            }
+        } catch {
+            print("Fetch error: \(error.localizedDescription)")
+        }
+        return nil
     }
 
     private func saveContext() {
