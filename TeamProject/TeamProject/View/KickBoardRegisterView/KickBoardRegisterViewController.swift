@@ -89,11 +89,6 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
     //addView 성공 이벤트 delegate. 추가적으로 수행할 작업을 진행한다.
     override func addViewSucceeded(_ viewName: String, viewInfoName: String) {
         super.addViewSucceeded(viewName, viewInfoName: viewInfoName)
-        
-        //        let view = mapController?.getView("mapview") as! KakaoMap
-        //        view.viewRect = mapViewContainer!.bounds
-        //        view.eventDelegate = self
-        //뷰 add 도중에 resize 이벤트가 발생한 경우 이벤트를 받지 못했을 수 있음. 원하는 뷰 사이즈로 재조정.
         setupBindings()
         viewmodel.fetchKickBoardRecords()
     }
