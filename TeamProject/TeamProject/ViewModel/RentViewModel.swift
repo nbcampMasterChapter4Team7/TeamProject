@@ -1,17 +1,17 @@
 //
-//  KickBoardRecordViewModel.swift
+//  RentViewModel.swift
 //  TeamProject
 //
-//  Created by tlswo on 4/28/25.
+//  Created by yimkeul on 4/29/25.
 //
 
 import Foundation
 
-final class KickBoardRecordViewModel {
+final class RentViewModel {
     
     // MARK: - Singleton Instance
     
-    static let shared = KickBoardRecordViewModel()
+    static let shared = RentViewModel()
     
     // MARK: - Properties
     
@@ -36,15 +36,5 @@ final class KickBoardRecordViewModel {
     func fetchKickBoardRecords() {
         let fetchedRecords = coreDataManager.fetchAllRecords()
         self.records = fetchedRecords
-    }
-    
-    func saveKickBoardRecord(_ record: KickBoardRecord) {
-        coreDataManager.save(record: record)
-        fetchKickBoardRecords()
-    }
-    
-    func deleteKickBoardRecord(_ identifier: UUID) {
-        coreDataManager.deleteRecord(with: identifier)
-        fetchKickBoardRecords()
     }
 }
