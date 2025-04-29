@@ -70,6 +70,27 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
         }
     }
     
+    // 로그인 성공 시 호출되는 메서드
+    func loginSuccess() {
+        // 로그인 상태를 UserDefaults에 저장
+        UserDefaultsManager.shared.defaults.set(true, forKey: UserDefaultsManager.Keys.isLoggedIn)
+        
+        // MainVC로 이동
+        let mainVC = MainViewController()
+        let navigationController = UINavigationController(rootViewController: mainVC)
+        navigationController.modalPresentationStyle = .fullScreen
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            window.rootViewController = navigationController
+            UIView.transition(with: window,
+                              duration: 0.3,
+                              options: .transitionCrossDissolve,
+                              animations: nil,
+                              completion: nil)
+        }
+    }
+    
     private func navigateToMain() {
         let mainVC = MainViewController()
         // 네비게이션 스택을 초기화하고 메인화면을 루트로 설정
