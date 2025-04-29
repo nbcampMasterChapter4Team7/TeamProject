@@ -14,7 +14,7 @@ final class RentModalViewController: UIViewController {
 
     // MARK: - Properties
     //viewmodel
-    
+
     // MARK: - UI Components
 
     private let kickboardImage = UIImageView().then { make in
@@ -89,29 +89,27 @@ final class RentModalViewController: UIViewController {
         make.titleLabel?.font = UIFont.fontGuide(.RentButtonText)
         make.layer.cornerRadius = 8
     }
-    
+
     // MARK: - View Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setStyle()
         setLayout()
-        rentButton.addTarget(self, action: #selector(didTapRentButton), for: .touchUpInside)
-        pauseButton.addTarget(self, action: #selector(didTapPauseButton), for: .touchUpInside)
-        returnButton.addTarget(self, action: #selector(didTapReturnButton), for: .touchUpInside)
+        setAction()
     }
 
     // MARK: - Style Helper
-    
+
     private func setStyle() {
         view.backgroundColor = .systemBackground
     }
-    
+
     // MARK: - Layout Helper
 
     private func setLayout() {
         buttonStackView.addArrangedSubviews(pauseButton, returnButton)
-        
+
         view.addSubviews(kickboardImage, kickboardID,
             basicChargeTitle, hourlyChargeTitle,
             basicCharge, hourlyCharge, rentButton, buttonStackView)
@@ -159,39 +157,47 @@ final class RentModalViewController: UIViewController {
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-39)
         }
-        
+
         pauseButton.snp.makeConstraints {
             $0.width.equalTo(SizeLiterals.Screen.screenWidth * 168 / 402)
             $0.height.equalTo(SizeLiterals.Screen.screenHeight * 45 / 874)
         }
-        
+
         returnButton.snp.makeConstraints {
             $0.width.equalTo(SizeLiterals.Screen.screenWidth * 168 / 402)
             $0.height.equalTo(SizeLiterals.Screen.screenHeight * 45 / 874)
         }
-        
+
     }
     
+    // MARK: - Action Helper
+
+    private func setAction() {
+        rentButton.addTarget(self, action: #selector(didTapRentButton), for: .touchUpInside)
+        pauseButton.addTarget(self, action: #selector(didTapPauseButton), for: .touchUpInside)
+        returnButton.addTarget(self, action: #selector(didTapReturnButton), for: .touchUpInside)
+    }
+
     // MARK: - Methods
 
     func configure() {
 
     }
-    
+
     // MARK: - @objc Methods
-    
+
     @objc private func didTapRentButton() {
         rentButton.isHidden = true
         buttonStackView.isHidden = false
     }
-    
+
     @objc private func didTapPauseButton() {
-        
+
     }
-    
+
     @objc private func didTapReturnButton() {
         rentButton.isHidden = false
         buttonStackView.isHidden = true
     }
-    
+
 }
