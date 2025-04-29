@@ -24,8 +24,8 @@ final class DeleteModalViewController: UIViewController {
     init(kickboardID: UUID, basicCharge: Int, hourlyCharge: Int) {
         self.kickBoardIdentifier = kickboardID
         self.kickboardIDText = kickboardID.uuidString
-        self.basicChargeText = String(basicCharge)
-        self.hourlyChargeText = String(hourlyCharge)
+        self.basicChargeText = basicCharge.formattedPrice
+        self.hourlyChargeText = hourlyCharge.formattedPrice
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -87,8 +87,8 @@ final class DeleteModalViewController: UIViewController {
     private func setStyle() {
         view.backgroundColor = .systemBackground
         kickboardID.text = kickboardIDText
-        basicCharge.text = basicChargeText
-        hourlyCharge.text = hourlyChargeText
+        basicCharge.text = basicChargeText + "원"
+        hourlyCharge.text = hourlyChargeText + "원"
     }
 
     private func setLayout() {

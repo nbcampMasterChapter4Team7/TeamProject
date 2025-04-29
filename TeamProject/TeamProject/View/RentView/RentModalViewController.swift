@@ -204,8 +204,8 @@ final class RentModalViewController: UIViewController {
 
     func configure(with kickBoardRecord: KickBoardRecord) {
         kickboardID.text = kickBoardRecord.kickboardIdentifier.uuidString
-        basicCharge.text = "\(kickBoardRecord.basicCharge)"
-        hourlyCharge.text = "\(kickBoardRecord.hourlyCharge)"
+        basicCharge.text = kickBoardRecord.basicCharge.formattedPrice + "원"
+        hourlyCharge.text = kickBoardRecord.hourlyCharge.formattedPrice + "원"
     }
 
     // MARK: - @objc Methods
