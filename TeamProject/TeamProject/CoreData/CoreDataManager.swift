@@ -47,6 +47,19 @@ final class CoreDataManager {
         saveContext()
     }
     
+    func deleteRecord(with identifier: UUID) {
+        let fetchRequest: NSFetchRequest<KickBoardRecordEntity> = KickBoardRecordEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "kickboardIdentifier == %@", identifier as CVarArg)
+
+        do {
+            let results = try context.fetch(fetchRequest)
+            results.forEach { context.delete($0) }
+            saveContext()
+        } catch {
+            print("Delete error: \(error.localizedDescription)")
+        }
+    }
+    
     func fetchAllRecords() -> [KickBoardRecord] {
         let request: NSFetchRequest<KickBoardRecordEntity> = KickBoardRecordEntity.fetchRequest()
         
