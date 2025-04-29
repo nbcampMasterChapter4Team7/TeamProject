@@ -15,6 +15,7 @@ import KakaoMapsSDK
 final class RentViewController: KakaoMapViewController {
 
     // MARK: - Properties
+    
     private let viewModel = RentViewModel.shared
 
     // MARK: - UI Components
