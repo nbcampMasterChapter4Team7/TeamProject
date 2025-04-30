@@ -46,6 +46,12 @@ final class CoreDataManager {
 
         saveContext()
     }
+    
+    func saveUsageHistory(record: UsageHistory) {
+        let entity = UsageHistoryEntity(context: context)
+
+        saveContext()
+    }
 
     func deleteRecord(with identifier: UUID) {
         let fetchRequest: NSFetchRequest<KickBoardRecordEntity> = KickBoardRecordEntity.fetchRequest()

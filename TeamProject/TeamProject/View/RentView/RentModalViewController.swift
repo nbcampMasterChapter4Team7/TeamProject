@@ -96,7 +96,6 @@ final class RentModalViewController: UIViewController {
 
     init(kickboardId: UUID) {
         self.kickboardId = kickboardId
-        print("Modal kickboardID : \(self.kickboardId)")
         super.init(nibName: nil, bundle: nil)
     }
 
