@@ -19,6 +19,8 @@ final class UserDefaultsManager {
         static let users = "users"  // 사용자 정보 배열을 저장할 키
         static let currentUserId = "currentUserId"  // 현재 로그인한 사용자의 ID
         static let isLoggedIn = "isLoggedIn"
+        static let isRent = "isRent"
+        static let kickboardID = "kickboardID"
     }
     
     // 사용자 정보를 저장하는 구조체
@@ -51,6 +53,7 @@ final class UserDefaultsManager {
         defaults.set(isLoggedIn, forKey: Keys.isLoggedIn)
     }
     
+
     // 모든 사용자 정보 가져오기
     func getAllUsers() -> [UserInfo] {
         guard let data = defaults.data(forKey: Keys.users),
@@ -58,6 +61,15 @@ final class UserDefaultsManager {
             return []
         }
         return users
+
+    func setRentStatus(isRent: Bool) {
+        defaults.set(isRent, forKey: Keys.isRent)
+        NotificationCenter.default.post(name: Notification.Name("rentStatusChanged"), object: nil)
+    }
+    
+    func saveKickboardID(kickboardID: UUID) {
+        defaults.set(kickboardID.uuidString, forKey: Keys.kickboardID)
+
     }
     
     /// 조회 메서드들
@@ -80,6 +92,14 @@ final class UserDefaultsManager {
     // 로그인 상태 확인
     func isLoggedIn() -> Bool {
         return defaults.bool(forKey: Keys.isLoggedIn)
+    }
+    
+    func isRent() -> Bool {
+        return defaults.bool(forKey: Keys.isRent)
+    }
+    
+    func getKickboardID() -> String? {
+        return defaults.string(forKey: Keys.kickboardID)
     }
     
     /// 로그아웃 메서드

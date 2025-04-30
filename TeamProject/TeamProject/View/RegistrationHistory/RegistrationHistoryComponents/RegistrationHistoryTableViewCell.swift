@@ -25,7 +25,6 @@ final class RegistrationHistoryTableViewCell: UITableViewCell {
     }
     
     private let kickboardImageView = UIImageView().then {
-        $0.image = ImageLiterals.kickboard
         $0.contentMode = .scaleAspectFit
         $0.clipsToBounds = true
     }
@@ -127,5 +126,6 @@ final class RegistrationHistoryTableViewCell: UITableViewCell {
         basicFeeLabel.text = "기본 이용료: \(model.basicFee)원"
         hourlyFeeLabel.text = "시간당 요금: \(model.hourlyFee)원"
         dateLabel.text = model.date
+        kickboardImageView.image = UIImage(named: "kickboard_\(model.type)")
     }
 }

@@ -29,6 +29,7 @@ final class MyPageViewController: UIViewController, LogoutViewControllerProtocol
     override func viewWillAppear (_ animated: Bool) {
         super.viewWillAppear(animated)
         updateUserName()
+        mypageView.configure()
     }
     
     // MARK: - Layout Helper

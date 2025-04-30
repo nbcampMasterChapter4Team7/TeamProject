@@ -24,6 +24,14 @@ final class RentModalViewModel {
     // MARK: - Methods
     
     func fetchKickBoardRecord(with Id: UUID) -> KickBoardRecord? {
-        return  coreDataManager.fetchRecord(with: Id)
+        return coreDataManager.fetchRecord(with: Id)
+    }
+    
+    func saveUsageHistory(with data: KickBoardRecord) {
+        return coreDataManager.saveUsageHistory(record: data)
+    }
+    
+    func updateUsageHistory(with id: UUID) {
+        return coreDataManager.updateUsageHistory(for: id)
     }
 }

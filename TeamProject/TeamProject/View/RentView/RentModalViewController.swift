@@ -13,7 +13,7 @@ import Then
 final class RentModalViewController: UIViewController {
 
     // MARK: - Properties
-    
+
     private let viewModel = RentModalViewModel.shared
     private var kickboardId: UUID
     private var kickBoardRecord: KickBoardRecord?
@@ -31,6 +31,20 @@ final class RentModalViewController: UIViewController {
         make.textColor = .label
         make.textAlignment = .left
         make.text = "MK111"
+    }
+
+    private let kickboardTypeTitle = UILabel().then { make in
+        make.font = UIFont.fontGuide(.RentBasicCharge)
+        make.textColor = UIColor.asset(.gray3)
+        make.textAlignment = .left
+        make.text = "타입:"
+    }
+
+    private let kickboardType = UILabel().then { make in
+        make.font = UIFont.fontGuide(.RentBasicCharge)
+        make.textColor = UIColor.asset(.gray3)
+        make.textAlignment = .left
+        make.text = "A"
     }
 
     private let basicChargeTitle = UILabel().then { make in
@@ -116,7 +130,7 @@ final class RentModalViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         if let kickBoardRecord = kickBoardRecord {
             configure(with: kickBoardRecord)
         }
@@ -134,6 +148,7 @@ final class RentModalViewController: UIViewController {
         buttonStackView.addArrangedSubviews(pauseButton, returnButton)
 
         view.addSubviews(kickboardImage, kickboardID,
+            kickboardTypeTitle, kickboardType,
             basicChargeTitle, hourlyChargeTitle,
             basicCharge, hourlyCharge, rentButton, buttonStackView)
 
@@ -147,9 +162,19 @@ final class RentModalViewController: UIViewController {
             $0.top.equalTo(kickboardImage)
             $0.leading.equalTo(kickboardImage.snp.trailing).offset(17)
         }
+        
+        kickboardTypeTitle.snp.makeConstraints {
+            $0.top.equalTo(kickboardID.snp.bottom).offset(14)
+            $0.leading.equalTo(kickboardID.snp.leading)
+        }
+
+        kickboardType.snp.makeConstraints {
+            $0.top.equalTo(kickboardTypeTitle.snp.top)
+            $0.leading.equalTo(kickboardTypeTitle.snp.trailing).offset(10)
+        }
 
         basicChargeTitle.snp.makeConstraints {
-            $0.top.equalTo(kickboardID.snp.bottom).offset(14)
+            $0.top.equalTo(kickboardTypeTitle.snp.bottom).offset(10)
             $0.leading.equalTo(kickboardID.snp.leading)
         }
 
@@ -204,16 +229,35 @@ final class RentModalViewController: UIViewController {
     // MARK: - Methods
 
     func configure(with kickBoardRecord: KickBoardRecord) {
-        kickboardID.text = kickBoardRecord.kickboardIdentifier.uuidString
+        kickboardID.text = String(kickBoardRecord.kickboardIdentifier.uuidString.prefix(6))
         basicCharge.text = kickBoardRecord.basicCharge.formattedPrice + "원"
         hourlyCharge.text = kickBoardRecord.hourlyCharge.formattedPrice + "원"
-    }
+        kickboardImage.image = UIImage(named: "kickboard_\(kickBoardRecord.type)")
 
+        if UserDefaultsManager.shared.isRent() {
+            rentButton.isHidden = true
+            buttonStackView.isHidden = false
+        } else {
+            rentButton.isHidden = false
+            buttonStackView.isHidden = true
+        }
+    }
     // MARK: - @objc Methods
 
     @objc private func didTapRentButton() {
         rentButton.isHidden = true
         buttonStackView.isHidden = false
+        showAlert(title: "알림", message: "대여를 시작합니다.") { _ in
+            self.dismiss(animated: true)
+        }
+
+        UserDefaultsManager.shared.saveKickboardID(kickboardID: self.kickboardId)
+        UserDefaultsManager.shared.setRentStatus(isRent: true)
+        
+        guard let kickboardRecord = kickBoardRecord else {
+            fatalError("이용 기록 저장 실패")
+        }
+        viewModel.saveUsageHistory(with: kickboardRecord)
     }
 
     @objc private func didTapPauseButton() {
@@ -223,6 +267,11 @@ final class RentModalViewController: UIViewController {
     @objc private func didTapReturnButton() {
         rentButton.isHidden = false
         buttonStackView.isHidden = true
+        showAlert(title: "알림", message: "반납이 완료되었습니다.") { _ in
+            self.dismiss(animated: true)
+        }
+        UserDefaultsManager.shared.setRentStatus(isRent: false)
+        viewModel.updateUsageHistory(with: kickboardId)
     }
 
 }

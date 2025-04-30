@@ -95,17 +95,6 @@ final class MembershipViewController: UIViewController {
         }
     }
     
-    private func showAlert(title: String, message: String, completion: ((UIAlertAction) -> Void)? = nil) {
-        let alert = UIAlertController(
-            title: title,
-            message: message,
-            preferredStyle: .alert
-        )
-        let okAction = UIAlertAction(title: "확인", style: .default, handler: completion)
-        alert.addAction(okAction)
-        present(alert, animated: true)
-    }
-    
     // MARK: - Actions
     deinit {
         removeKeyboardObserver()
