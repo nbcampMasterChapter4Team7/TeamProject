@@ -17,8 +17,8 @@ final class RentViewController: KakaoMapViewController {
     // MARK: - Properties
 
     private let viewModel = RentViewModel.shared
-
     private var poiToRecordMap: [String: KickBoardRecord] = [:]
+    private var isPoiVisible = true
 
     // MARK: - UI Components
 
@@ -68,6 +68,7 @@ final class RentViewController: KakaoMapViewController {
 
     private func setupAction() {
         locationButton.addTarget(self, action: #selector(didTapLocationButton), for: .touchUpInside)
+        visibleKickboardButton.addTarget(self, action: #selector(didTapVisibleKickboardButton), for: .touchUpInside)
         returnKickboardButton.addTarget(self, action: #selector(didTapReturnKickboardButton), for: .touchUpInside)
     }
 
@@ -153,6 +154,23 @@ final class RentViewController: KakaoMapViewController {
     /// 현재 위치 받아오는 버튼
     @objc private func didTapLocationButton() {
         self.setupCurrentLocationToMap()
+    }
+    
+    @objc private func didTapVisibleKickboardButton() {
+        guard
+            let mapView = mapController?.getView("mapview") as? KakaoMap,
+            let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer")
+        else { return }
+
+        isPoiVisible.toggle()
+
+        if isPoiVisible {
+            // 다시 POI 추가
+            viewModel.fetchKickBoardRecords()
+        } else {
+            // POI 숨기기
+            layer.clearAllItems()
+        }
     }
 
     @objc private func didTapReturnKickboardButton() {
