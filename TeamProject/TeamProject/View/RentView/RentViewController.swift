@@ -28,6 +28,22 @@ final class RentViewController: KakaoMapViewController {
         make.backgroundColor = .white
         make.layer.cornerRadius = 25
     }
+    
+    private let visibleKickboardButton = UIButton().then { make in
+        let img = ImageLiterals.ping.resize(newWidth: 32)
+        make.setImage(img, for: .normal)
+        make.backgroundColor = .white
+        make.layer.cornerRadius = 25
+    }
+    
+    private let returnKickboardButton = UIButton().then { make in
+        let img = ImageLiterals.scooter.resize(newWidth: 32)
+        make.setImage(img, for: .normal)
+        make.backgroundColor = .white
+        make.layer.cornerRadius = 25
+    }
+    
+    
 
     // MARK: - View Life Cycle
 
@@ -59,7 +75,7 @@ final class RentViewController: KakaoMapViewController {
     // MARK: - Layout Helper
 
     private func setLayout() {
-        view.addSubview(locationButton)
+        view.addSubviews(locationButton, visibleKickboardButton, returnKickboardButton)
 
         locationButton.snp.makeConstraints {
             $0.width.height.equalTo(53)
@@ -67,7 +83,21 @@ final class RentViewController: KakaoMapViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
         
+        visibleKickboardButton.snp.makeConstraints {
+            $0.width.height.equalTo(53)
+            $0.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalTo(locationButton.snp.top).offset(-16)
+        }
+        
+        returnKickboardButton.snp.makeConstraints {
+            $0.width.height.equalTo(53)
+            $0.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalTo(visibleKickboardButton.snp.top).offset(-16)
+        }
+        
         view.bringSubviewToFront(locationButton)
+        view.bringSubviewToFront(visibleKickboardButton)
+        view.bringSubviewToFront(returnKickboardButton)
     }
 
     // MARK: - Methods
@@ -137,7 +167,7 @@ extension RentViewController {
         }
         
         let vc = RentModalViewController(kickboardId: record.kickboardIdentifier)
-
+        
         if let sheet = vc.sheetPresentationController {
             sheet.detents = [.custom(resolver: { _ in
                 return SizeLiterals.Screen.screenHeight * 257 / 874
