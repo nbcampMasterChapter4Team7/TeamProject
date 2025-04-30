@@ -95,7 +95,12 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate, KakaoMapE
         guard let mapView = mapController?.getView("mapview") as? KakaoMap else { return }
         let manager = mapView.getLabelManager()
 
-        if let originalImage = UIImage(named: "kickboard") {
+        ["A", "B", "C"].forEach { type in
+            guard let originalImage = UIImage(named: "kickboard_\(type)") else {
+                print("kickboard_\(type) 이미지 로드 실패")
+                return
+            }
+
             let targetSize = CGSize(width: 30, height: 30)
             let renderer = UIGraphicsImageRenderer(size: targetSize)
             let resizedImage = renderer.image { _ in
@@ -107,16 +112,14 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate, KakaoMapE
                 anchorPoint: CGPoint(x: 0.5, y: 1.0)
             )
 
-            let poiStyle = PoiStyle(styleID: "kickboardMarkStyleID", styles: [
-                PerLevelPoiStyle(iconStyle: iconStyle, level: 5),
-                ])
+            let poiStyle = PoiStyle(styleID: "kickboardMarkStyleID_\(type)", styles: [
+                PerLevelPoiStyle(iconStyle: iconStyle, level: 5)
+            ])
 
             manager.addPoiStyle(poiStyle)
-        } else {
-            print("kickboard 이미지 로드 실패")
         }
     }
-
+    
     // MARK: - Authentication Handling
     /// 인증 실패시 호출되는 함수
     /// - Parameters:

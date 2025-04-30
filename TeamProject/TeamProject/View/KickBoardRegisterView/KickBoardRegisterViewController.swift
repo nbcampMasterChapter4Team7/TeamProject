@@ -5,7 +5,6 @@
 //  Created by tlswo on 4/28/25.
 //
 
-
 import UIKit
 
 import KakaoMapsSDK
@@ -85,7 +84,6 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
         }
     }
     
-    
     //addView 성공 이벤트 delegate. 추가적으로 수행할 작업을 진행한다.
     override func addViewSucceeded(_ viewName: String, viewInfoName: String) {
         super.addViewSucceeded(viewName, viewInfoName: viewInfoName)
@@ -116,21 +114,23 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
     
     private func setupBindings() {
         viewModel.onRecordsUpdated = { [weak self] records in
-            guard self != nil else { return }
-            guard let mapView = self?.mapController?.getView("mapview") as? KakaoMap else { return }
+            guard let self else { return }
+            guard let mapView = self.mapController?.getView("mapview") as? KakaoMap else { return }
             guard let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer") else { return }
-            
+
             layer.clearAllItems()
-            self?.poiToRecordMap.removeAll()
-                        
+            self.poiToRecordMap.removeAll()
+
             for record in records {
+                let styleID = "kickboardMarkStyleID_\(record.type)"
                 let position = MapPoint(longitude: record.longitude, latitude: record.latitude)
-                let option = PoiOptions(styleID: "kickboardMarkStyleID")
+
+                let option = PoiOptions(styleID: styleID)
                 option.clickable = true
-                
+
                 if let poi = layer.addPoi(option: option, at: position) {
                     poi.show()
-                    self?.poiToRecordMap[poi.itemID] = record
+                    self.poiToRecordMap[poi.itemID] = record
                 }
             }
         }
@@ -184,8 +184,6 @@ extension KickBoardRegisterViewController {
                 self.present(alertVC, animated: true)
             }
         }
-        
-        
     }
     
     func poiDidTapped(kakaoMap: KakaoMap, layerID: String, poiID: String, position: MapPoint) {
@@ -198,7 +196,8 @@ extension KickBoardRegisterViewController {
         let vc = DeleteModalViewController(
             kickboardID: record.kickboardIdentifier,
             basicCharge: record.basicCharge,
-            hourlyCharge: record.hourlyCharge
+            hourlyCharge: record.hourlyCharge,
+            kickboardType: record.type
         )
         if let sheet = vc.sheetPresentationController {
             sheet.detents = [.custom(resolver: { _  in

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import SnapKit
 import Then
 
@@ -19,13 +20,16 @@ final class DeleteModalViewController: UIViewController {
     private var basicChargeText: String
     private var hourlyChargeText: String
     private var kickBoardIdentifier: UUID
+    private var kickboardTypeText: String
     
     // MARK: - Initializer
-    init(kickboardID: UUID, basicCharge: Int, hourlyCharge: Int) {
+    
+    init(kickboardID: UUID, basicCharge: Int, hourlyCharge: Int, kickboardType: String) {
         self.kickBoardIdentifier = kickboardID
         self.kickboardIDText = kickboardID.uuidString
         self.basicChargeText = basicCharge.formattedPrice
         self.hourlyChargeText = hourlyCharge.formattedPrice
+        self.kickboardTypeText = kickboardType
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -34,14 +38,20 @@ final class DeleteModalViewController: UIViewController {
     }
 
     // MARK: - UI Components
+    
     private let kickboardImage = UIImageView().then {
         $0.contentMode = .scaleAspectFit
-        $0.image = ImageLiterals.kickboard
     }
 
     private let kickboardID = UILabel().then {
         $0.font = UIFont.fontGuide(.RentKickboardID)
         $0.textColor = .label
+        $0.textAlignment = .left
+    }
+    
+    private let kickboardType = UILabel().then {
+        $0.font = UIFont.fontGuide(.RentBasicCharge)
+        $0.textColor = .secondaryLabel
         $0.textAlignment = .left
     }
 
@@ -76,6 +86,7 @@ final class DeleteModalViewController: UIViewController {
     }
 
     // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setStyle()
@@ -84,15 +95,18 @@ final class DeleteModalViewController: UIViewController {
     }
 
     // MARK: - Layout Helper
+    
     private func setStyle() {
         view.backgroundColor = .systemBackground
-        kickboardID.text = kickboardIDText
+        kickboardID.text = String(kickboardIDText.prefix(6))
         basicCharge.text = basicChargeText + "원"
         hourlyCharge.text = hourlyChargeText + "원"
+        kickboardType.text = "타입: " + kickboardTypeText
+        kickboardImage.image = UIImage(named: "kickboard_\(self.kickboardTypeText)")
     }
 
     private func setLayout() {
-        view.addSubviews(kickboardImage, kickboardID,
+        view.addSubviews(kickboardImage, kickboardID, kickboardType,
                          basicChargeTitle, basicCharge,
                          hourlyChargeTitle, hourlyCharge,
                          deleteButton)
@@ -107,9 +121,14 @@ final class DeleteModalViewController: UIViewController {
             $0.top.equalTo(kickboardImage)
             $0.leading.equalTo(kickboardImage.snp.trailing).offset(17)
         }
+        
+        kickboardType.snp.makeConstraints {
+            $0.top.equalTo(kickboardID.snp.bottom).offset(8)
+            $0.leading.equalTo(kickboardID.snp.leading)
+        }
 
         basicChargeTitle.snp.makeConstraints {
-            $0.top.equalTo(kickboardID.snp.bottom).offset(14)
+            $0.top.equalTo(kickboardType.snp.bottom).offset(14)
             $0.leading.equalTo(kickboardID.snp.leading)
         }
 
@@ -135,10 +154,10 @@ final class DeleteModalViewController: UIViewController {
             $0.centerX.equalToSuperview()
         }
     }
-
+    
     // MARK: - Methods
+    
     @objc private func didTapDeleteButton() {
-        print("삭제하기 버튼이 눌렸습니다.")
         viewmodel.deleteKickBoardRecord(kickBoardIdentifier)
         dismiss(animated: true)
     }

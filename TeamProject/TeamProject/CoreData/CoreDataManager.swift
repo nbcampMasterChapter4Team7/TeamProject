@@ -43,6 +43,7 @@ final class CoreDataManager {
         entity.kickboardIdentifier = record.kickboardIdentifier
         entity.basicCharge = Int32(record.basicCharge)
         entity.hourlyCharge = Int32(record.hourlyCharge)
+        entity.type = record.type
 
         saveContext()
     }
@@ -77,7 +78,8 @@ final class CoreDataManager {
                     longitude: entity.longitude,
                     kickboardIdentifier: entity.kickboardIdentifier,
                     basicCharge: Int(entity.basicCharge),
-                    hourlyCharge: Int(entity.hourlyCharge)
+                    hourlyCharge: Int(entity.hourlyCharge),
+                    type: entity.type
                 )
             }
         } catch {
@@ -96,7 +98,7 @@ final class CoreDataManager {
             if let target = results.first {
                 return KickBoardRecord(latitude: target.latitude, longitude: target.longitude,
                                        kickboardIdentifier: target.kickboardIdentifier,
-                                       basicCharge: Int(target.basicCharge), hourlyCharge: Int(target.hourlyCharge))
+                                       basicCharge: Int(target.basicCharge), hourlyCharge: Int(target.hourlyCharge),type: target.type)
             }
         } catch {
             print("Fetch error: \(error.localizedDescription)")

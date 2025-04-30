@@ -13,6 +13,7 @@ import Then
 final class RentModalViewController: UIViewController {
 
     // MARK: - Properties
+    
     private let viewModel = RentModalViewModel.shared
     private var kickboardId: UUID
     private var kickBoardRecord: KickBoardRecord?

@@ -6,6 +6,7 @@
         <attribute name="kickboardIdentifier" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
     </entity>
     <entity name="UsageHistoryEntity" representedClassName="UsageHistoryEntity" syncable="YES">
         <attribute name="charge" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
