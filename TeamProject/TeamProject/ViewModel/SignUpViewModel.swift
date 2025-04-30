@@ -17,7 +17,8 @@ final class SignUpViewModel {
         }
         
         // 기존 ID 중복 체크
-        if UserDefaultsManager.shared.getUserId() == id {
+        let users = UserDefaultsManager.shared.getAllUsers()
+        if users.contains(where: { $0.id == id }) {
             return .failure("이미 사용 중인 아이디입니다.")
         }
         
