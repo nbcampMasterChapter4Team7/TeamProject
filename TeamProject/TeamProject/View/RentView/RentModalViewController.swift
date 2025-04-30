@@ -16,7 +16,7 @@ final class RentModalViewController: UIViewController {
     private let viewModel = RentModalViewModel.shared
     private var kickboardId: UUID
     private var kickBoardRecord: KickBoardRecord?
-
+    
     // MARK: - UI Components
 
     private let kickboardImage = UIImageView().then { make in
@@ -96,6 +96,7 @@ final class RentModalViewController: UIViewController {
 
     init(kickboardId: UUID) {
         self.kickboardId = kickboardId
+        print("Modal kickboardID : \(self.kickboardId)")
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -206,13 +207,25 @@ final class RentModalViewController: UIViewController {
         kickboardID.text = kickBoardRecord.kickboardIdentifier.uuidString
         basicCharge.text = kickBoardRecord.basicCharge.formattedPrice + "원"
         hourlyCharge.text = kickBoardRecord.hourlyCharge.formattedPrice + "원"
+        if UserDefaultsManager.shared.isRent() {
+            rentButton.isHidden = true
+            buttonStackView.isHidden = false
+        } else {
+            rentButton.isHidden = false
+            buttonStackView.isHidden = true
+        }
     }
-
     // MARK: - @objc Methods
 
     @objc private func didTapRentButton() {
         rentButton.isHidden = true
         buttonStackView.isHidden = false
+        showAlert(title:"알림", message: "대여를 시작합니다.") { _ in
+            self.dismiss(animated: true)
+        }
+        
+        UserDefaultsManager.shared.saveKickboardID(kickboardID: self.kickboardId)
+        UserDefaultsManager.shared.setRentStatus(isRent: true)
     }
 
     @objc private func didTapPauseButton() {
@@ -222,6 +235,10 @@ final class RentModalViewController: UIViewController {
     @objc private func didTapReturnButton() {
         rentButton.isHidden = false
         buttonStackView.isHidden = true
+        showAlert(title:"알림",message: "반납이 완료되었습니다.") { _ in
+            self.dismiss(animated: true)
+        }
+        UserDefaultsManager.shared.setRentStatus(isRent: false)
     }
 
 }
