@@ -16,11 +16,11 @@ extension UsageHistoryEntity {
         return NSFetchRequest<UsageHistoryEntity>(entityName: "UsageHistoryEntity")
     }
 
-    @NSManaged public var kickboardIdentifier: UUID
-    @NSManaged public var useDate: Date
-    @NSManaged public var startTime: Date?
-    @NSManaged public var finishTime: Date?
     @NSManaged public var charge: Int32
+    @NSManaged public var finishTime: String?
+    @NSManaged public var kickboardIdentifier: UUID
+    @NSManaged public var startTime: String
+    @NSManaged public var useDate: String
 
 }
 

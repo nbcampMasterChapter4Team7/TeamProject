@@ -10,9 +10,9 @@
     </entity>
     <entity name="UsageHistoryEntity" representedClassName="UsageHistoryEntity" syncable="YES">
         <attribute name="charge" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="finishTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="finishTime" optional="YES" attributeType="String"/>
         <attribute name="kickboardIdentifier" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="startTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="useDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="startTime" optional="YES" attributeType="String"/>
+        <attribute name="useDate" optional="YES" attributeType="String"/>
     </entity>
 </model>
