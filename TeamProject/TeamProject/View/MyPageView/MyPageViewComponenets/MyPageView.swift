@@ -42,17 +42,17 @@ final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
         $0.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         $0.tableFooterView = UIView()
     }
-    
+
     private let rentalButtonLabel = UIButton().then {
         $0.setTitle("킥보드 대여중", for: .normal)
         $0.setTitleColor(.white, for: .normal)
-        $0.backgroundColor = UIColor.systemMint
+        $0.backgroundColor = UIColor.asset(.main)
         $0.titleLabel?.font = UIFont.fontGuide(.MyPageRentalButtonText)
         $0.layer.cornerRadius = 5
     }
-    
+
     // MARK: - Initializer
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -136,8 +136,19 @@ final class MyPageView: UIView, UITableViewDataSource, UITableViewDelegate {
         print("Selected section: \(indexPath.section)")
     }
     
+    func configure() {
+        updateRentalButtonLabel()
+    }
+
+    private func updateRentalButtonLabel() {
+        rentalButtonLabel.setTitle(UserDefaultsManager.shared.isRent() ?
+            "킥보드 대여중": "킥보드 미대여", for: .normal)
+        rentalButtonLabel.backgroundColor = UserDefaultsManager.shared.isRent() ?
+        UIColor.asset(.main): UIColor.asset(.gray2)
+    }
+
     // MARK: - @objc Methods
-    
+
     @objc private func logoutButtonTapped() {
         delegate?.logoutButtonTapped()
     }
