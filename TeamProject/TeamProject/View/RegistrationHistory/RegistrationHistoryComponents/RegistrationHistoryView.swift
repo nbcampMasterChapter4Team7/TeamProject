@@ -58,7 +58,7 @@ final class RegistrationHistoryView: UIView, UITableViewDataSource, UITableViewD
     
     // 데이터 업데이트 메서드 추가
     func updateData(_ histories: [RegistrationHistory]) {
-        self.registrationHistories = histories
+        self.registrationHistories = histories.reversed()
         tableView.reloadData()
     }
     

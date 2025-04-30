@@ -57,7 +57,7 @@ final class UsageHistoryView: UIView, UITableViewDataSource, UITableViewDelegate
     }
     
     func updateData(_ histories: [UsageHistory]) {
-        self.usageHistories = histories
+        self.usageHistories = histories.reversed()
         tableView.reloadData()
     }
     
