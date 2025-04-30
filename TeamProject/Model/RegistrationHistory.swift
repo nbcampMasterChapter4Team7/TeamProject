@@ -23,32 +23,3 @@ struct RegistrationHistory {
         self.date = date
     }
 }
-
-// MARK: - RegistrationHistory Extensions
-
-extension RegistrationHistory {
-    // 기본 이용료 포맷팅
-    var formattedBasicFee: String {
-        return "\(basicFee.formatted())원"
-    }
-    
-    // 시간당 요금 포맷팅
-    var formattedHourlyFee: String {
-        return "\(hourlyFee.formatted())원"
-    }
-    
-    // 날짜 포맷팅 (필요한 경우)
-    var formattedDate: String {
-        return date
-    }
-    
-    // 전체 정보 요약
-    var summary: String {
-        return """
-        킥보드 ID: \(kickboardId)
-        기본 이용료: \(formattedBasicFee)
-        시간당 요금: \(formattedHourlyFee)
-        등록일: \(formattedDate)
-        """
-    }
-}
