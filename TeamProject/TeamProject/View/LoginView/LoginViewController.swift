@@ -73,7 +73,7 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
             loginVM.login()
             navigateToMain()
         case .failure(let message):
-            showAlert(message: message)
+            showAlert(title: "알림", message: message)
         }
     }
     
@@ -81,12 +81,6 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
         let mainVC = MainViewController()
         // 네비게이션 스택을 초기화하고 메인화면을 루트로 설정
         navigationController?.setViewControllers([mainVC], animated: true)
-    }
-    
-    private func showAlert(message: String) {
-        let alert = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "확인", style: .default))
-        present(alert, animated: true)
     }
     
     func signUpButtonTapped() {

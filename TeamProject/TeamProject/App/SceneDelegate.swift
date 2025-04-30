@@ -16,14 +16,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         _ = LoginViewController()
         
+        
         // UserDefaults에서 로그인 상태 확인
         let isLoggedIn = UserDefaultsManager.shared.defaults.bool(forKey: UserDefaultsManager.Keys.isLoggedIn)
         
         if isLoggedIn {
             // 로그인된 상태면 MainVC로 이동
             let mainVC = MainViewController()
-            let navigationController = UINavigationController(rootViewController: mainVC)
-            window?.rootViewController = navigationController
+            window?.rootViewController = mainVC
         } else {
             // 로그인되지 않은 상태면 LoginVC로 이동
             let loginVC = LoginViewController()

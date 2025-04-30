@@ -49,6 +49,51 @@ final class CoreDataManager {
         saveContext()
     }
 
+    func saveUsageHistory(record: KickBoardRecord) {
+        let entity = UsageHistoryEntity(context: context)
+        let now = Date()
+        entity.kickboardIdentifier = record.kickboardIdentifier
+        entity.useDate = now.toString(format: "yyyy.MM.dd")
+        entity.startTime = now.toString(format: "HH:mm")
+        entity.charge = 0
+        entity.finishTime = nil
+
+        saveContext()
+    }
+
+    func updateUsageHistory(for identifier: UUID) {
+        let fetchRequest: NSFetchRequest<UsageHistoryEntity> = UsageHistoryEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(
+            format: "kickboardIdentifier == %@ AND finishTime == nil",
+            identifier as CVarArg
+        )
+        fetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: "useDate", ascending: false),
+            NSSortDescriptor(key: "startTime", ascending: false)
+        ]
+        fetchRequest.fetchLimit = 1
+
+
+        guard let kickboardRecord = fetchRecord(with: identifier) else { return }
+
+        do {
+            if let entity = try context.fetch(fetchRequest).first {
+
+                let finishTime = Date().toString(format: "HH:mm")
+
+                let diff = Date.minutesBetween(entity.startTime, and: finishTime)
+
+                entity.finishTime = finishTime
+                entity.charge = Int32(kickboardRecord.basicCharge + kickboardRecord.hourlyCharge * diff)
+                try context.save()
+            } else {
+                print("업데이트할 UsageHistory가 없습니다.")
+            }
+        } catch {
+            print("업데이트 중 에러: \(error.localizedDescription)")
+        }
+    }
+
     func deleteRecord(with identifier: UUID) {
         let fetchRequest: NSFetchRequest<KickBoardRecordEntity> = KickBoardRecordEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "kickboardIdentifier == %@", identifier as CVarArg)
@@ -83,25 +128,26 @@ final class CoreDataManager {
             return []
         }
     }
-    
+
     func fetchRecord(with Id: UUID) -> KickBoardRecord? {
         let fetchRequest: NSFetchRequest<KickBoardRecordEntity> = KickBoardRecordEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "kickboardIdentifier == %@", Id as CVarArg)
-        
+
 
         do {
             let results = try context.fetch(fetchRequest)
             if let target = results.first {
                 return KickBoardRecord(latitude: target.latitude, longitude: target.longitude,
-                                       kickboardIdentifier: target.kickboardIdentifier,
-                                       basicCharge: Int(target.basicCharge), hourlyCharge: Int(target.hourlyCharge),type: target.type,userID: target.userID)
+
+                    kickboardIdentifier: target.kickboardIdentifier,
+                    basicCharge: Int(target.basicCharge), hourlyCharge: Int(target.hourlyCharge), type: target.type, userID: target.userID)
             }
         } catch {
             print("Fetch error: \(error.localizedDescription)")
         }
         return nil
     }
-    
+
     func fetchRecordsForCurrentUser() -> [KickBoardRecord] {
         guard let userID = UserManager.shared.getUser()?.id else {
             return []
@@ -125,6 +171,27 @@ final class CoreDataManager {
             }
         } catch {
             print("error: \(error.localizedDescription)")
+            return []
+        }
+    }
+
+
+    func fetchAllUsageHistorys() -> [UsageHistory] {
+        let request: NSFetchRequest<UsageHistoryEntity> = UsageHistoryEntity.fetchRequest()
+
+        do {
+            let entities = try context.fetch(request)
+            return entities.compactMap { entity -> UsageHistory in
+                return UsageHistory(
+                    kickboardIdentifier: entity.kickboardIdentifier,
+                    charge: Int(entity.charge),
+                    finishTime: entity.finishTime,
+                    startTime: entity.startTime,
+                    useDate: entity.useDate
+                )
+            }
+        } catch {
+            print("Fetch error: \(error.localizedDescription)")
             return []
         }
     }

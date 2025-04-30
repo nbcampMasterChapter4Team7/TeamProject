@@ -20,6 +20,8 @@ final class UserDefaultsManager {
         static let userPassword = "userPassword"
         static let userName = "userName"
         static let isLoggedIn = "isLoggedIn"
+        static let isRent = "isRent"
+        static let kickboardID = "kickboardID"
     }
     
     // MARK: - Methods
@@ -32,6 +34,15 @@ final class UserDefaultsManager {
     
     func setLoginStatus(isLoggedIn: Bool) {
         defaults.set(isLoggedIn, forKey: Keys.isLoggedIn)
+    }
+    
+    func setRentStatus(isRent: Bool) {
+        defaults.set(isRent, forKey: Keys.isRent)
+        NotificationCenter.default.post(name: Notification.Name("rentStatusChanged"), object: nil)
+    }
+    
+    func saveKickboardID(kickboardID: UUID) {
+        defaults.set(kickboardID.uuidString, forKey: Keys.kickboardID)
     }
     
     /// 조회 메서드들
@@ -49,6 +60,14 @@ final class UserDefaultsManager {
     
     func isLoggedIn() -> Bool {
         return defaults.bool(forKey: Keys.isLoggedIn)
+    }
+    
+    func isRent() -> Bool {
+        return defaults.bool(forKey: Keys.isRent)
+    }
+    
+    func getKickboardID() -> String? {
+        return defaults.string(forKey: Keys.kickboardID)
     }
     
     /// 로그아웃 메서드
