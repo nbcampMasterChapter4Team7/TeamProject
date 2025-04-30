@@ -14,12 +14,14 @@ struct RegistrationHistory {
     let basicFee: Int
     let hourlyFee: Int
     let date: String
+    let type: String
     
     // 편의를 위한 초기화 메서드
-    init(kickboardId: String, basicFee: Int, hourlyFee: Int, date: String) {
+    init(kickboardId: String, basicFee: Int, hourlyFee: Int, date: String, type: String) {
         self.kickboardId = kickboardId
         self.basicFee = basicFee
         self.hourlyFee = hourlyFee
         self.date = date
+        self.type = type
     }
 }
