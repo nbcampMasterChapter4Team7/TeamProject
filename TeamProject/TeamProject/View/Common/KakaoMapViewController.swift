@@ -40,6 +40,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate, KakaoMapE
         mapController?.resetEngine()
 
         print("deinit")
+        NotificationCenter.default.removeObserver(self, name: Notification.Name("rentStatusChanged"), object: nil)
     }
 
     // MARK: - Map Initializers

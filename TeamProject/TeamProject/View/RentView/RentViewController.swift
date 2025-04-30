@@ -37,7 +37,9 @@ final class RentViewController: KakaoMapViewController {
     }
 
     private let returnKickboardButton = UIButton().then { make in
-        let img = ImageLiterals.scooter.resize(newWidth: 32)
+        let origin = ImageLiterals.scooter.resize(newWidth: 32)
+        let img = origin.withRenderingMode(.alwaysTemplate)
+        make.tintColor = UserDefaultsManager.shared.isRent() ? UIColor.asset(.main) : .black
         make.setImage(img, for: .normal)
         make.backgroundColor = .white
         make.layer.cornerRadius = 25
@@ -55,6 +57,8 @@ final class RentViewController: KakaoMapViewController {
         viewModel.startUpdatingLocation()
         setLayout()
         setupAction()
+        setupRentStatusObserver()
+        
     }
 
     // 엔진이 준비·활성화된 직후에 지도 추가
@@ -146,7 +150,15 @@ final class RentViewController: KakaoMapViewController {
         setupBindings()
         viewModel.fetchKickBoardRecords()
         setupCurrentLocationToMap()
+    }
 
+    private func setupRentStatusObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateReturnButtonTint),
+            name: Notification.Name("rentStatusChanged"),
+            object: nil
+        )
     }
 
     // MARK: - @objc Methods
@@ -155,12 +167,12 @@ final class RentViewController: KakaoMapViewController {
     @objc private func didTapLocationButton() {
         self.setupCurrentLocationToMap()
     }
-    
+
     @objc private func didTapVisibleKickboardButton() {
         guard
             let mapView = mapController?.getView("mapview") as? KakaoMap,
             let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer")
-        else { return }
+            else { return }
 
         isPoiVisible.toggle()
 
@@ -177,7 +189,7 @@ final class RentViewController: KakaoMapViewController {
         guard let kickboardID = UserDefaultsManager.shared.getKickboardID(),
             let uuid = UUID(uuidString: kickboardID) else { return }
         let vc = RentModalViewController(kickboardId: uuid)
-        
+
         if !UserDefaultsManager.shared.isRent() {
             showAlert(title: "알림", message: "대여한 킥보드가 없습니다.")
         } else {
@@ -190,6 +202,13 @@ final class RentViewController: KakaoMapViewController {
             }
             present(vc, animated: true, completion: nil)
         }
+    }
+    
+    @objc private func updateReturnButtonTint() {
+        let color: UIColor = UserDefaultsManager.shared.isRent()
+            ? UIColor.asset(.main)
+        : .black
+        returnKickboardButton.tintColor = color
     }
 }
 // MARK: - Extension
@@ -214,6 +233,6 @@ extension RentViewController {
             }
             present(vc, animated: true, completion: nil)
         }
-        
+
     }
 }

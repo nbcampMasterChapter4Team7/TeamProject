@@ -38,6 +38,7 @@ final class UserDefaultsManager {
     
     func setRentStatus(isRent: Bool) {
         defaults.set(isRent, forKey: Keys.isRent)
+        NotificationCenter.default.post(name: Notification.Name("rentStatusChanged"), object: nil)
     }
     
     func saveKickboardID(kickboardID: UUID) {
