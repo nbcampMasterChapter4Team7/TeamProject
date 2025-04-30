@@ -253,6 +253,11 @@ final class RentModalViewController: UIViewController {
 
         UserDefaultsManager.shared.saveKickboardID(kickboardID: self.kickboardId)
         UserDefaultsManager.shared.setRentStatus(isRent: true)
+        
+        guard let kickboardRecord = kickBoardRecord else {
+            fatalError("이용 기록 저장 실패")
+        }
+        viewModel.saveUsageHistory(with: kickboardRecord)
     }
 
     @objc private func didTapPauseButton() {
@@ -266,6 +271,7 @@ final class RentModalViewController: UIViewController {
             self.dismiss(animated: true)
         }
         UserDefaultsManager.shared.setRentStatus(isRent: false)
+        viewModel.updateUsageHistory(with: kickboardId)
     }
 
 }
