@@ -52,8 +52,9 @@ final class MyPageTableViewCell: UITableViewCell {
     // MARK: - Layout Helper
     
     private func setup() {
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(stackView)
+        // contentView 대신 self를 사용
+        addSubview(titleLabel)
+        addSubview(stackView)
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(20)
@@ -104,6 +105,7 @@ final class MyPageTableViewCell: UITableViewCell {
                 }
                 
                 stackView.addArrangedSubview(containerView)
+                
                 containerView.snp.makeConstraints { make in
                     make.width.equalToSuperview()
                     make.height.equalTo(30) // 컨테이너 높이 고정

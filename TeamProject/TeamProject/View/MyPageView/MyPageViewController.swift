@@ -66,7 +66,7 @@ final class MyPageViewController: UIViewController, LogoutViewControllerProtocol
                                      preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "취소", style: .cancel))
-        alert.addAction(UIAlertAction(title: "확인", style: .destructive) { [weak self] _ in
+        alert.addAction(UIAlertAction(title: "확인", style: .destructive) { _ in
             // UserDefaults 로그인 상태만 초기화
             UserDefaultsManager.shared.logout()
             
