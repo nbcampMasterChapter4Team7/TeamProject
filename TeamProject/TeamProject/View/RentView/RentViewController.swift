@@ -65,7 +65,7 @@ final class RentViewController: KakaoMapViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         addViews()
-        viewModel.fetchKickBoardRecords()
+        viewModel.fetchFilteredByDistanceKickBoardRecords(myLocation: Location(latitude: 37.402001, longitude: 127.108678), maxDistanceInKm: 3)
     }
 
     // MARK: - Action Helper
@@ -151,7 +151,7 @@ final class RentViewController: KakaoMapViewController {
     override func addViewSucceeded(_ viewName: String, viewInfoName: String) {
         super.addViewSucceeded(viewName, viewInfoName: viewInfoName)
         setupBindings()
-        viewModel.fetchKickBoardRecords()
+        viewModel.fetchFilteredByDistanceKickBoardRecords(myLocation: Location(latitude: 37.402001, longitude: 127.108678), maxDistanceInKm: 3)
         setupCurrentLocationToMap()
     }
 
@@ -181,7 +181,7 @@ final class RentViewController: KakaoMapViewController {
 
         if isPoiVisible {
             // 다시 POI 추가
-            viewModel.fetchKickBoardRecords()
+            viewModel.fetchFilteredByDistanceKickBoardRecords(myLocation: Location(latitude: 37.402001, longitude: 127.108678), maxDistanceInKm: 3)
         } else {
             // POI 숨기기
             layer.clearAllItems()
