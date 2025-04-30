@@ -27,9 +27,27 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
         loginViewDelegate()
         setupAutoFill()
         
-        print("ID:", UserDefaults.standard.string(forKey: "userId") ?? "없음")
-        print("비밀번호:", UserDefaults.standard.string(forKey: "userPassword") ?? "없음")
-        print("이름:", UserDefaults.standard.string(forKey: "userName") ?? "없음")
+        // 저장된 모든 사용자 정보 출력
+        let allUsers = UserDefaultsManager.shared.getAllUsers()
+        print("\n=== 저장된 모든 사용자 정보 ===")
+        allUsers.forEach { user in
+            print("ID: \(user.id)")
+            print("비밀번호: \(user.password)")
+            print("이름: \(user.name)")
+            print("------------------------")
+        }
+        
+        // 현재 로그인된 사용자 정보 출력
+        print("\n=== 현재 로그인된 사용자 정보 ===")
+        if let currentUser = UserDefaultsManager.shared.getCurrentUser() {
+            print("현재 로그인된 ID: \(currentUser.id)")
+            print("현재 로그인된 사용자 비밀번호: \(currentUser.password)")
+            print("현재 로그인된 사용자 이름: \(currentUser.name)")
+        } else {
+            print("현재 로그인된 사용자 없음")
+        }
+        print("로그인 상태: \(UserDefaultsManager.shared.isLoggedIn())")
+        print("===========================\n")
     }
     
     // MARK: - Methods
@@ -67,7 +85,6 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
         
         switch loginVM.validateLogin(id: id, password: password) {
         case .success:
-            guard let id = loginView.getId() else { return }
             UserManager.shared.save(user: User(id: id))
             loginVM.saveUserLoginInfo(id: id, password: password) //로그인 시 사용자 정보 저장
             loginVM.login()
