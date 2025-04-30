@@ -58,7 +58,7 @@ final class RentViewController: KakaoMapViewController {
         setLayout()
         setupAction()
         setupRentStatusObserver()
-        
+
     }
 
     // 엔진이 준비·활성화된 직후에 지도 추가
@@ -116,26 +116,16 @@ final class RentViewController: KakaoMapViewController {
         }
 
         viewModel.onRecordsUpdated = { [weak self] records in
-//<<<<<<< HEAD
             guard let self = self,
-                let mapView = self.mapController?.getView("mapview") as? KakaoMap,
-                let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer") else { return }
+                  let mapView = self.mapController?.getView("mapview") as? KakaoMap,
+                  let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer") else { return }
 
             layer.clearAllItems()
 
-                let styleID = "kickboardMarkStyleID_\(record.type)"
+
             records.forEach { record in
-//=======
-//            guard let self else { return }
-//            guard let mapView = self.mapController?.getView("mapview") as? KakaoMap else { return }
-//            guard let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer") else { return }
-
-//            layer.clearAllItems()
-//
-//            for record in records {
-//>>>>>>> ebf7bddb4ca22066c90e5dc2b266118dbac0c5b2
+                let styleID = "kickboardMarkStyleID_\(record.type)"
                 let position = MapPoint(longitude: record.longitude, latitude: record.latitude)
-
                 let option = PoiOptions(styleID: styleID)
                 option.clickable = true
 
@@ -216,7 +206,7 @@ final class RentViewController: KakaoMapViewController {
             present(vc, animated: true, completion: nil)
         }
     }
-    
+
     @objc private func updateReturnButtonTint() {
         let color: UIColor = UserDefaultsManager.shared.isRent()
             ? UIColor.asset(.main)
