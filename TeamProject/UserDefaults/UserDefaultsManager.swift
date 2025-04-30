@@ -20,6 +20,7 @@ final class UserDefaultsManager {
         static let userPassword = "userPassword"
         static let userName = "userName"
         static let isLoggedIn = "isLoggedIn"
+        static let isRent = "isRent"
     }
     
     // MARK: - Methods
@@ -32,6 +33,10 @@ final class UserDefaultsManager {
     
     func setLoginStatus(isLoggedIn: Bool) {
         defaults.set(isLoggedIn, forKey: Keys.isLoggedIn)
+    }
+    
+    func setRentStatus(isRent: Bool) {
+        defaults.set(isRent, forKey: Keys.isRent)
     }
     
     /// 조회 메서드들
@@ -49,6 +54,10 @@ final class UserDefaultsManager {
     
     func isLoggedIn() -> Bool {
         return defaults.bool(forKey: Keys.isLoggedIn)
+    }
+    
+    func isRent() -> Bool {
+        return defaults.bool(forKey: Keys.isRent)
     }
     
     /// 로그아웃 메서드
