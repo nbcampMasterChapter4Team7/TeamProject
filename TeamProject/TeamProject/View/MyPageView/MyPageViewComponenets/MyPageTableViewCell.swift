@@ -53,17 +53,19 @@ final class MyPageTableViewCell: UITableViewCell {
     
     private func setup() {
         // contentView 대신 self를 사용
-        addSubview(titleLabel)
-        addSubview(stackView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(stackView)
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(20)
             make.leading.trailing.equalToSuperview()
+            make.trailing.lessThanOrEqualToSuperview() // 너비 고정 대신 최대 너비 제한
         }
         
         stackView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview()
+            make.trailing.lessThanOrEqualToSuperview() // 너비 고정 대신 최대 너비 제한
             make.bottom.equalToSuperview().offset(-10)
         }
     }
@@ -101,7 +103,8 @@ final class MyPageTableViewCell: UITableViewCell {
                 
                 arrowButton.snp.makeConstraints { make in
                     make.trailing.centerY.equalToSuperview()
-                    make.leading.greaterThanOrEqualTo(label.snp.trailing).offset(8) // 동적인 텍스트 길이에 대응
+                    // 버튼의 크기를 명시적으로 설정
+                    make.width.height.equalTo(24)
                 }
                 
                 stackView.addArrangedSubview(containerView)
