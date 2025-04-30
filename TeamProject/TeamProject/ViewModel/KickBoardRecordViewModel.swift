@@ -87,7 +87,8 @@ final class KickBoardRecordViewModel: NSObject {
                 kickboardId: record.kickboardIdentifier.uuidString.prefix(6).uppercased(),
                 basicFee: record.basicCharge,
                 hourlyFee: record.hourlyCharge,
-                date: dateFormatter.string(from: Date())
+                date: dateFormatter.string(from: Date()),
+                type: record.type
             )
         }
         
