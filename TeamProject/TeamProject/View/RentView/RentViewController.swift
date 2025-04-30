@@ -8,9 +8,9 @@
 import CoreLocation
 import UIKit
 
+import KakaoMapsSDK
 import SnapKit
 import Then
-import KakaoMapsSDK
 
 final class RentViewController: KakaoMapViewController {
 
@@ -82,16 +82,19 @@ final class RentViewController: KakaoMapViewController {
         }
 
         viewModel.onRecordsUpdated = { [weak self] records in
-            guard let self = self,
-                  let mapView = self.mapController?.getView("mapview") as? KakaoMap,
-                  let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer") else { return }
-            
+            guard let self else { return }
+            guard let mapView = self.mapController?.getView("mapview") as? KakaoMap else { return }
+            guard let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer") else { return }
+
             layer.clearAllItems()
-            
-            records.forEach { record in
+
+            for record in records {
+                let styleID = "kickboardMarkStyleID_\(record.type)"
                 let position = MapPoint(longitude: record.longitude, latitude: record.latitude)
-                let option = PoiOptions(styleID: "kickboardMarkStyleID")
+
+                let option = PoiOptions(styleID: styleID)
                 option.clickable = true
+
                 if let poi = layer.addPoi(option: option, at: position) {
                     poi.show()
                     self.poiToRecordMap[poi.itemID] = record
