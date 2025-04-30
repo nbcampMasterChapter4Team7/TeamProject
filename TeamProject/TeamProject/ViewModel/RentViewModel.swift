@@ -51,9 +51,36 @@ final class RentViewModel: NSObject {
         locationManager.stopUpdatingLocation()
     }
     
-    func fetchKickBoardRecords() {
+//    func fetchKickBoardRecords() {
+//        let fetchedRecords = coreDataManager.fetchAllRecords()
+//        self.records = fetchedRecords
+//    }
+    
+    func fetchFilteredByDistanceKickBoardRecords(myLocation: Location, maxDistanceInKm: Double) {
         let fetchedRecords = coreDataManager.fetchAllRecords()
-        self.records = fetchedRecords
+
+        self.records = fetchedRecords.filter { record in
+            let kickboardLocation = Location(latitude: record.latitude, longitude: record.longitude)
+            let distance = haversineDistance(from: myLocation, to: kickboardLocation)
+            return distance <= maxDistanceInKm
+        }
+    }
+    
+    private func haversineDistance(from start: Location, to end: Location) -> Double {
+        let earthRadius = 6_371.0
+        
+        let startLatRad = start.latitude * .pi / 180
+        let endLatRad = end.latitude * .pi / 180
+        let deltaLat = (end.latitude - start.latitude) * .pi / 180
+        let deltaLon = (end.longitude - start.longitude) * .pi / 180
+
+        let a = sin(deltaLat / 2) * sin(deltaLat / 2) +
+                cos(startLatRad) * cos(endLatRad) *
+                sin(deltaLon / 2) * sin(deltaLon / 2)
+
+        let c = 2 * atan2(sqrt(a), sqrt(1 - a))
+        
+        return earthRadius * c
     }
 }
 
