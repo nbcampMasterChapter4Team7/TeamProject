@@ -67,6 +67,8 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
         
         switch loginVM.validateLogin(id: id, password: password) {
         case .success:
+            guard let id = loginView.getId() else { return }
+            UserManager.shared.save(user: User(id: id))
             loginVM.saveUserLoginInfo(id: id, password: password) //로그인 시 사용자 정보 저장
             loginVM.login()
             navigateToMain()
@@ -74,34 +76,6 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
             showAlert(message: message)
         }
     }
-    
-    // 로그인 성공 시 호출되는 메서드
-    func loginSuccess() {
-        //        guard let id = loginView.getId(),
-        //              let password = loginView.getPassword() else { return }
-        //
-        //        // UserDefaults에서 저장된 이름 가져오기
-        //        if let userName = UserDefaultsManager.shared.getUserName() {
-        //            // UserDefaults에 사용자 정보 저장
-        //            UserDefaultsManager.shared.saveUserInfo(id: id, password: password, name: userName)
-        //            UserDefaultsManager.shared.setLoginStatus(isLoggedIn: true)
-        
-        // MainVC로 이동
-        let mainVC = MainViewController()
-        let navigationController = UINavigationController(rootViewController: mainVC)
-        navigationController.modalPresentationStyle = .fullScreen
-        
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let window = windowScene.windows.first {
-            window.rootViewController = navigationController
-            UIView.transition(with: window,
-                              duration: 0.3,
-                              options: .transitionCrossDissolve,
-                              animations: nil,
-                              completion: nil)
-        }
-    }
-    
     
     private func navigateToMain() {
         let mainVC = MainViewController()

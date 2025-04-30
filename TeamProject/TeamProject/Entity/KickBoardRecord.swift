@@ -14,4 +14,5 @@ struct KickBoardRecord {
     let basicCharge: Int
     let hourlyCharge: Int
     let type: String
+    let userID: String
 }
