@@ -19,7 +19,7 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
     private var isViewAdded = false
     private var lastAddedPoi: Poi?
     
-    private let viewmodel = KickBoardRecordViewModel.shared
+    private let viewModel = KickBoardRecordViewModel.shared
     
     private var poiToRecordMap: [String: KickBoardRecord] = [:]
     
@@ -89,13 +89,9 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
     //addView 성공 이벤트 delegate. 추가적으로 수행할 작업을 진행한다.
     override func addViewSucceeded(_ viewName: String, viewInfoName: String) {
         super.addViewSucceeded(viewName, viewInfoName: viewInfoName)
-        
-        //        let view = mapController?.getView("mapview") as! KakaoMap
-        //        view.viewRect = mapViewContainer!.bounds
-        //        view.eventDelegate = self
-        //뷰 add 도중에 resize 이벤트가 발생한 경우 이벤트를 받지 못했을 수 있음. 원하는 뷰 사이즈로 재조정.
         setupBindings()
-        viewmodel.fetchKickBoardRecords()
+        viewModel.fetchKickBoardRecords()
+        setupCurrentLocationToMap()
     }
     
     //Container 뷰가 리사이즈 되었을때 호출된다. 변경된 크기에 맞게 ViewBase들의 크기를 조절할 필요가 있는 경우 여기에서 수행한다.
@@ -119,7 +115,7 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
     }
     
     private func setupBindings() {
-        viewmodel.onRecordsUpdated = { [weak self] records in
+        viewModel.onRecordsUpdated = { [weak self] records in
             guard self != nil else { return }
             guard let mapView = self?.mapController?.getView("mapview") as? KakaoMap else { return }
             guard let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer") else { return }
@@ -138,6 +134,17 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
                 }
             }
         }
+    }
+    
+    private func setupCurrentLocationToMap() {
+        if let coord = viewModel.currentLocation,
+            let mapView = mapController?.getView("mapview") as? KakaoMap {
+             let point = MapPoint(longitude: coord.longitude, latitude: coord.latitude)
+             let cameraUpdate = CameraUpdate.make(target: point, mapView: mapView)
+             mapView.moveCamera(cameraUpdate)
+         } else {
+             viewModel.startUpdatingLocation()
+         }
     }
     
     // MARK: - @objc Methods
@@ -164,19 +171,21 @@ extension KickBoardRegisterViewController {
         if let poi = layer?.addPoi(option: option, at: position) {
             poi.show()
             self.lastAddedPoi = poi
+            print("TEST: \(String(describing: self.lastAddedPoi))")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+                guard let self else { return }
+                
+                let alertVC = RegisterKickboardAlertViewController()
+                alertVC.delegate = self
+                alertVC.latitude = position.wgsCoord.latitude
+                alertVC.longitude = position.wgsCoord.longitude
+                alertVC.recognitionNumber = UUID()
+                alertVC.modalPresentationStyle = .overFullScreen
+                self.present(alertVC, animated: true)
+            }
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            guard let self else { return }
-            
-            let alertVC = RegisterKickboardAlertViewController()
-            alertVC.delegate = self
-            alertVC.latitude = position.wgsCoord.latitude
-            alertVC.longitude = position.wgsCoord.longitude
-            alertVC.recognitionNumber = UUID()
-            alertVC.modalPresentationStyle = .overFullScreen
-            self.present(alertVC, animated: true)
-        }
+        
     }
     
     func poiDidTapped(kakaoMap: KakaoMap, layerID: String, poiID: String, position: MapPoint) {

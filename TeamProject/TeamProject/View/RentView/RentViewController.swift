@@ -17,6 +17,8 @@ final class RentViewController: KakaoMapViewController {
     // MARK: - Properties
     
     private let viewModel = RentViewModel.shared
+    
+    private var poiToRecordMap: [String: KickBoardRecord] = [:]
 
     // MARK: - UI Components
 
@@ -90,7 +92,10 @@ final class RentViewController: KakaoMapViewController {
                 let position = MapPoint(longitude: record.longitude, latitude: record.latitude)
                 let option = PoiOptions(styleID: "kickboardMarkStyleID")
                 option.clickable = true
-                layer.addPoi(option: option, at: position)?.show()
+                if let poi = layer.addPoi(option: option, at: position) {
+                    poi.show()
+                    self.poiToRecordMap[poi.itemID] = record
+                }
             }
         }
     }
@@ -120,25 +125,19 @@ final class RentViewController: KakaoMapViewController {
     @objc private func didTapLocationButton() {
         self.setupCurrentLocationToMap()
     }
-
-    @objc private func didTapPingButton() {
-        let vc = RentModalViewController()
-        if let sheet = vc.sheetPresentationController {
-            sheet.detents = [.custom(resolver: { _ in
-                return SizeLiterals.Screen.screenHeight * 257 / 874
-            })]
-            sheet.prefersGrabberVisible = true
-            sheet.preferredCornerRadius = 20
-        }
-        present(vc, animated: true, completion: nil)
-    }
 }
 // MARK: - Extension
 
 extension RentViewController {
     func poiDidTapped(kakaoMap: KakaoMap, layerID: String, poiID: String, position: MapPoint) {
-        print("Tap - \(layerID) - \(poiID) - \(position.wgsCoord.latitude) : \(position.wgsCoord.longitude)")
-        let vc = RentModalViewController()
+        
+        guard let record = poiToRecordMap[poiID] else {
+            print("Record not found for tapped POI")
+            return
+        }
+        
+        let vc = RentModalViewController(kickboardId: record.kickboardIdentifier)
+
         if let sheet = vc.sheetPresentationController {
             sheet.detents = [.custom(resolver: { _ in
                 return SizeLiterals.Screen.screenHeight * 257 / 874

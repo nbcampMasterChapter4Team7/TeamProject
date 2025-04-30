@@ -13,7 +13,9 @@ import Then
 final class RentModalViewController: UIViewController {
 
     // MARK: - Properties
-    //viewmodel
+    private let viewModel = RentModalViewModel.shared
+    private var kickboardId: UUID
+    private var kickBoardRecord: KickBoardRecord?
 
     // MARK: - UI Components
 
@@ -36,6 +38,7 @@ final class RentModalViewController: UIViewController {
         make.textAlignment = .left
         make.text = "기본 이용료:"
     }
+
     private let basicCharge = UILabel().then { make in
         make.font = UIFont.fontGuide(.RentBasicCharge)
         make.textColor = UIColor.asset(.gray3)
@@ -81,13 +84,23 @@ final class RentModalViewController: UIViewController {
         make.layer.cornerRadius = 8
     }
 
-
     private let returnButton = UIButton().then { make in
         make.setTitle("반납하기", for: .normal)
         make.setTitleColor(.white, for: .normal)
         make.backgroundColor = UIColor.asset(.main)
         make.titleLabel?.font = UIFont.fontGuide(.RentButtonText)
         make.layer.cornerRadius = 8
+    }
+
+    // MARK: Initializer
+
+    init(kickboardId: UUID) {
+        self.kickboardId = kickboardId
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - View Life Cycle
@@ -97,6 +110,15 @@ final class RentModalViewController: UIViewController {
         setStyle()
         setLayout()
         setAction()
+        kickBoardRecord = viewModel.fetchKickBoardRecord(with: kickboardId)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let kickBoardRecord = kickBoardRecord {
+            configure(with: kickBoardRecord)
+        }
     }
 
     // MARK: - Style Helper
@@ -169,7 +191,7 @@ final class RentModalViewController: UIViewController {
         }
 
     }
-    
+
     // MARK: - Action Helper
 
     private func setAction() {
@@ -180,8 +202,10 @@ final class RentModalViewController: UIViewController {
 
     // MARK: - Methods
 
-    func configure() {
-
+    func configure(with kickBoardRecord: KickBoardRecord) {
+        kickboardID.text = kickBoardRecord.kickboardIdentifier.uuidString
+        basicCharge.text = kickBoardRecord.basicCharge.formattedPrice + "원"
+        hourlyCharge.text = kickBoardRecord.hourlyCharge.formattedPrice + "원"
     }
 
     // MARK: - @objc Methods
