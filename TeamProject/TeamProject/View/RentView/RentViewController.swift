@@ -108,19 +108,37 @@ final class RentViewController: KakaoMapViewController {
 
     private func setupBindings() {
         viewModel.onLocationUpdate = { [weak self] coor in
-            guard let self = self, let mapView = self.mapController?.getView("mapview") as? KakaoMap else { return }
+
+            guard let self = self,
+                let mapView = self.mapController?.getView("mapview") as? KakaoMap else { return }
 
             let point = MapPoint(longitude: coor.longitude, latitude: coor.latitude)
             let cameraUpdate = CameraUpdate.make(target: point, mapView: mapView)
             mapView.moveCamera(cameraUpdate)
+
         }
 
         viewModel.onRecordsUpdated = { [weak self] records in
-            guard let self = self,
-                  let mapView = self.mapController?.getView("mapview") as? KakaoMap,
-                  let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer") else { return }
 
+            guard let self = self,
+                let mapView = self.mapController?.getView("mapview") as? KakaoMap,
+                let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer"),
+                let locLayer = mapView.getLabelManager().getLabelLayer(layerID: "CurrentLocationLayer"),
+                let coord = viewModel.currentLocation
+                else { return }
+
+            locLayer.clearAllItems()
             layer.clearAllItems()
+
+            let point = MapPoint(longitude: coord.longitude, latitude: coord.latitude)
+            let cameraUpdate = CameraUpdate.make(target: point, mapView: mapView)
+            mapView.moveCamera(cameraUpdate)
+
+            let opt = PoiOptions(styleID: "currentLocationStyle")
+            opt.clickable = false
+            if let poi = locLayer.addPoi(option: opt, at: point) {
+                poi.show()
+            }
 
 
             records.forEach { record in
@@ -132,7 +150,7 @@ final class RentViewController: KakaoMapViewController {
                 if let poi = layer.addPoi(option: option, at: position) {
                     poi.show()
                     self.poiToRecordMap[poi.itemID] = record
-                }
+                } 
             }
         }
     }
