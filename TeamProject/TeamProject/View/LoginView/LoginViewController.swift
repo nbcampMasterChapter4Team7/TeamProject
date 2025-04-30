@@ -50,10 +50,14 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
         loginView.delegate = self
     }
     
+    /// 자동 입력 설정
     private func setupAutoFill() {
-        // 자동 입력 설정
         if let savedId = UserDefaultsManager.shared.getUserId() {
             loginView.setId(savedId)
+        }
+        
+        if let savedPassword = UserDefaultsManager.shared.getUserPassword() {
+            loginView.setPassword(savedPassword)
         }
     }
     
@@ -63,6 +67,7 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
         
         switch loginVM.validateLogin(id: id, password: password) {
         case .success:
+            loginVM.saveUserLoginInfo(id: id, password: password) //로그인 시 사용자 정보 저장
             loginVM.login()
             navigateToMain()
         case .failure(let message):
@@ -72,32 +77,31 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
     
     // 로그인 성공 시 호출되는 메서드
     func loginSuccess() {
-        guard let id = loginView.getId(),
-              let password = loginView.getPassword() else { return }
+        //        guard let id = loginView.getId(),
+        //              let password = loginView.getPassword() else { return }
+        //
+        //        // UserDefaults에서 저장된 이름 가져오기
+        //        if let userName = UserDefaultsManager.shared.getUserName() {
+        //            // UserDefaults에 사용자 정보 저장
+        //            UserDefaultsManager.shared.saveUserInfo(id: id, password: password, name: userName)
+        //            UserDefaultsManager.shared.setLoginStatus(isLoggedIn: true)
         
-        // UserDefaults에서 저장된 이름 가져오기
-        if let userName = UserDefaultsManager.shared.getUserName() {
-            // UserDefaults에 사용자 정보 저장
-            UserDefaultsManager.shared.saveUserInfo(id: id, password: password, name: userName)
-            UserDefaultsManager.shared.setLoginStatus(isLoggedIn: true)
-            
-            // MainVC로 이동
-            let mainVC = MainViewController()
-            let navigationController = UINavigationController(rootViewController: mainVC)
-            navigationController.modalPresentationStyle = .fullScreen
-            
-            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-               let window = windowScene.windows.first {
-                window.rootViewController = navigationController
-                UIView.transition(with: window,
-                                duration: 0.3,
-                                options: .transitionCrossDissolve,
-                                animations: nil,
-                                completion: nil)
-            }
+        // MainVC로 이동
+        let mainVC = MainViewController()
+        let navigationController = UINavigationController(rootViewController: mainVC)
+        navigationController.modalPresentationStyle = .fullScreen
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            window.rootViewController = navigationController
+            UIView.transition(with: window,
+                              duration: 0.3,
+                              options: .transitionCrossDissolve,
+                              animations: nil,
+                              completion: nil)
         }
     }
-
+    
     
     private func navigateToMain() {
         let mainVC = MainViewController()

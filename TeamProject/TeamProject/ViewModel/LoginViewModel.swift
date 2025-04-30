@@ -32,4 +32,12 @@ final class LoginViewModel {
     func login() {
         UserDefaultsManager.shared.setLoginStatus(isLoggedIn: true)
     }
+    
+    // 로그인 성공 시 사용자 정보 저장 메서드 추가
+    func saveUserLoginInfo(id: String, password: String) {
+        if let userName = UserDefaultsManager.shared.getUserName() {
+            UserDefaultsManager.shared.saveUserInfo(id: id, password: password, name: userName)
+        }
+        UserDefaultsManager.shared.setLoginStatus(isLoggedIn: true)
+    }
 }

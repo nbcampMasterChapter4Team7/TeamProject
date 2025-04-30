@@ -39,6 +39,7 @@ final class LoginView: UIView, UITextFieldDelegate {
         $0.borderStyle = .roundedRect
         $0.backgroundColor = UIColor.asset(.gray4)
         $0.font = UIFont.fontGuide(.LoginPlaceholder)
+        $0.autocapitalizationType = .none //첫글자 대문자 설정 해제
     }
     
     private let passwordTextField = UITextField().then {
@@ -47,6 +48,8 @@ final class LoginView: UIView, UITextFieldDelegate {
         $0.backgroundColor = UIColor.asset(.gray4)
         $0.font = UIFont.fontGuide(.LoginPlaceholder)
         $0.isSecureTextEntry = true /// 입력된 텍스트를 보이지 않게 설정
+        $0.autocapitalizationType = .none //첫글자 대문자 설정 해제
+        $0.textContentType = .password
     }
     
     private let loginButton = UIButton(type: .system).then {
@@ -131,6 +134,10 @@ final class LoginView: UIView, UITextFieldDelegate {
     // 아이디 설정 메서드 (자동완성용)
     func setId(_ id: String) {
         idTextField.text = id
+    }
+    
+    func setPassword(_ password: String) {
+        passwordTextField.text = password
     }
     
     // MARK: - Layout Helper

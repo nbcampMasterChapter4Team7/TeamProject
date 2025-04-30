@@ -14,7 +14,7 @@ final class MembershipViewController: UIViewController {
     
     // MARK: - Properties
     private var membershipView = MembershipView()
-    private let singUpVM = SignUpViewModel()
+    private let signUpVm = SignUpViewModel()
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -51,7 +51,7 @@ final class MembershipViewController: UIViewController {
               let password = membershipView.passwordTextField.text else { return }
         
         // 입력값 검증
-        switch singUpVM.validateSignUp(id: id, password: password, name: nickname) {
+        switch signUpVm.validateSignUp(id: id, password: password, name: nickname) {
         case .success:
             showSignUpConfirmAlert(id: id, password: password, nickname: nickname)
         case .failure(let message):
@@ -77,7 +77,7 @@ final class MembershipViewController: UIViewController {
     }
     
     private func performSignUp(id: String, password: String, nickname: String) {
-        singUpVM.signUp(id: id, password: password, name: nickname) { [weak self] success in
+        signUpVm.signUp(id: id, password: password, name: nickname) { [weak self] success in
             if success {
                 self?.showAlert(
                     title: "성공",
