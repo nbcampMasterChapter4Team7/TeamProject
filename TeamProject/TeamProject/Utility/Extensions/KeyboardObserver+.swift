@@ -8,7 +8,9 @@
 import UIKit
 
 extension UIViewController {
+    
     // MARK: - Methods
+    
     /// 키보드 옵저버 추가
     func addKeyboardObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
