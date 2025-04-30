@@ -37,6 +37,7 @@ final class MembershipView: UIView, UITextFieldDelegate {
         $0.borderStyle = .roundedRect
         $0.backgroundColor = UIColor.asset(.gray4)
         $0.font = UIFont.fontGuide(.LoginPlaceholder)
+        $0.autocapitalizationType = .none //첫글자 대문자 설정 해제
     }
     
     let passwordLabel = UILabel().then {
@@ -49,8 +50,9 @@ final class MembershipView: UIView, UITextFieldDelegate {
         $0.borderStyle = .roundedRect
         $0.backgroundColor = UIColor.asset(.gray4)
         $0.font = UIFont.fontGuide(.LoginPlaceholder)
-        $0.textContentType = .oneTimeCode // 자동 비밀번호 제안 비활성화
         $0.isSecureTextEntry = true
+        $0.autocapitalizationType = .none //첫글자 대문자 설정 해제
+        $0.textContentType = .newPassword
     }
     
     let signUpButton = UIButton(type: .system).then {
