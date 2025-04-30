@@ -21,6 +21,7 @@ final class UsageHistoryViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationBar()
         setupUsageHistoryView()
+        print(CoreDataManager.shared.fetchAllUsageHistorys())
     }
     
     // MARK: - Methods
