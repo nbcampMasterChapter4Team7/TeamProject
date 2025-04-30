@@ -44,6 +44,7 @@ final class CoreDataManager {
         entity.basicCharge = Int32(record.basicCharge)
         entity.hourlyCharge = Int32(record.hourlyCharge)
         entity.type = record.type
+        entity.userID = record.userID
 
         saveContext()
     }
@@ -73,7 +74,8 @@ final class CoreDataManager {
                     kickboardIdentifier: entity.kickboardIdentifier,
                     basicCharge: Int(entity.basicCharge),
                     hourlyCharge: Int(entity.hourlyCharge),
-                    type: entity.type
+                    type: entity.type,
+                    userID: entity.userID
                 )
             }
         } catch {
@@ -92,12 +94,39 @@ final class CoreDataManager {
             if let target = results.first {
                 return KickBoardRecord(latitude: target.latitude, longitude: target.longitude,
                                        kickboardIdentifier: target.kickboardIdentifier,
-                                       basicCharge: Int(target.basicCharge), hourlyCharge: Int(target.hourlyCharge),type: target.type)
+                                       basicCharge: Int(target.basicCharge), hourlyCharge: Int(target.hourlyCharge),type: target.type,userID: target.userID)
             }
         } catch {
             print("Fetch error: \(error.localizedDescription)")
         }
         return nil
+    }
+    
+    func fetchRecordsForCurrentUser() -> [KickBoardRecord] {
+        guard let userID = UserManager.shared.getUser()?.id else {
+            return []
+        }
+
+        let fetchRequest: NSFetchRequest<KickBoardRecordEntity> = KickBoardRecordEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "userID == %@", userID)
+
+        do {
+            let entities = try context.fetch(fetchRequest)
+            return entities.compactMap { entity -> KickBoardRecord in
+                return KickBoardRecord(
+                    latitude: entity.latitude,
+                    longitude: entity.longitude,
+                    kickboardIdentifier: entity.kickboardIdentifier,
+                    basicCharge: Int(entity.basicCharge),
+                    hourlyCharge: Int(entity.hourlyCharge),
+                    type: entity.type,
+                    userID: entity.userID
+                )
+            }
+        } catch {
+            print("error: \(error.localizedDescription)")
+            return []
+        }
     }
 
     private func saveContext() {

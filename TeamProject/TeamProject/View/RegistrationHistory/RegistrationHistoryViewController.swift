@@ -42,7 +42,7 @@ final class RegistrationHistoryViewController: UIViewController {
             self?.registrationHistoryView.updateData(histories)
         }
         
-        KickBoardRecordVM.fetchKickBoardRecords()
+        KickBoardRecordVM.fetchFilteredKickBoardRecords()
         KickBoardRecordVM.fetchRegistrationHistories()
     }
 }
