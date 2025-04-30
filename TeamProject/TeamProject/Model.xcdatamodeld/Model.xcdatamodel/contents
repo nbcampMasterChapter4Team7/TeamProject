@@ -15,5 +15,6 @@
         <attribute name="kickboardIdentifier" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="startTime" optional="YES" attributeType="String"/>
         <attribute name="useDate" optional="YES" attributeType="String"/>
+        <attribute name="userID" optional="YES" attributeType="String"/>
     </entity>
 </model>

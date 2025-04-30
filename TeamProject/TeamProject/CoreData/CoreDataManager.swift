@@ -57,16 +57,24 @@ final class CoreDataManager {
         entity.startTime = now.toString(format: "HH:mm")
         entity.charge = 0
         entity.finishTime = nil
+        entity.userID = record.userID
 
         saveContext()
     }
 
     func updateUsageHistory(for identifier: UUID) {
+        guard let userID = UserManager.shared.getUser()?.id else {
+            return
+        }
+
         let fetchRequest: NSFetchRequest<UsageHistoryEntity> = UsageHistoryEntity.fetchRequest()
+
         fetchRequest.predicate = NSPredicate(
-            format: "kickboardIdentifier == %@ AND finishTime == nil",
+            format: "userID == %@ AND kickboardIdentifier == %@ AND finishTime == nil",
+            userID,
             identifier as CVarArg
         )
+
         fetchRequest.sortDescriptors = [
             NSSortDescriptor(key: "useDate", ascending: false),
             NSSortDescriptor(key: "startTime", ascending: false)
@@ -187,11 +195,38 @@ final class CoreDataManager {
                     charge: Int(entity.charge),
                     finishTime: entity.finishTime,
                     startTime: entity.startTime,
-                    useDate: entity.useDate
+                    useDate: entity.useDate,
+                    userID: entity.userID
                 )
             }
         } catch {
             print("Fetch error: \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+    func fetchUsageHistorysForCurrentUser() -> [UsageHistory] {
+        guard let userID = UserManager.shared.getUser()?.id else {
+            return []
+        }
+
+        let fetchRequest: NSFetchRequest<UsageHistoryEntity> = UsageHistoryEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "userID == %@", userID)
+
+        do {
+            let entities = try context.fetch(fetchRequest)
+            return entities.compactMap { entity -> UsageHistory in
+                return UsageHistory(
+                    kickboardIdentifier: entity.kickboardIdentifier,
+                    charge: Int(entity.charge),
+                    finishTime: entity.finishTime,
+                    startTime: entity.startTime,
+                    useDate: entity.useDate,
+                    userID: entity.userID
+                )
+            }
+        } catch {
+            print("error: \(error.localizedDescription)")
             return []
         }
     }
