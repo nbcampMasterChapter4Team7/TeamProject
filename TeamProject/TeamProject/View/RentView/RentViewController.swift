@@ -65,7 +65,7 @@ final class RentViewController: KakaoMapViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         addViews()
-        viewModel.fetchFilteredByDistanceKickBoardRecords(myLocation: Location(latitude: 37.402001, longitude: 127.108678), maxDistanceInKm: 3)
+        showKickboardByCurrentLocation()
     }
 
     // MARK: - Action Helper
@@ -107,39 +107,42 @@ final class RentViewController: KakaoMapViewController {
     // MARK: - Methods
 
     private func setupBindings() {
-        viewModel.onLocationUpdate = { [weak self] coor in
+        viewModel.onLocationUpdate = { [weak self] coord in
+            guard let self = self else { return }
 
-            guard let self = self,
-                let mapView = self.mapController?.getView("mapview") as? KakaoMap else { return }
+            // mapView가 아직 생성되지 않았다면 0.1초 뒤에 재시도
+            guard let mapView = self.mapController?.getView("mapview") as? KakaoMap else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.viewModel.onLocationUpdate?(coord)
+                }
+                return
+            }
 
-            let point = MapPoint(longitude: coor.longitude, latitude: coor.latitude)
+            guard let layer = mapView.getLabelManager().getLabelLayer(layerID: "CurrentLocationLayer") else {
+                return
+            }
+
+            let point = MapPoint(longitude: coord.longitude, latitude: coord.latitude)
             let cameraUpdate = CameraUpdate.make(target: point, mapView: mapView)
             mapView.moveCamera(cameraUpdate)
 
+            layer.clearAllItems()
+            let opt = PoiOptions(styleID: "currentLocationStyle")
+            opt.clickable = false
+            if let poi = layer.addPoi(option: opt, at: point) {
+                poi.show()
+            }
         }
 
         viewModel.onRecordsUpdated = { [weak self] records in
 
             guard let self = self,
                 let mapView = self.mapController?.getView("mapview") as? KakaoMap,
-                let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer"),
-                let locLayer = mapView.getLabelManager().getLabelLayer(layerID: "CurrentLocationLayer"),
-                let coord = viewModel.currentLocation
+                let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer")
                 else { return }
 
-            locLayer.clearAllItems()
             layer.clearAllItems()
-
-            let point = MapPoint(longitude: coord.longitude, latitude: coord.latitude)
-            let cameraUpdate = CameraUpdate.make(target: point, mapView: mapView)
-            mapView.moveCamera(cameraUpdate)
-
-            let opt = PoiOptions(styleID: "currentLocationStyle")
-            opt.clickable = false
-            if let poi = locLayer.addPoi(option: opt, at: point) {
-                poi.show()
-            }
-
+            self.poiToRecordMap.removeAll()
 
             records.forEach { record in
                 let styleID = "kickboardMarkStyleID_\(record.type)"
@@ -150,14 +153,14 @@ final class RentViewController: KakaoMapViewController {
                 if let poi = layer.addPoi(option: option, at: position) {
                     poi.show()
                     self.poiToRecordMap[poi.itemID] = record
-                } 
+                }
             }
         }
     }
 
     private func setupCurrentLocationToMap() {
-        if let coord = viewModel.currentLocation,
-            let mapView = mapController?.getView("mapview") as? KakaoMap {
+        if let mapView = mapController?.getView("mapview") as? KakaoMap {
+            let coord = viewModel.currentLocation
             let point = MapPoint(longitude: coord.longitude, latitude: coord.latitude)
             let cameraUpdate = CameraUpdate.make(target: point, mapView: mapView)
             mapView.moveCamera(cameraUpdate)
@@ -169,17 +172,45 @@ final class RentViewController: KakaoMapViewController {
     override func addViewSucceeded(_ viewName: String, viewInfoName: String) {
         super.addViewSucceeded(viewName, viewInfoName: viewInfoName)
         setupBindings()
-        viewModel.fetchFilteredByDistanceKickBoardRecords(myLocation: Location(latitude: 37.402001, longitude: 127.108678), maxDistanceInKm: 3)
+        showKickboardByCurrentLocation()
         setupCurrentLocationToMap()
     }
 
     private func setupRentStatusObserver() {
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(updateReturnButtonTint),
+            selector: #selector(handleRentStatusChanged),
             name: Notification.Name("rentStatusChanged"),
             object: nil
         )
+    }
+
+    private func showKickboardByCurrentLocation() {
+        let point = viewModel.currentLocation
+        viewModel.fetchFilteredByDistanceKickBoardRecords(myLocation: Location(latitude: point.latitude, longitude: point.longitude), maxDistanceInKm: 3)
+    }
+
+    private func updateReturnButtonTint() {
+        let color: UIColor = UserDefaultsManager.shared.isRent()
+            ? UIColor.asset(.main)
+        : .black
+        returnKickboardButton.tintColor = color
+    }
+
+    private func hideRentedPoi() {
+        guard
+            let mapView = mapController?.getView("mapview") as? KakaoMap,
+            let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer"),
+            let rentedID = UserDefaultsManager.shared.getKickboardID()
+            else { return }
+
+        // poiToRecordMap 에서 rentedID에 해당하는 itemID를 찾아 레이어에서 제거
+        if let poiIDToHide = poiToRecordMap.first(where: { $0.value.kickboardIdentifier.uuidString == rentedID })?.key {
+            layer.removePoi(poiID: poiIDToHide)
+            poiToRecordMap.removeValue(forKey: poiIDToHide)
+        } else {
+            print("poiID 숨기지 못함")
+        }
     }
 
     // MARK: - @objc Methods
@@ -199,7 +230,7 @@ final class RentViewController: KakaoMapViewController {
 
         if isPoiVisible {
             // 다시 POI 추가
-            viewModel.fetchFilteredByDistanceKickBoardRecords(myLocation: Location(latitude: 37.402001, longitude: 127.108678), maxDistanceInKm: 3)
+            showKickboardByCurrentLocation()
         } else {
             // POI 숨기기
             layer.clearAllItems()
@@ -225,11 +256,15 @@ final class RentViewController: KakaoMapViewController {
         }
     }
 
-    @objc private func updateReturnButtonTint() {
-        let color: UIColor = UserDefaultsManager.shared.isRent()
-            ? UIColor.asset(.main)
-        : .black
-        returnKickboardButton.tintColor = color
+    @objc private func handleRentStatusChanged() {
+        updateReturnButtonTint()
+
+        if UserDefaultsManager.shared.isRent() {
+            hideRentedPoi()
+        } else {
+            // 반납했을 때, 다시 보여주고 싶다면
+            showKickboardByCurrentLocation()
+        }
     }
 }
 // MARK: - Extension
