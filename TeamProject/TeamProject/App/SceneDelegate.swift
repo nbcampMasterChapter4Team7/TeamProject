@@ -14,7 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let vc = LoginViewController()
+        _ = LoginViewController()
         
         // UserDefaults에서 로그인 상태 확인
         let isLoggedIn = UserDefaultsManager.shared.defaults.bool(forKey: UserDefaultsManager.Keys.isLoggedIn)

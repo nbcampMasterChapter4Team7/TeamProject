@@ -16,7 +16,7 @@ final class KickBoardRecordViewModel: NSObject {
     
     // MARK: - Properties
     private let locationManager = CLLocationManager()
-
+    
     private let coreDataManager: CoreDataManager
     
     private(set) var currentLocation: CLLocationCoordinate2D?
@@ -27,8 +27,16 @@ final class KickBoardRecordViewModel: NSObject {
         }
     }
     
+    // RegistrationHistory에서 사용을 위한 추가
+    private(set) var registrationHistories: [RegistrationHistory] = [] {
+        didSet {
+            onRegistrationHistoriesUpdated?(registrationHistories)
+        }
+    }
+    
     var onRecordsUpdated: (([KickBoardRecord]) -> Void)?
     var onLocationUpdate: ((CLLocationCoordinate2D) -> Void)?
+    var onRegistrationHistoriesUpdated: (([RegistrationHistory]) -> Void)?
     
     // MARK: - Initializer
     
@@ -61,6 +69,23 @@ final class KickBoardRecordViewModel: NSObject {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
     }
+    
+    // RegistrationHistory 데이터를 처리하고, RegistrationHistoryView에서 표시할 수 있도록 메소드 작성
+    func fetchRegistrationHistories() {
+        let histories = records.map { record in
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy.MM.dd"
+            
+            return RegistrationHistory(
+                kickboardId: record.kickboardIdentifier.uuidString.prefix(6).uppercased(),
+                basicFee: record.basicCharge,
+                hourlyFee: record.hourlyCharge,
+                date: dateFormatter.string(from: Date())
+            )
+        }
+        
+        self.registrationHistories = histories
+    }
 }
 
 extension KickBoardRecordViewModel: CLLocationManagerDelegate {
@@ -72,14 +97,14 @@ extension KickBoardRecordViewModel: CLLocationManagerDelegate {
             break
         }
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         let coord = location.coordinate
         currentLocation = coord
         onLocationUpdate?(coord)
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location update failed: \(error.localizedDescription)")
     }

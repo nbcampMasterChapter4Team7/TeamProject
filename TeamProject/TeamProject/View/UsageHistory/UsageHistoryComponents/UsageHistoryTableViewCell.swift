@@ -78,7 +78,6 @@ final class UsageHistoryTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
         setConstraints()
-        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -131,15 +130,6 @@ final class UsageHistoryTableViewCell: UITableViewCell {
             make.trailing.equalToSuperview().offset(-20)
             make.centerY.equalToSuperview()
         }
-    }
-    
-    private func configureUI() {
-        // 테스트용 더미 데이터
-        kickboardIdLabel.text = "ABCDEF"
-        usageTimeLabel.text = "사용시간: 10:00 ~ 10:30(30분)"
-        distanceLabel.text = "이동거리: 0.5km"
-        dateLabel.text = "2025.04.30"
-        priceLabel.text = "9,999원"
     }
     
     func configure(with model: UsageHistory) {
