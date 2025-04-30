@@ -9,6 +9,7 @@ import Foundation
 
 struct SearchData: Codable {
     let documents: [Document]
+    let meta: Meta
 }
 
 struct Document: Codable {
@@ -27,5 +28,31 @@ struct Document: Codable {
         case placeURL = "place_url"
         case roadAddressName = "road_address_name"
         case x, y
+    }
+}
+
+struct Meta: Codable {
+    let isEnd: Bool
+    let pageableCount: Int
+    let sameName: SameName
+    let totalCount: Int
+
+    enum CodingKeys: String, CodingKey {
+        case isEnd = "is_end"
+        case pageableCount = "pageable_count"
+        case sameName = "same_name"
+        case totalCount = "total_count"
+    }
+}
+
+// MARK: - SameName
+struct SameName: Codable {
+    let keyword: String
+    let region: [String]
+    let selectedRegion: String
+
+    enum CodingKeys: String, CodingKey {
+        case keyword, region
+        case selectedRegion = "selected_region"
     }
 }
