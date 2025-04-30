@@ -45,6 +45,25 @@ final class RentViewController: KakaoMapViewController {
         make.layer.cornerRadius = 25
     }
 
+    override func viewDidLayoutSubviews() {
+        searchBar.layoutIfNeeded()
+                let searchTextField = searchBar.searchTextField
+                searchTextField.layer.cornerRadius = searchTextField.frame.height / 2
+    }
+    
+    private let searchBar = UISearchBar().then {
+        $0.searchBarStyle = .minimal
+        $0.setImage(UIImage(), for: UISearchBar.Icon.search, state: .normal)
+        $0.placeholder = "주소를 입력해주세요"
+        $0.searchTextField.font = .systemFont(ofSize: 16)
+
+        let spacer = UIView()
+        spacer.frame.size.width = 8
+        $0.searchTextField.leftView = spacer
+        $0.searchTextField.backgroundColor = .white
+        $0.searchTextField.borderStyle = .none
+    }
+
     // MARK: - View Life Cycle
 
     override func loadView() {
@@ -58,7 +77,6 @@ final class RentViewController: KakaoMapViewController {
         setLayout()
         setupAction()
         setupRentStatusObserver()
-
     }
 
     // 엔진이 준비·활성화된 직후에 지도 추가
@@ -70,6 +88,7 @@ final class RentViewController: KakaoMapViewController {
 
     // MARK: - Action Helper
 
+
     private func setupAction() {
         locationButton.addTarget(self, action: #selector(didTapLocationButton), for: .touchUpInside)
         visibleKickboardButton.addTarget(self, action: #selector(didTapVisibleKickboardButton), for: .touchUpInside)
@@ -79,7 +98,13 @@ final class RentViewController: KakaoMapViewController {
     // MARK: - Layout Helper
 
     private func setLayout() {
-        view.addSubviews(locationButton, visibleKickboardButton, returnKickboardButton)
+        view.addSubviews(locationButton, visibleKickboardButton, returnKickboardButton,
+            searchBar)
+
+        searchBar.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(8)
+            $0.leading.trailing.equalToSuperview().inset(16)
+        }
 
         locationButton.snp.makeConstraints {
             $0.width.height.equalTo(53)
@@ -292,3 +317,4 @@ extension RentViewController {
 
     }
 }
+
