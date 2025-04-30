@@ -21,6 +21,7 @@ extension UsageHistoryEntity {
     @NSManaged public var kickboardIdentifier: UUID
     @NSManaged public var startTime: String
     @NSManaged public var useDate: String
+    @NSManaged public var userID: String
 
 }
 

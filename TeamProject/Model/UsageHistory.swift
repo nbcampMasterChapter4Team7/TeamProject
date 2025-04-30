@@ -13,5 +13,5 @@ struct UsageHistory {
     var finishTime: String?
     let startTime: String
     let useDate: String
-    
+    let userID: String
 }
