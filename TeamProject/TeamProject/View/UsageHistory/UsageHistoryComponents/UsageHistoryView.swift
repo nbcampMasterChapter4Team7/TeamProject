@@ -12,6 +12,10 @@ import Then
 
 final class UsageHistoryView: UIView, UITableViewDataSource, UITableViewDelegate {
     
+    // MARK: - Properties
+    // TODO: 현재는 이용 내역 VM이 없어서 등록 내역을 가져와서 출력(추후 해당 내용 수정)
+    private var usageHistories: [UsageHistory] = []
+    
     // MARK: - UI Components
     
     private lazy var tableView = UITableView().then {
@@ -52,6 +56,11 @@ final class UsageHistoryView: UIView, UITableViewDataSource, UITableViewDelegate
         tableView.delegate = self
     }
     
+    func updateData(_ histories: [UsageHistory]) {
+        self.usageHistories = histories.reversed()
+        tableView.reloadData()
+    }
+    
     // 테이블뷰의 각 섹션의 헤더 높이를 설정 (헤더 높이 0으로 설정)
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0
@@ -69,7 +78,7 @@ final class UsageHistoryView: UIView, UITableViewDataSource, UITableViewDelegate
     
     // numberOfSections 메서드 추가
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3 // 섹션 3개로 설정
+        return usageHistories.count
     }
     
     // numberOfRowsInSection 수정
@@ -83,6 +92,9 @@ final class UsageHistoryView: UIView, UITableViewDataSource, UITableViewDelegate
         }
         // 실제 데이터로 구성할 때 아래와 같이 적으면 됨
         // cell.configure(with: yourDataModel)
+        // TODO: 현재는 이용 내역 VM이 없어서 등록 내역을 가져와서 출력(추후 해당 내용 수정)
+        let history = usageHistories[indexPath.section]
+        cell.configure(with: history)
         
         return cell
     }

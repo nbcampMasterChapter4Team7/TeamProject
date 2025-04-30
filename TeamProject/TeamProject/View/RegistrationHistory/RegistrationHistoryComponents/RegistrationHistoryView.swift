@@ -12,6 +12,10 @@ import Then
 
 final class RegistrationHistoryView: UIView, UITableViewDataSource, UITableViewDelegate {
     
+    // MARK: - Properties
+    
+    private var registrationHistories: [RegistrationHistory] = []
+    
     // MARK: - UI Components
     
     private lazy var tableView = UITableView().then {
@@ -52,6 +56,12 @@ final class RegistrationHistoryView: UIView, UITableViewDataSource, UITableViewD
         tableView.delegate = self
     }
     
+    // 데이터 업데이트 메서드 추가
+    func updateData(_ histories: [RegistrationHistory]) {
+        self.registrationHistories = histories.reversed()
+        tableView.reloadData()
+    }
+    
     // 테이블뷰의 각 섹션의 헤더 높이를 설정 (헤더 높이 0으로 설정)
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0
@@ -69,7 +79,7 @@ final class RegistrationHistoryView: UIView, UITableViewDataSource, UITableViewD
     
     // numberOfSections 메서드 추가
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3 // 섹션 3개로 설정
+        return registrationHistories.count
     }
     
     // numberOfRowsInSection 수정
@@ -81,8 +91,10 @@ final class RegistrationHistoryView: UIView, UITableViewDataSource, UITableViewD
         guard let cell = tableView.dequeueReusableCell(withIdentifier: RegistrationHistoryTableViewCell.RegistrationHistoryCellid, for: indexPath) as? RegistrationHistoryTableViewCell else {
             return UITableViewCell()
         }
-        // 실제 데이터로 구성할 때 아래와 같이 적으면 됨
+        // 실제 데이터로 구성할 때 다음과 같이 구성
         // cell.configure(with: yourDataModel)
+        let history = registrationHistories[indexPath.section]
+        cell.configure(with: history)
         
         return cell
     }

@@ -14,6 +14,8 @@ final class RegistrationHistoryViewController: UIViewController {
     // MARK: - Properties
     
     private var registrationHistoryView = RegistrationHistoryView()
+    private let KickBoardRecordVM = KickBoardRecordViewModel.shared
+
        
     // MARK: - View Life Cycle
     
@@ -21,6 +23,7 @@ final class RegistrationHistoryViewController: UIViewController {
         super.viewDidLoad()
         setupRegistrationHistoryView()
         setupNavigationBar()
+        setupViewModel()
     }
     
     // MARK: - Methods
@@ -32,5 +35,14 @@ final class RegistrationHistoryViewController: UIViewController {
     private func setupRegistrationHistoryView() {
         view.addSubview(registrationHistoryView)
         registrationHistoryView.snp.makeConstraints { $0.edges.equalToSuperview() }
+    }
+    
+    private func setupViewModel() {
+        KickBoardRecordVM.onRegistrationHistoriesUpdated = { [weak self] histories in
+            self?.registrationHistoryView.updateData(histories)
+        }
+        
+        KickBoardRecordVM.fetchKickBoardRecords()
+        KickBoardRecordVM.fetchRegistrationHistories()
     }
 }
