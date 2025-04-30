@@ -112,9 +112,8 @@ final class UsageHistoryTableViewCell: UITableViewCell {
         contentView.snp.makeConstraints { make in
             make.width.equalTo(370)
             make.height.equalTo(100)
-            make.center.equalToSuperview()
-            make.leading.equalTo(20)
-            make.trailing.equalTo(-20)
+            make.centerX.equalToSuperview()
+            make.top.bottom.equalToSuperview()
         }
         
         kickboardImageView.snp.makeConstraints { make in

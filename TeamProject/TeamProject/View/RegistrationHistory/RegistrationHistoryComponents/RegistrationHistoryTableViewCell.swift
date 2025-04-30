@@ -91,10 +91,12 @@ final class RegistrationHistoryTableViewCell: UITableViewCell {
     
     private func setConstraints() {
         contentView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
             make.width.equalTo(370)
             make.height.equalTo(100)
+            make.centerX.equalToSuperview()
+            make.top.bottom.equalToSuperview()
         }
+        
         kickboardImageView.snp.makeConstraints { make in
             make.width.height.equalTo(40)
         }
