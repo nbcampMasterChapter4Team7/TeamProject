@@ -205,7 +205,8 @@ class RegisterKickboardAlertViewController: UIViewController {
             kickboardIdentifier: recognitionNumber,
             basicCharge: basicCharge,
             hourlyCharge: hourlyCharge,
-            type: selectedType
+            type: selectedType,
+            userID: UserManager.shared.getUser()!.id
         ))
         
         dismiss(animated: true, completion: nil)

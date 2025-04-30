@@ -54,6 +54,13 @@ final class KickBoardRecordViewModel: NSObject {
         self.records = fetchedRecords
     }
     
+    func fetchFilteredKickBoardRecords() {
+        let fetchedRecords = coreDataManager.fetchRecordsForCurrentUser()
+        self.records = fetchedRecords
+        print("###########################")
+        print(self.records)
+    }
+    
     func saveKickBoardRecord(_ record: KickBoardRecord) {
         coreDataManager.save(record: record)
         fetchKickBoardRecords()
