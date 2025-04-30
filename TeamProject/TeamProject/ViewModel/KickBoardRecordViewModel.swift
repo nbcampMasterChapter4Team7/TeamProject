@@ -15,6 +15,7 @@ final class KickBoardRecordViewModel: NSObject {
     static let shared = KickBoardRecordViewModel()
     
     // MARK: - Properties
+    
     private let locationManager = CLLocationManager()
 
     private let coreDataManager: CoreDataManager
@@ -37,7 +38,6 @@ final class KickBoardRecordViewModel: NSObject {
         super.init()
         locationManager.delegate = self
     }
-    
     
     // MARK: - Methods
     
