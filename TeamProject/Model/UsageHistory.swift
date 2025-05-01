@@ -15,4 +15,5 @@ struct UsageHistory {
     let useDate: String
     let userID: String
     let distance: Double
+    let type: String
 }

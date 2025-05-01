@@ -207,6 +207,9 @@ final class CoreDataManager {
         do {
             let entities = try context.fetch(request)
             return entities.compactMap { entity -> UsageHistory in
+                //이미지 사용을 위한 킥보드 타입 정보 가져오기
+                let kickboardRecord = fetchRecord(with: entity.kickboardIdentifier)
+
                 return UsageHistory(
                     kickboardIdentifier: entity.kickboardIdentifier,
                     charge: Int(entity.charge),
@@ -214,7 +217,8 @@ final class CoreDataManager {
                     startTime: entity.startTime,
                     useDate: entity.useDate,
                     userID: entity.userID,
-                    distance: entity.distance
+                    distance: entity.distance,
+                    type: kickboardRecord?.type ?? "A"
                 )
             }
         } catch {
@@ -234,6 +238,9 @@ final class CoreDataManager {
         do {
             let entities = try context.fetch(fetchRequest)
             return entities.compactMap { entity -> UsageHistory in
+                //이미지 사용을 위한 킥보드 타입 정보 가져오기
+                let kickboardRecord = fetchRecord(with: entity.kickboardIdentifier)
+
                 return UsageHistory(
                     kickboardIdentifier: entity.kickboardIdentifier,
                     charge: Int(entity.charge),
@@ -241,7 +248,8 @@ final class CoreDataManager {
                     startTime: entity.startTime,
                     useDate: entity.useDate,
                     userID: entity.userID,
-                    distance: entity.distance
+                    distance: entity.distance,
+                    type: kickboardRecord?.type ?? "A"
                 )
             }
         } catch {

@@ -144,6 +144,6 @@ final class UsageHistoryTableViewCell: UITableViewCell {
         distanceLabel.text = "이동거리: \(String(format: "%.2f", model.distance))km"
         dateLabel.text = model.useDate
         priceLabel.text = "\(model.charge.formattedPrice)원"
-        //kickboardImageView.image = UIImage(named: "kickboard_\(model.type)")
+        kickboardImageView.image = UIImage(named: "kickboard_\(model.type)")
     }
 }
