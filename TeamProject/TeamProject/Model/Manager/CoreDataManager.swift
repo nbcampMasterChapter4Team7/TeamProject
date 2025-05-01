@@ -7,6 +7,7 @@
 
 import CoreData
 import UIKit
+import CoreLocation
 
 final class CoreDataManager {
     
@@ -66,10 +67,13 @@ final class CoreDataManager {
     
     // MARK: - Methods - Update
     
-    func updateUsageHistory(for identifier: UUID) -> UsageHistoryEntity?  {
-        guard let userID = UserManager.shared.getUser()?.id else {
-            return nil
-        }
+    func updateUsageHistory(
+        for identifier: UUID,
+        currentLocation: CLLocationCoordinate2D,
+        distanceCalculator: (Location, Location) -> Double
+    ) -> UsageHistoryEntity? {guard let userID = UserManager.shared.getUser()?.id else {
+        return nil
+    }
         
         let fetchRequest: NSFetchRequest<UsageHistoryEntity> = UsageHistoryEntity.fetchRequest()
         
@@ -85,7 +89,7 @@ final class CoreDataManager {
         ]
         fetchRequest.fetchLimit = 1
         
-        guard fetchRecord(with: identifier) != nil else { return nil }
+        guard let kickboardRecord = fetchRecord(with: identifier) else { return nil }
         
         do {
             if let entity = try context.fetch(fetchRequest).first {
@@ -94,27 +98,18 @@ final class CoreDataManager {
                 
                 let diff = Date.minutesBetween(entity.startTime, and: finishTime)
                 
-                // RentViewModel의 haversineDistance 사용
-                if let kickboardRecord = fetchRecord(with: identifier) {
-                    let startLocation = Location(latitude: kickboardRecord.latitude, longitude: kickboardRecord.longitude)
-                    let endLocation = Location(
-                        latitude: RentViewModel.shared.currentLocation.latitude,
-                        longitude: RentViewModel.shared.currentLocation.longitude
-                    )
-                    
-                    let distance = RentViewModel.shared.haversineDistance(
-                        from: startLocation,
-                        to: endLocation
-                    )
-                    
-                    entity.finishTime = finishTime
-                    entity.charge = Int32(kickboardRecord.basicCharge + kickboardRecord.hourlyCharge * diff)
-                    entity.distance = distance  // 계산된 거리 저장
-                    try context.save()
-                    return entity
-                } else {
-                    print("업데이트할 UsageHistory가 없습니다.")
-                }
+                // RentViewModel에서 사용하는 부분들 메소드 인자로 받을 수 있도록 수정
+                let startLocation = Location(latitude: kickboardRecord.latitude, longitude: kickboardRecord.longitude)
+                let endLocation = Location(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
+                let distance = distanceCalculator(startLocation, endLocation)
+                
+                entity.finishTime = finishTime
+                entity.charge = Int32(kickboardRecord.basicCharge + kickboardRecord.hourlyCharge * diff)
+                entity.distance = distance  // 계산된 거리 저장
+                try context.save()
+                return entity
+            } else {
+                print("업데이트할 UsageHistory가 없습니다.")
             }
         } catch {
             print("업데이트 중 에러: \(error.localizedDescription)")
@@ -215,7 +210,7 @@ final class CoreDataManager {
             return entities.compactMap { entity -> UsageHistory in
                 //이미지 사용을 위한 킥보드 타입 정보 가져오기
                 let kickboardRecord = fetchRecord(with: entity.kickboardIdentifier)
-
+                
                 return UsageHistory(
                     kickboardIdentifier: entity.kickboardIdentifier,
                     charge: Int(entity.charge),
@@ -246,7 +241,7 @@ final class CoreDataManager {
             return entities.compactMap { entity -> UsageHistory in
                 //이미지 사용을 위한 킥보드 타입 정보 가져오기
                 let kickboardRecord = fetchRecord(with: entity.kickboardIdentifier)
-
+                
                 return UsageHistory(
                     kickboardIdentifier: entity.kickboardIdentifier,
                     charge: Int(entity.charge),

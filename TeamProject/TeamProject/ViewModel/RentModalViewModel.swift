@@ -10,7 +10,7 @@ import Foundation
 final class RentModalViewModel {
     
     // MARK: - Properties
-
+    
     private let coreDataManager = CoreDataManager.shared
     var rentStartDate: Date?
     
@@ -25,6 +25,7 @@ final class RentModalViewModel {
     }
     
     func updateUsageHistory(with id: UUID) -> UsageHistoryEntity? {
-        return coreDataManager.updateUsageHistory(for: id)
+        return coreDataManager.updateUsageHistory(for: id, currentLocation: RentViewModel.shared.currentLocation,distanceCalculator: RentViewModel.shared.haversineDistance
+        )
     }
 }
