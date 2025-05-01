@@ -251,7 +251,7 @@ final class RentModalViewController: UIViewController {
             self.dismiss(animated: true)
         }
 
-        UserDefaultsManager.shared.saveKickboardID(kickboardID: self.kickboardId)
+        UserDefaultsManager.shared.saveKickboardID(kickboardID: self.kickboardId.uuidString)
         UserDefaultsManager.shared.setRentStatus(isRent: true)
         
         guard let kickboardRecord = kickBoardRecord else {
@@ -271,6 +271,7 @@ final class RentModalViewController: UIViewController {
             self.dismiss(animated: true)
         }
         UserDefaultsManager.shared.setRentStatus(isRent: false)
+        UserDefaultsManager.shared.saveKickboardID(kickboardID: "")
         viewModel.updateUsageHistory(with: kickboardId)
     }
 

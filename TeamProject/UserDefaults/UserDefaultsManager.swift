@@ -68,9 +68,8 @@ final class UserDefaultsManager {
         NotificationCenter.default.post(name: Notification.Name("rentStatusChanged"), object: nil)
     }
 
-    func saveKickboardID(kickboardID: UUID) {
-        defaults.set(kickboardID.uuidString, forKey: Keys.kickboardID)
-
+    func saveKickboardID(kickboardID: String) {
+        defaults.set(kickboardID, forKey: Keys.kickboardID)
     }
 
     /// 조회 메서드들

@@ -89,6 +89,16 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate, KakaoMapE
             zOrder: 100
         )
         _ = manager.addLabelLayer(option: layerOption)
+
+        // ── 현재 위치 POI 레이어 ──
+        let locOption = LabelLayerOptions(
+            layerID: "CurrentLocationLayer",
+            competitionType: .none,
+            competitionUnit: .symbolFirst,
+            orderType: .rank,
+            zOrder: 200
+        )
+        _ = manager.addLabelLayer(option: locOption)
     }
 
     func createPoiStyle() {
@@ -114,13 +124,31 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate, KakaoMapE
 
             let poiStyle = PoiStyle(styleID: "kickboardMarkStyleID_\(type)", styles: [
                 PerLevelPoiStyle(iconStyle: iconStyle, level: 5)
-            ])
+                ])
 
             manager.addPoiStyle(poiStyle)
         }
+
+        guard let locImage = UIImage(named: "marker") else {
+            print("marker 이미지 로드 실패")
+            return
+        }
+
+        let targetSize = CGSize(width: 10, height: 30)
+        let renderer = UIGraphicsImageRenderer(size: targetSize)
+        let resizedImage = renderer.image { _ in
+            locImage.draw(in: CGRect(origin: .zero, size: targetSize))
+        }
+        let iconStyle = PoiIconStyle(
+            symbol: resizedImage,
+            anchorPoint: CGPoint(x: 0.5, y: 1.0)
+        )
+        let poiStyle = PoiStyle(styleID: "currentLocationStyle", styles: [PerLevelPoiStyle(iconStyle: iconStyle, level: 15)])
+        manager.addPoiStyle(poiStyle)
+
     }
-    
-    // MARK: - Authentication Handling
+
+//    // MARK: - Authentication Handling
     /// 인증 실패시 호출되는 함수
     /// - Parameters:
     ///   - errorCode: api인증 오류 코드

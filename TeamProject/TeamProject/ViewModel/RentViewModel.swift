@@ -20,7 +20,11 @@ final class RentViewModel: NSObject {
 
     private let coreDataManager: CoreDataManager
     
-    private(set) var currentLocation: CLLocationCoordinate2D?
+    private(set) var currentLocation: CLLocationCoordinate2D = .init(latitude: 0, longitude: 0) {
+        didSet {
+            onLocationUpdate?(currentLocation)
+        }
+    }
     
     private(set) var records: [KickBoardRecord] = [] {
         didSet {
@@ -95,10 +99,12 @@ extension RentViewModel: CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        let coord = location.coordinate
-        currentLocation = coord
-        onLocationUpdate?(coord)
+//        guard let location = locations.last else { return }
+//        let coord = location.coordinate
+//        currentLocation = coord
+//        onLocationUpdate?(coord)
+        guard let last = locations.last else { return }
+        currentLocation = last.coordinate
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
