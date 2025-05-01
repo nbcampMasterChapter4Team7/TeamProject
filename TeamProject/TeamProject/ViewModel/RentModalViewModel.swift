@@ -25,7 +25,7 @@ final class RentModalViewModel {
     }
     
     func updateUsageHistory(with id: UUID) -> UsageHistoryEntity? {
-        return coreDataManager.updateUsageHistory(for: id, currentLocation: RentViewModel.shared.currentLocation,distanceCalculator: RentViewModel.shared.haversineDistance
-        )
+        let distance = RentViewModel.shared.calculateDistance(for: id)
+        return coreDataManager.updateUsageHistory(for: id, distance: distance)
     }
 }

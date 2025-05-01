@@ -62,14 +62,14 @@ final class MyPageViewController: UIViewController, LogoutViewControllerProtocol
         mypageView.cellDelegate = self
     }
     
-    // userName 업데이트 메서드
+    /// userName 업데이트 메서드
     private func updateUserName() {
         if let userName = UserDefaultsManager.shared.getUserName() {
             mypageView.setUserName(userName)
         }
     }
     
-    // MyPageViewController.swift
+    /// MyPageViewController.swift
     func logoutButtonTapped() {
         let alert = UIAlertController(title: "로그아웃",
                                      message: "로그아웃 하시겠습니까?",
@@ -77,10 +77,10 @@ final class MyPageViewController: UIViewController, LogoutViewControllerProtocol
         
         alert.addAction(UIAlertAction(title: "취소", style: .cancel))
         alert.addAction(UIAlertAction(title: "확인", style: .destructive) { _ in
-            // UserDefaults 로그인 상태만 초기화
+            /// UserDefaults 로그인 상태만 초기화
             UserDefaultsManager.shared.logout()
             
-            // 로그인 화면으로 이동
+            /// 로그인 화면으로 이동
             let loginVC = LoginViewController()
             let navigationController = UINavigationController(rootViewController: loginVC)
             navigationController.modalPresentationStyle = .fullScreen

@@ -26,13 +26,13 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupLoginView()
+        setUp()
         addKeyboardObserver()
         setupNavigationBar()
         loginViewDelegate()
         setupAutoFill()
         
-        // 저장된 모든 사용자 정보 출력
+        /// 저장된 모든 사용자 정보 출력
         let allUsers = UserDefaultsManager.shared.getAllUsers()
         print("\n=== 저장된 모든 사용자 정보 ===")
         allUsers.forEach { user in
@@ -42,7 +42,7 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
             print("------------------------")
         }
         
-        // 현재 로그인된 사용자 정보 출력
+        /// 현재 로그인된 사용자 정보 출력
         print("\n=== 현재 로그인된 사용자 정보 ===")
         if let currentUser = UserDefaultsManager.shared.getCurrentUser() {
             print("현재 로그인된 ID: \(currentUser.id)")
@@ -55,13 +55,14 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
         print("===========================\n")
     }
     
-    // MARK: - Methods
+    // MARK: - Layout Helper
     
-    /// loginView의 화면 제약
-    private func setupLoginView() {
+    private func setUp() {
         view.addSubview(loginView)
         loginView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
+    
+    // MARK: - Methods
     
     /// memebershipView의 네비게이션 뒤로가기 타이틀 없애기
     private func setupNavigationBar() {
@@ -91,7 +92,7 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
         switch loginVM.validateLogin(id: id, password: password) {
         case .success:
             UserManager.shared.save(user: User(id: id))
-            loginVM.saveUserLoginInfo(id: id, password: password) //로그인 시 사용자 정보 저장
+            loginVM.saveUserLoginInfo(id: id, password: password) /// 로그인 시 사용자 정보 저장
             loginVM.login()
             navigateToMain()
         case .failure(let message):
@@ -99,7 +100,7 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
         }
     }
     
-    // 로그인 후 완전히 새로운 시작점을 만들어 네비게이션 컨트롤러 중첩 문제를 해결
+    /// 로그인 후 완전히 새로운 시작점을 만들어 네비게이션 컨트롤러 중첩 문제를 해결
     private func navigateToMain() {
         let mainVC = MainViewController()
         if let window = view.window {
@@ -126,7 +127,6 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
     
     // MARK: - Actions
     
-    /// 키보드 확장 옵저버 종료
     deinit {
         removeKeyboardObserver()
     }

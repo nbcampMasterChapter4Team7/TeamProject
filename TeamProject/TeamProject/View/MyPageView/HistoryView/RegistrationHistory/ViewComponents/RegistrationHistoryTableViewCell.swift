@@ -61,15 +61,15 @@ final class RegistrationHistoryTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
-        setConstraints()
+        setLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Methods
-    
+    // MARK: - Layout Helper
+
     private func setup() {
         backgroundColor = .clear
         contentView.backgroundColor = .systemGray6
@@ -88,7 +88,7 @@ final class RegistrationHistoryTableViewCell: UITableViewCell {
         }
     }
     
-    private func setConstraints() {
+    private func setLayout() {
         contentView.snp.makeConstraints { make in
             make.width.equalTo(370)
             make.height.equalTo(100)
@@ -111,6 +111,8 @@ final class RegistrationHistoryTableViewCell: UITableViewCell {
             make.centerY.equalToSuperview()
         }
     }
+    
+    // MARK: - Methods
     
     func configure(with model: RegistrationHistory) {
         kickboardIdLabel.text = model.kickboardId

@@ -37,7 +37,7 @@ final class MembershipView: UIView, UITextFieldDelegate {
         $0.borderStyle = .roundedRect
         $0.backgroundColor = UIColor.asset(.gray4)
         $0.font = UIFont.fontGuide(.LoginPlaceholder)
-        $0.autocapitalizationType = .none //첫글자 대문자 설정 해제
+        $0.autocapitalizationType = .none /// 첫글자 대문자 설정 해제
     }
     
     let passwordLabel = UILabel().then {
@@ -51,7 +51,7 @@ final class MembershipView: UIView, UITextFieldDelegate {
         $0.backgroundColor = UIColor.asset(.gray4)
         $0.font = UIFont.fontGuide(.LoginPlaceholder)
         $0.isSecureTextEntry = true
-        $0.autocapitalizationType = .none //첫글자 대문자 설정 해제
+        $0.autocapitalizationType = .none /// 첫글자 대문자 설정 해제
         $0.textContentType = .newPassword
     }
     
@@ -68,6 +68,7 @@ final class MembershipView: UIView, UITextFieldDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+        setLayout()
         textFieldSetupDelegate()
     }
     
@@ -75,15 +76,12 @@ final class MembershipView: UIView, UITextFieldDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Properties
+    // MARK: - Layout Helper
     
     private func setup() {
         self.backgroundColor = .systemBackground
         self.addSubviews(nicknameLabel, nicknameTextField, idLabel, idTextField, passwordLabel, passwordTextField, signUpButton)
-        setLayout()
     }
-    
-    // MARK: - Layout Helper
     
     private func setLayout() {
         nicknameLabel.snp.makeConstraints { make in
@@ -134,6 +132,12 @@ final class MembershipView: UIView, UITextFieldDelegate {
         passwordTextField.delegate = self
     }
     
+    /// 리턴 키 눌렀을 때 키보드 내리기
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
     /// 확장을 사용하여 영어, 숫자, 특수문자만 입력 가능하도록 바꿈
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentText = textField.text ?? ""
@@ -152,12 +156,6 @@ final class MembershipView: UIView, UITextFieldDelegate {
                 return false
             }
         }
-        return true
-    }
-    
-    /// 리턴 키 눌렀을 때 키보드 내리기
-    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
         return true
     }
 }

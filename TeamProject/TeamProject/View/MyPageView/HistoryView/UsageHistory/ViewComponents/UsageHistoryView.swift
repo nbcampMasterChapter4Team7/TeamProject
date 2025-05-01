@@ -13,7 +13,7 @@ import Then
 final class UsageHistoryView: UIView, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: - Properties
-    // TODO: 현재는 이용 내역 VM이 없어서 등록 내역을 가져와서 출력(추후 해당 내용 수정)
+    
     private var usageHistories: [UsageHistory] = []
     
     // MARK: - UI Components
@@ -29,6 +29,7 @@ final class UsageHistoryView: UIView, UITableViewDataSource, UITableViewDelegate
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+        setLayout()
         tableViewDelegate()
     }
     
@@ -36,12 +37,14 @@ final class UsageHistoryView: UIView, UITableViewDataSource, UITableViewDelegate
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Methods
+    // MARK: - Layout Helper
     
     private func setup() {
         backgroundColor = .systemBackground
         addSubviews(tableView)
-        
+    }
+    
+    private func setLayout() {
         tableView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(20)
             make.leading.trailing.equalToSuperview()
@@ -51,27 +54,30 @@ final class UsageHistoryView: UIView, UITableViewDataSource, UITableViewDelegate
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
     }
     
+    // MARK: - Methods
+    
     private func tableViewDelegate() {
         tableView.dataSource = self
         tableView.delegate = self
     }
     
+    /// 데이터 업데이트 메서드 추가
     func updateData(_ histories: [UsageHistory]) {
         self.usageHistories = histories.reversed()
         tableView.reloadData()
     }
     
-    // 테이블뷰의 각 섹션의 헤더 높이를 설정 (헤더 높이 0으로 설정)
+    /// 테이블뷰의 각 섹션의 헤더 높이를 설정 (헤더 높이 0으로 설정)
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0
     }
     
-    //푸터에 특별한 내용을 표시하지 않고 단순히 간격을 주기 위한 용도로 사용
+    ///푸터에 특별한 내용을 표시하지 않고 단순히 간격을 주기 위한 용도로 사용
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return UIView()
     }
     
-    // 푸터의 높이를 20포인트로 설정 (셀 간의 간격)
+    /// 푸터의 높이를 20포인트로 설정 (셀 간의 간격)
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 20
     }
@@ -81,18 +87,16 @@ final class UsageHistoryView: UIView, UITableViewDataSource, UITableViewDelegate
         return usageHistories.count
     }
     
-    // numberOfRowsInSection 수정
+    /// numberOfRowsInSection 수정
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1 // 각 섹션당 1개의 셀만 표시
+        return 1 /// 각 섹션당 1개의 셀만 표시
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: UsageHistoryTableViewCell.usageHistoryCellid, for: indexPath) as? UsageHistoryTableViewCell else {
             return UITableViewCell()
         }
-        // 실제 데이터로 구성할 때 아래와 같이 적으면 됨
-        // cell.configure(with: yourDataModel)
-        // TODO: 현재는 이용 내역 VM이 없어서 등록 내역을 가져와서 출력(추후 해당 내용 수정)
+        /// 실제 데이터로 구성할 때 아래와 같이 적으면 됨
         let history = usageHistories[indexPath.section]
         cell.configure(with: history)
         

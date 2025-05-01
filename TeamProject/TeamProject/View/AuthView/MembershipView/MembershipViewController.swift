@@ -13,50 +13,41 @@ import Then
 final class MembershipViewController: UIViewController {
     
     // MARK: - Properties
+    
     private var membershipView = MembershipView()
     private let signUpVm = SignUpViewModel()
     
     // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addKeyboardObserver()
         setupNavigationBar()
-        setupMembershipView()
+        setUp()
+        setLayout()
         setupActions()
     }
     
-    // MARK: - Methods
-    private func setupNavigationBar() {
-        navigationItem.title = "회원가입"
-    }
+    // MARK: - Layout Helper
     
-    private func setupMembershipView() {
+    private func setUp() {
         view.addSubview(membershipView)
         membershipView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
     
-    private func setupActions() {
-        membershipView.signUpButton.addTarget(
-            self,
-            action: #selector(signUpButtonTapped),
-            for: .touchUpInside
-        )
+    private func setLayout() {
+        view.addSubview(membershipView)
+        membershipView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
     
+    private func setupNavigationBar() {
+        navigationItem.title = "회원가입"
+    }
     
-    // MARK: - Actions
-    @objc private func signUpButtonTapped() {
-        guard let nickname = membershipView.nicknameTextField.text,
-              let id = membershipView.idTextField.text,
-              let password = membershipView.passwordTextField.text else { return }
-        
-        // 입력값 검증
-        switch signUpVm.validateSignUp(id: id, password: password, name: nickname) {
-        case .success:
-            showSignUpConfirmAlert(id: id, password: password, nickname: nickname)
-        case .failure(let message):
-            showAlert(title: "알림", message: message)
-        }
+    // MARK: - Methods
+    
+    private func setupActions() {
+        membershipView.signUpButton.addTarget( self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
     
     private func showSignUpConfirmAlert(id: String, password: String, nickname: String) {
@@ -83,7 +74,7 @@ final class MembershipViewController: UIViewController {
                     title: "성공",
                     message: "회원가입이 완료되었습니다."
                 ) { [weak self] _ in
-                    // 로그인 화면으로 돌아가기
+                    /// 로그인 화면으로 돌아가기
                     self?.navigationController?.popViewController(animated: true)
                 }
             } else {
@@ -95,7 +86,24 @@ final class MembershipViewController: UIViewController {
         }
     }
     
+    // MARK: - @objc Methods
+    
+    @objc private func signUpButtonTapped() {
+        guard let nickname = membershipView.nicknameTextField.text,
+              let id = membershipView.idTextField.text,
+              let password = membershipView.passwordTextField.text else { return }
+        
+        /// 입력값 검증
+        switch signUpVm.validateSignUp(id: id, password: password, name: nickname) {
+        case .success:
+            showSignUpConfirmAlert(id: id, password: password, nickname: nickname)
+        case .failure(let message):
+            showAlert(title: "알림", message: message)
+        }
+    }
+    
     // MARK: - Actions
+    
     deinit {
         removeKeyboardObserver()
     }

@@ -68,10 +68,7 @@ final class CoreDataManager {
     // MARK: - Methods - Update
     
     func updateUsageHistory(
-        for identifier: UUID,
-        currentLocation: CLLocationCoordinate2D,
-        distanceCalculator: (Location, Location) -> Double
-    ) -> UsageHistoryEntity? {guard let userID = UserManager.shared.getUser()?.id else {
+        for identifier: UUID, distance: Double) -> UsageHistoryEntity? {guard let userID = UserManager.shared.getUser()?.id else {
         return nil
     }
         
@@ -95,17 +92,13 @@ final class CoreDataManager {
             if let entity = try context.fetch(fetchRequest).first {
                 
                 let finishTime = Date().toString(format: "HH:mm")
-                
+        
                 let diff = Date.minutesBetween(entity.startTime, and: finishTime)
-                
-                // RentViewModel에서 사용하는 부분들 메소드 인자로 받을 수 있도록 수정
-                let startLocation = Location(latitude: kickboardRecord.latitude, longitude: kickboardRecord.longitude)
-                let endLocation = Location(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
-                let distance = distanceCalculator(startLocation, endLocation)
                 
                 entity.finishTime = finishTime
                 entity.charge = Int32(kickboardRecord.basicCharge + kickboardRecord.hourlyCharge * diff)
-                entity.distance = distance  // 계산된 거리 저장
+                entity.distance = distance
+                
                 try context.save()
                 return entity
             } else {
