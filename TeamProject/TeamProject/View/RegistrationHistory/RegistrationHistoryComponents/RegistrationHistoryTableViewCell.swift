@@ -113,14 +113,6 @@ final class RegistrationHistoryTableViewCell: UITableViewCell {
         }
     }
     
-    private func configureUI() {
-        // 테스트용 더미 데이터
-        kickboardIdLabel.text = "ABCDEF"
-        basicFeeLabel.text = "기본 이용료: 1,000원"
-        hourlyFeeLabel.text = "시간당 요금: 200원"
-        dateLabel.text = "2025.04.30"
-    }
-    
     func configure(with model: RegistrationHistory) {
         kickboardIdLabel.text = model.kickboardId
         basicFeeLabel.text = "기본 이용료: \(model.basicFee)원"
