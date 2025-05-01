@@ -134,7 +134,7 @@ final class UsageHistoryTableViewCell: UITableViewCell {
         
         kickboardIdLabel.text = model.kickboardIdentifier.uuidString.prefix(10).uppercased()
         
-        if let finishTime = model.finishTime {
+        if model.finishTime != nil {
             let distance = Date.minutesBetween(model.startTime, and: model.finishTime!)
             usageTimeLabel.text = "사용시간: \(model.startTime) ~ \(model.finishTime!) (\(distance)분)"
         } else {

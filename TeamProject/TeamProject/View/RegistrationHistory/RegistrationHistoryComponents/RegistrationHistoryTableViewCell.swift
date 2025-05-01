@@ -97,7 +97,7 @@ final class RegistrationHistoryTableViewCell: UITableViewCell {
         }
         
         kickboardImageView.snp.makeConstraints { make in
-            make.width.height.equalTo(40)
+            make.width.height.equalTo(50)
         }
         
         containerStackView.snp.makeConstraints { make in
