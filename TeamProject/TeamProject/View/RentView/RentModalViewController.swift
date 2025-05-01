@@ -232,6 +232,7 @@ final class RentModalViewController: UIViewController {
         kickboardID.text = String(kickBoardRecord.kickboardIdentifier.uuidString.prefix(6))
         basicCharge.text = kickBoardRecord.basicCharge.formattedPrice + "원"
         hourlyCharge.text = kickBoardRecord.hourlyCharge.formattedPrice + "원"
+        kickboardType.text = kickBoardRecord.type
         kickboardImage.image = UIImage(named: "kickboard_\(kickBoardRecord.type)")
 
         if UserDefaultsManager.shared.isRent() {
@@ -270,8 +271,9 @@ final class RentModalViewController: UIViewController {
         showAlert(title: "알림", message: "반납이 완료되었습니다.") { _ in
             self.dismiss(animated: true)
         }
-        UserDefaultsManager.shared.setRentStatus(isRent: false)
+        
         UserDefaultsManager.shared.saveKickboardID(kickboardID: "")
+        UserDefaultsManager.shared.setRentStatus(isRent: false)
         viewModel.updateUsageHistory(with: kickboardId)
     }
 

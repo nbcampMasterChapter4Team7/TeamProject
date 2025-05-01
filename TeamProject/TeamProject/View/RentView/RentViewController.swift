@@ -190,19 +190,16 @@ final class RentViewController: KakaoMapViewController {
                 let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer")
                 else { return }
 
-//            let rentedID = UserDefaultsManager.shared.getKickboardID()
-
+            let rentedID = UserDefaultsManager.shared.getKickboardID()
             layer.clearAllItems()
             self.poiToRecordMap.removeAll()
 
-
-
             records.forEach { record in
-                
-//                if let rentedID = rentedID,
-//                    record.kickboardIdentifier.uuidString == rentedID {
-//                    return
-//                }
+
+                if let rentedID = rentedID,
+                    record.kickboardIdentifier.uuidString == rentedID {
+                    return
+                }
 
                 let styleID = "kickboardMarkStyleID_\(record.type)"
                 let position = MapPoint(longitude: record.longitude, latitude: record.latitude)
@@ -251,7 +248,6 @@ final class RentViewController: KakaoMapViewController {
     private func showKickboardByCurrentLocation(latitude: Double, longtitude: Double) {
 
         viewModel.fetchFilteredByDistanceKickBoardRecords(myLocation: Location(latitude: latitude, longitude: longtitude), maxDistanceInKm: 3)
-//        hideRentedPoi()
     }
 
     private func updateReturnButtonTint() {
@@ -260,24 +256,6 @@ final class RentViewController: KakaoMapViewController {
         : .black
         returnKickboardButton.tintColor = color
     }
-
-    private func hideRentedPoi() {
-        guard
-            let mapView = mapController?.getView("mapview") as? KakaoMap,
-            let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer"),
-            let rentedID = UserDefaultsManager.shared.getKickboardID()
-            else { return }
-        print("hidden Target : \(rentedID)")
-        // poiToRecordMap 에서 rentedID에 해당하는 itemID를 찾아 레이어에서 제거
-        if let poiIDToHide = poiToRecordMap.first(where: { $0.value.kickboardIdentifier.uuidString == rentedID })?.key {
-            layer.removePoi(poiID: poiIDToHide)
-            poiToRecordMap.removeValue(forKey: poiIDToHide)
-        } else {
-            
-            print("poiID 숨기지 못함")
-        }
-    }
-
 
     private func searchKeyword(_ query: String) {
         guard
@@ -384,14 +362,8 @@ final class RentViewController: KakaoMapViewController {
 
     @objc private func handleRentStatusChanged() {
         updateReturnButtonTint()
-
-//        if UserDefaultsManager.shared.isRent() {
-//            hideRentedPoi()
-//        } else {
-//            // 반납했을 때, 다시 보여주고 싶다면
-//            let point = viewModel.currentLocation
-//            showKickboardByCurrentLocation(latitude: point.latitude, longtitude: point.longitude)
-//        }
+        let point = viewModel.currentLocation
+        showKickboardByCurrentLocation(latitude: point.latitude, longtitude: point.longitude)
     }
 }
 // MARK: - Extension
