@@ -132,7 +132,7 @@ final class UsageHistoryTableViewCell: UITableViewCell {
     
     func configure(with model: UsageHistory) {
         
-        kickboardIdLabel.text = model.kickboardIdentifier.uuidString.prefix(10).uppercased()
+        kickboardIdLabel.text = model.kickboardIdentifier.uuidString.prefix(8).uppercased()
         
         if model.finishTime != nil {
             let distance = Date.minutesBetween(model.startTime, and: model.finishTime!)
