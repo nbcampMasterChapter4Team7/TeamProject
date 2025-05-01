@@ -14,7 +14,7 @@ final class RentModalViewController: UIViewController {
 
     // MARK: - Properties
 
-    private let viewModel = RentModalViewModel.shared
+    private let viewModel = RentModalViewModel()
     private var kickboardId: UUID
     private var kickBoardRecord: KickBoardRecord?
     private var timer: Timer?
@@ -32,49 +32,42 @@ final class RentModalViewController: UIViewController {
         make.font = UIFont.fontGuide(.RentKickboardID)
         make.textColor = .label
         make.textAlignment = .left
-        make.text = "MK111"
     }
 
     private let kickboardTypeTitle = UILabel().then { make in
         make.font = UIFont.fontGuide(.RentBasicCharge)
         make.textColor = UIColor.asset(.gray3)
         make.textAlignment = .left
-        make.text = "타입:"
     }
 
     private let kickboardType = UILabel().then { make in
         make.font = UIFont.fontGuide(.RentBasicCharge)
         make.textColor = UIColor.asset(.gray3)
         make.textAlignment = .left
-        make.text = "A"
     }
 
     private let basicChargeTitle = UILabel().then { make in
         make.font = UIFont.fontGuide(.RentBasicCharge)
         make.textColor = UIColor.asset(.gray3)
         make.textAlignment = .left
-        make.text = "기본 이용료:"
     }
 
     private let basicCharge = UILabel().then { make in
         make.font = UIFont.fontGuide(.RentBasicCharge)
         make.textColor = UIColor.asset(.gray3)
         make.textAlignment = .left
-        make.text = "1,000원"
     }
 
     private let hourlyChargeTitle = UILabel().then { make in
         make.font = UIFont.fontGuide(.RentHourlyCharge)
         make.textColor = UIColor.asset(.gray3)
         make.textAlignment = .left
-        make.text = "시간당 요금:"
     }
 
     private let hourlyCharge = UILabel().then { make in
         make.font = UIFont.fontGuide(.RentHourlyCharge)
         make.textColor = UIColor.asset(.gray3)
         make.textAlignment = .left
-        make.text = "200원"
     }
 
     private let rentButton = UIButton().then { make in
@@ -113,7 +106,6 @@ final class RentModalViewController: UIViewController {
         $0.font = UIFont.fontGuide(.RentBasicCharge)
         $0.textColor = UIColor.asset(.gray3)
         $0.textAlignment = .left
-        $0.text = "00:00:00"
     }
 
     // MARK: Initializer
@@ -145,7 +137,7 @@ final class RentModalViewController: UIViewController {
         }
 
         if UserDefaultsManager.shared.isRent(),
-           let start = RentModalViewModel.shared.rentStartDate {
+           let start = viewModel.rentStartDate {
           startTimer(from: start)
         }
     }
@@ -249,8 +241,8 @@ final class RentModalViewController: UIViewController {
 
     func configure(with kickBoardRecord: KickBoardRecord) {
         kickboardID.text = String(kickBoardRecord.kickboardIdentifier.uuidString.prefix(6))
-        basicCharge.text = kickBoardRecord.basicCharge.formattedPrice + "원"
-        hourlyCharge.text = kickBoardRecord.hourlyCharge.formattedPrice + "원"
+        basicCharge.text = kickBoardRecord.basicCharge.formattedCharge + "원"
+        hourlyCharge.text = kickBoardRecord.hourlyCharge.formattedCharge + "원"
         kickboardType.text = kickBoardRecord.type
         kickboardImage.image = UIImage(named: "kickboard_\(kickBoardRecord.type)")
 
@@ -287,7 +279,7 @@ final class RentModalViewController: UIViewController {
             self.dismiss(animated: true)
         }
         let start = Date()
-         RentModalViewModel.shared.rentStartDate = start
+        viewModel.rentStartDate = start
          startTimer(from: start)
 
         UserDefaultsManager.shared.saveKickboardID(kickboardID: self.kickboardId.uuidString)
@@ -308,15 +300,14 @@ final class RentModalViewController: UIViewController {
         buttonStackView.isHidden = true
         
         timer?.invalidate()
-        RentModalViewModel.shared.rentStartDate = nil
+        viewModel.rentStartDate = nil
 
         UserDefaultsManager.shared.saveKickboardID(kickboardID: "")
         UserDefaultsManager.shared.setRentStatus(isRent: false)
         guard let entity = viewModel.updateUsageHistory(with: kickboardId) else {
             return
         }
-        let diff = Date.minutesBetween(entity.startTime, and: entity.finishTime!) == 0 ? 1 : Date.minutesBetween(entity.startTime, and: entity.finishTime!)
-
+        let diff = Date.minutesBetween(entity.startTime, and: entity.finishTime!)
         showAlert(title: "알림", message: "반납이 완료되었습니다.\n \(diff)분 사용 - \(entity.charge)원 청구") { _ in
             self.dismiss(animated: true)
         }

@@ -36,7 +36,9 @@ final class CoreDataManager {
     
     // MARK: - Methods
     
-    func save(record: KickBoardRecord) {
+    // MARK: - Methods - Save
+    
+    func saveKickboardRecord(record: KickBoardRecord) {
         let entity = KickBoardRecordEntity(context: context)
         entity.latitude = record.latitude
         entity.longitude = record.longitude
@@ -62,6 +64,8 @@ final class CoreDataManager {
         saveContext()
     }
     
+    // MARK: - Methods - Update
+    
     func updateUsageHistory(for identifier: UUID) -> UsageHistoryEntity?  {
         guard let userID = UserManager.shared.getUser()?.id else {
             return nil
@@ -80,7 +84,6 @@ final class CoreDataManager {
             NSSortDescriptor(key: "startTime", ascending: false)
         ]
         fetchRequest.fetchLimit = 1
-        
         
         guard fetchRecord(with: identifier) != nil else { return nil }
         
@@ -119,7 +122,9 @@ final class CoreDataManager {
         return nil
     }
     
-    func deleteRecord(with identifier: UUID) {
+    // MARK: - Methods - Delete
+    
+    func deleteKickboardRecord(with identifier: UUID) {
         let fetchRequest: NSFetchRequest<KickBoardRecordEntity> = KickBoardRecordEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "kickboardIdentifier == %@", identifier as CVarArg)
         
@@ -131,6 +136,8 @@ final class CoreDataManager {
             print("Delete error: \(error.localizedDescription)")
         }
     }
+    
+    // MARK: - Methods - Fetch
     
     func fetchAllRecords() -> [KickBoardRecord] {
         let request: NSFetchRequest<KickBoardRecordEntity> = KickBoardRecordEntity.fetchRequest()
@@ -199,7 +206,6 @@ final class CoreDataManager {
             return []
         }
     }
-    
     
     func fetchAllUsageHistorys() -> [UsageHistory] {
         let request: NSFetchRequest<UsageHistoryEntity> = UsageHistoryEntity.fetchRequest()

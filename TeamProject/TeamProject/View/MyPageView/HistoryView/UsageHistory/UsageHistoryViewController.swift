@@ -14,9 +14,6 @@ final class UsageHistoryViewController: UIViewController {
     // MARK: - Properties
     
     private var usageHistoryView = UsageHistoryView()
-    
-    // TODO: 현재는 이용 내역 VM이 없어서 등록 내역을 가져와서 출력(추후 해당 내용 수정)
-    private let viewModel = KickBoardRecordViewModel.shared
        
     // MARK: - View Life Cycle
     

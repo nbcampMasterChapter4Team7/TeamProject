@@ -9,18 +9,10 @@ import Foundation
 
 final class RentModalViewModel {
     
-    // MARK: - Singleton Instance
-    
-    static let shared = RentModalViewModel()
-    
     // MARK: - Properties
 
     private let coreDataManager = CoreDataManager.shared
     var rentStartDate: Date?
-    
-    // MARK: - Initializer
-    
-    private init () { }
     
     // MARK: - Methods
     

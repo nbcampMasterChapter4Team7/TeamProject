@@ -65,7 +65,7 @@ final class UsageHistoryTableViewCell: UITableViewCell {
         $0.textColor = .label
     }
     
-    private let priceLabel = UILabel().then {
+    private let chargeLabel = UILabel().then {
         $0.font = .boldSystemFont(ofSize: 15)
         $0.textAlignment = .right
         $0.textColor = UIColor.asset(.main)
@@ -102,9 +102,7 @@ final class UsageHistoryTableViewCell: UITableViewCell {
             infoStackView.addArrangedSubview($0)
         }
         
-        [dateLabel, priceLabel].forEach {
-            rightContentStackView.addArrangedSubview($0)
-        }
+        rightContentStackView.addArrangedSubviews(dateLabel, chargeLabel)
     }
     
     private func setConstraints() {
@@ -143,7 +141,7 @@ final class UsageHistoryTableViewCell: UITableViewCell {
         
         distanceLabel.text = "이동거리: \(String(format: "%.2f", model.distance))km"
         dateLabel.text = model.useDate
-        priceLabel.text = "\(model.charge.formattedPrice)원"
+        chargeLabel.text = "\(model.charge.formattedCharge)원"
         kickboardImageView.image = UIImage(named: "kickboard_\(model.type)")
     }
 }

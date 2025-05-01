@@ -13,8 +13,8 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
     
     // MARK: - Properties
     
-    private var _observerAdded: Bool
-    private var _appear: Bool
+    private var observerAdded: Bool
+    private var appear: Bool
     private var isViewAdded = false
     private var lastAddedPoi: Poi?
     
@@ -25,15 +25,15 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
     // MARK: - Initializer
     
     required init?(coder aDecoder: NSCoder) {
-        _observerAdded = false
-        _appear = false
+        observerAdded = false
+        appear = false
         super.init(coder: aDecoder)
         auth = false
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        _observerAdded = false
-        _appear = false
+        observerAdded = false
+        appear = false
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         auth = false
     }
@@ -46,7 +46,7 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         addObservers()
-        _appear = true
+        appear = true
         if mapController?.isEnginePrepared == false {
             mapController?.prepareEngine()
         }
@@ -56,7 +56,7 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        _appear = false
+        appear = false
         mapController?.pauseEngine() //렌더링 중지.
     }
     
@@ -68,14 +68,15 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
     // MARK: - Methods
     
     // 인증 성공시 delegate 호출.
-    func authenticationSucceeded() {
+    private func authenticationSucceeded() {
+    
         // 일반적으로 내부적으로 인증과정 진행하여 성공한 경우 별도의 작업은 필요하지 않으나,
         // 네트워크 실패와 같은 이슈로 인증실패하여 인증을 재시도한 경우, 성공한 후 정지된 엔진을 다시 시작할 수 있다.
         if auth == false {
             auth = true
         }
         
-        if _appear && mapController?.isEngineActive == false {
+        if appear && mapController?.isEngineActive == false {
             mapController?.activateEngine()
         }
         if !isViewAdded {
@@ -102,14 +103,14 @@ final class KickBoardRegisterViewController: KakaoMapViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         
-        _observerAdded = true
+        observerAdded = true
     }
     
     private func removeObservers() {
         NotificationCenter.default.removeObserver(self, name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
         
-        _observerAdded = false
+        observerAdded = false
     }
     
     private func setupBindings() {
@@ -171,7 +172,6 @@ extension KickBoardRegisterViewController {
         if let poi = layer?.addPoi(option: option, at: position) {
             poi.show()
             self.lastAddedPoi = poi
-            print("TEST: \(String(describing: self.lastAddedPoi))")
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
                 guard let self else { return }
                 

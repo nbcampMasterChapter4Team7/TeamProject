@@ -106,6 +106,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate, KakaoMapE
         let manager = mapView.getLabelManager()
 
         ["A", "B", "C"].forEach { type in
+            
             guard let originalImage = UIImage(named: "kickboard_\(type)") else {
                 print("kickboard_\(type) 이미지 로드 실패")
                 return
@@ -134,7 +135,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate, KakaoMapE
             return
         }
 
-        let targetSize = CGSize(width: 10, height: 30)
+        let targetSize = CGSize(width: 20, height: 20)
         let renderer = UIGraphicsImageRenderer(size: targetSize)
         let resizedImage = renderer.image { _ in
             locImage.draw(in: CGRect(origin: .zero, size: targetSize))
@@ -159,20 +160,19 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate, KakaoMapE
         auth = false
         switch errorCode {
         case 400:
-            showToast(self.view, message: "지도 종료(API인증 파라미터 오류)")
+            print("지도 종료(API인증 파라미터 오류)")
             break;
         case 401:
-            showToast(self.view, message: "지도 종료(API인증 키 오류)")
+            print("지도 종료(API인증 키 오류)")
             break;
         case 403:
-            showToast(self.view, message: "지도 종료(API인증 권한 오류)")
+            print("지도 종료(API인증 권한 오류)")
             break;
         case 429:
-            showToast(self.view, message: "지도 종료(API 사용쿼터 초과)")
+            print("지도 종료(API 사용쿼터 초과)")
             break;
         case 499:
-            showToast(self.view, message: "지도 종료(네트워크 오류) 5초 후 재시도..")
-
+            print("지도 종료(네트워크 오류) 5초 후 재시도..")
             // 인증 실패 delegate 호출 이후 5초뒤에 재인증 시도..
             DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
                 print("retry auth...")
@@ -183,33 +183,6 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate, KakaoMapE
         default:
             break;
         }
-    }
-
-    /// 토스트 표시 함수
-    /// - Parameters:
-    ///   - view: 토스트 메시지 뷰
-    ///   - message: 사용자에게 표시되는 메시지
-    ///   - duration: 토스트가 화면에 표시될 시간 ( 2초 )
-    func showToast(_ view: UIView, message: String, duration: TimeInterval = 2.0) {
-        let toastLabel = UILabel(frame: CGRect(x: view.frame.size.width / 2 - 150, y: view.frame.size.height - 100, width: 300, height: 35))
-        toastLabel.backgroundColor = UIColor.black
-        toastLabel.textColor = UIColor.white
-        toastLabel.textAlignment = NSTextAlignment.center;
-        view.addSubview(toastLabel)
-        toastLabel.text = message
-        toastLabel.alpha = 1.0
-        toastLabel.layer.cornerRadius = 10;
-        toastLabel.clipsToBounds = true
-
-        UIView.animate(withDuration: 0.4,
-            delay: duration - 0.4,
-            options: UIView.AnimationOptions.curveEaseOut,
-            animations: {
-                toastLabel.alpha = 0.0
-            },
-            completion: { (finished) in
-                toastLabel.removeFromSuperview()
-            })
     }
 
 }

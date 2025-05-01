@@ -27,8 +27,8 @@ final class DeleteModalViewController: UIViewController {
     init(kickboardID: UUID, basicCharge: Int, hourlyCharge: Int, kickboardType: String) {
         self.kickBoardIdentifier = kickboardID
         self.kickboardIDText = kickboardID.uuidString
-        self.basicChargeText = basicCharge.formattedPrice
-        self.hourlyChargeText = hourlyCharge.formattedPrice
+        self.basicChargeText = basicCharge.formattedCharge
+        self.hourlyChargeText = hourlyCharge.formattedCharge
         self.kickboardTypeText = kickboardType
         super.init(nibName: nil, bundle: nil)
     }

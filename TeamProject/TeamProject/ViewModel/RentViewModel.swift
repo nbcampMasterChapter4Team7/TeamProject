@@ -54,12 +54,7 @@ final class RentViewModel: NSObject {
     func stopUpdatingLocation() {
         locationManager.stopUpdatingLocation()
     }
-    
-//    func fetchKickBoardRecords() {
-//        let fetchedRecords = coreDataManager.fetchAllRecords()
-//        self.records = fetchedRecords
-//    }
-    
+
     func fetchFilteredByDistanceKickBoardRecords(myLocation: Location, maxDistanceInKm: Double) {
         let fetchedRecords = coreDataManager.fetchAllRecords()
 

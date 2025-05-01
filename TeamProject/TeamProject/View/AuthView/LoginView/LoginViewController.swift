@@ -10,6 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
+protocol LoginViewContollerProtocol: AnyObject {
+    func signUpButtonTapped()
+    func loginButtonTapped()
+}
+
 final class LoginViewController: UIViewController,LoginViewContollerProtocol {
     
     // MARK: - UI Components
