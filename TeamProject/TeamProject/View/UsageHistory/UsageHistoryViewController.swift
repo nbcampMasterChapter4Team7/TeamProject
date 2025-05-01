@@ -24,7 +24,7 @@ final class UsageHistoryViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationBar()
         setupUsageHistoryView()
-        print(CoreDataManager.shared.fetchRecordsForCurrentUser())
+        print(CoreDataManager.shared.fetchUsageHistorysForCurrentUser())
         
         // TODO: 현재는 이용 내역 VM이 없어서 등록 내역을 가져와서 출력(추후 해당 내용 수정)
 //        setupViewModel()

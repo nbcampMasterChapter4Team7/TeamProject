@@ -199,10 +199,10 @@ final class RentViewController: KakaoMapViewController {
 
             records.forEach { record in
                 
-                if let rentedID = rentedID,
-                    record.kickboardIdentifier.uuidString == rentedID {
-                    return
-                }
+//                if let rentedID = rentedID,
+//                    record.kickboardIdentifier.uuidString == rentedID {
+//                    return
+//                }
 
                 let styleID = "kickboardMarkStyleID_\(record.type)"
                 let position = MapPoint(longitude: record.longitude, latitude: record.latitude)
@@ -251,7 +251,7 @@ final class RentViewController: KakaoMapViewController {
     private func showKickboardByCurrentLocation(latitude: Double, longtitude: Double) {
 
         viewModel.fetchFilteredByDistanceKickBoardRecords(myLocation: Location(latitude: latitude, longitude: longtitude), maxDistanceInKm: 3)
-        hideRentedPoi()
+//        hideRentedPoi()
     }
 
     private func updateReturnButtonTint() {
@@ -385,13 +385,13 @@ final class RentViewController: KakaoMapViewController {
     @objc private func handleRentStatusChanged() {
         updateReturnButtonTint()
 
-        if UserDefaultsManager.shared.isRent() {
-            hideRentedPoi()
-        } else {
-            // 반납했을 때, 다시 보여주고 싶다면
-            let point = viewModel.currentLocation
-            showKickboardByCurrentLocation(latitude: point.latitude, longtitude: point.longitude)
-        }
+//        if UserDefaultsManager.shared.isRent() {
+//            hideRentedPoi()
+//        } else {
+//            // 반납했을 때, 다시 보여주고 싶다면
+//            let point = viewModel.currentLocation
+//            showKickboardByCurrentLocation(latitude: point.latitude, longtitude: point.longitude)
+//        }
     }
 }
 // MARK: - Extension
