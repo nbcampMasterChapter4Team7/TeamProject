@@ -270,8 +270,9 @@ final class RentModalViewController: UIViewController {
         showAlert(title: "알림", message: "반납이 완료되었습니다.") { _ in
             self.dismiss(animated: true)
         }
-        UserDefaultsManager.shared.setRentStatus(isRent: false)
+        
         UserDefaultsManager.shared.saveKickboardID(kickboardID: "")
+        UserDefaultsManager.shared.setRentStatus(isRent: false)
         viewModel.updateUsageHistory(with: kickboardId)
     }
 
