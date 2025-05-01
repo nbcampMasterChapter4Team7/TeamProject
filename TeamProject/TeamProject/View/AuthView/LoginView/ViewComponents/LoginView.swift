@@ -76,7 +76,10 @@ final class LoginView: UIView, UITextFieldDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        
+        setStyle()
+        setLayout()
+        
         textFieldSetupDelegate()
         
         signUpButton.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
@@ -95,15 +98,13 @@ final class LoginView: UIView, UITextFieldDelegate {
     }
     
     /// 리턴 키 눌렀을 때 키보드 내리기
-    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
-    private func setup() {
+    private func setStyle() {
         self.backgroundColor = .systemBackground
-        self.addSubviews(loginPageTitle, loginPageDescription, idTextField, passwordTextField, loginButton, signUpButton)
-        setLayout()
     }
     
     /// 확장을 사용하여 영어, 숫자, 특수문자만 입력 가능하도록 바꿈
@@ -143,6 +144,8 @@ final class LoginView: UIView, UITextFieldDelegate {
     // MARK: - Layout Helper
     
     private func setLayout() {
+        self.addSubviews(loginPageTitle, loginPageDescription, idTextField, passwordTextField, loginButton, signUpButton)
+        
         loginPageTitle.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(220)
             make.leading.equalToSuperview().inset(40)

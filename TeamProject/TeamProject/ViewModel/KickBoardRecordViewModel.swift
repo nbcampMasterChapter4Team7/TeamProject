@@ -62,12 +62,12 @@ final class KickBoardRecordViewModel: NSObject {
     }
     
     func saveKickBoardRecord(_ record: KickBoardRecord) {
-        coreDataManager.save(record: record)
+        coreDataManager.saveKickboardRecord(record: record)
         fetchKickBoardRecords()
     }
     
     func deleteKickBoardRecord(_ identifier: UUID) {
-        coreDataManager.deleteRecord(with: identifier)
+        coreDataManager.deleteKickboardRecord(with: identifier)
         fetchKickBoardRecords()
     }
     

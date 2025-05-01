@@ -42,23 +42,13 @@
 		86BF276B2DBB287C0070E0A2 /* Exceptions for "TeamProject" folder in "TeamProject" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				Resource/Info.plist,
 			);
 			target = 86BF27422DBB287B0070E0A2 /* TeamProject */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		781A6AF82DC0BF1200D49F22 /* Model */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Model;
-			sourceTree = "<group>";
-		};
-		781A6B7D2DC0C54200D49F22 /* UserDefaults */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = UserDefaults;
-			sourceTree = "<group>";
-		};
 		86BF27452DBB287B0070E0A2 /* TeamProject */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -111,13 +101,11 @@
 		86BF273A2DBB287B0070E0A2 = {
 			isa = PBXGroup;
 			children = (
-				781A6AF82DC0BF1200D49F22 /* Model */,
 				860312952DBF4D8100B5474A /* KakaoAPIKey.xcconfig */,
 				86BF27452DBB287B0070E0A2 /* TeamProject */,
 				86BF275C2DBB287C0070E0A2 /* TeamProjectTests */,
 				86BF27662DBB287C0070E0A2 /* TeamProjectUITests */,
 				86BF27442DBB287B0070E0A2 /* Products */,
-				781A6B7D2DC0C54200D49F22 /* UserDefaults */,
 			);
 			sourceTree = "<group>";
 		};
@@ -147,8 +135,6 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				781A6AF82DC0BF1200D49F22 /* Model */,
-				781A6B7D2DC0C54200D49F22 /* UserDefaults */,
 				86BF27452DBB287B0070E0A2 /* TeamProject */,
 			);
 			name = TeamProject;
@@ -330,7 +316,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TeamProject/Info.plist;
+				INFOPLIST_FILE = TeamProject/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -357,7 +343,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TeamProject/Info.plist;
+				INFOPLIST_FILE = TeamProject/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

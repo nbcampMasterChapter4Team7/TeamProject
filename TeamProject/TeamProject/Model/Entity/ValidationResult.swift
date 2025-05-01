@@ -6,8 +6,6 @@
 //
 import Foundation
 
-// MARK: - Properties
-
 enum ValidationResult {
     case success
     case failure(String)

@@ -92,7 +92,6 @@ final class RegistrationHistoryView: UIView, UITableViewDataSource, UITableViewD
             return UITableViewCell()
         }
         // 실제 데이터로 구성할 때 다음과 같이 구성
-        // cell.configure(with: yourDataModel)
         let history = registrationHistories[indexPath.section]
         cell.configure(with: history)
         

@@ -9,6 +9,15 @@ import UIKit
 
 import SnapKit
 
+protocol LogoutViewControllerProtocol: AnyObject {
+    func logoutButtonTapped()
+}
+
+protocol MyPageTableViewCellProtocol: AnyObject {
+    func registrationHistoryButtonTapped()
+    func usageHistoryButtonTapped()
+}
+
 final class MyPageViewController: UIViewController, LogoutViewControllerProtocol, MyPageTableViewCellProtocol {
     
     // MARK: - Properties
