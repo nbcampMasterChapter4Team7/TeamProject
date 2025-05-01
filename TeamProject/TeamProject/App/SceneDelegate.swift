@@ -27,8 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 
                 // 로그인된 상태면 MainVC로 이동
                 let mainVC = MainViewController()
-                let navigationController = UINavigationController(rootViewController: mainVC)
-                window?.rootViewController = navigationController
+                window?.rootViewController = mainVC
             }
         } else {
             // 로그인되지 않은 상태면 LoginVC로 이동
