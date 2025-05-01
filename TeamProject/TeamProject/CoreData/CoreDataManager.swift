@@ -82,7 +82,7 @@ final class CoreDataManager {
         fetchRequest.fetchLimit = 1
         
         
-        guard let kickboardRecord = fetchRecord(with: identifier) else { return nil }
+        guard fetchRecord(with: identifier) != nil else { return nil }
         
         do {
             if let entity = try context.fetch(fetchRequest).first {
