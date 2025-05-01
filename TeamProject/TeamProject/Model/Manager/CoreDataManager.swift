@@ -52,7 +52,7 @@ final class CoreDataManager {
         saveContext()
     }
     
-    func saveUsageHistory(record: KickBoardRecord) {
+    func saveUsageHistory(record: KickBoardRecord, id: String) {
         let entity = UsageHistoryEntity(context: context)
         let now = Date()
         entity.kickboardIdentifier = record.kickboardIdentifier
@@ -60,7 +60,7 @@ final class CoreDataManager {
         entity.startTime = now.toString(format: "HH:mm")
         entity.charge = 0
         entity.finishTime = nil
-        entity.userID = record.userID
+        entity.userID = id
         
         saveContext()
     }
