@@ -190,7 +190,7 @@ final class RentViewController: KakaoMapViewController {
                 let layer = mapView.getLabelManager().getLabelLayer(layerID: "PoiLayer")
                 else { return }
 
-            let rentedID = UserDefaultsManager.shared.getKickboardID()
+//            let rentedID = UserDefaultsManager.shared.getKickboardID()
 
             layer.clearAllItems()
             self.poiToRecordMap.removeAll()

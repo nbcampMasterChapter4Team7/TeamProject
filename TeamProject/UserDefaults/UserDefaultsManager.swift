@@ -70,7 +70,6 @@ final class UserDefaultsManager {
 
     func saveKickboardID(kickboardID: String) {
         defaults.set(kickboardID, forKey: Keys.kickboardID)
-
     }
 
     /// 조회 메서드들
