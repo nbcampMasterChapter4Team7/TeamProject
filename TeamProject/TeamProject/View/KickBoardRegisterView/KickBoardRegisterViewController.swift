@@ -191,6 +191,12 @@ extension KickBoardRegisterViewController {
             print("Record not found for tapped POI")
             return
         }
+        
+        let id = UserManager.shared.getUser()?.id
+        if record.userID != id {
+            return
+        }
+        
         print("Tapped record: \(record)")
         
         let vc = DeleteModalViewController(
