@@ -25,7 +25,7 @@ final class UsageHistoryTableViewCell: UITableViewCell {
     }
     
     private let kickboardImageView = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
     }
     
