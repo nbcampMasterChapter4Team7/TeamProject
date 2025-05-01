@@ -9,13 +9,13 @@ import CoreData
 import UIKit
 
 final class CoreDataManager {
-
+    
     // MARK: - Singleton Instance
-
+    
     static let shared = CoreDataManager()
-
+    
     // MARK: - Properties
-
+    
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Model")
         container.loadPersistentStores { _, error in
@@ -25,17 +25,17 @@ final class CoreDataManager {
         }
         return container
     }()
-
+    
     var context: NSManagedObjectContext {
         persistentContainer.viewContext
     }
-
+    
     // MARK: - Initializer
-
+    
     private init() { }
-
+    
     // MARK: - Methods
-
+    
     func save(record: KickBoardRecord) {
         let entity = KickBoardRecordEntity(context: context)
         entity.latitude = record.latitude
@@ -45,10 +45,10 @@ final class CoreDataManager {
         entity.hourlyCharge = Int32(record.hourlyCharge)
         entity.type = record.type
         entity.userID = record.userID
-
+        
         saveContext()
     }
-
+    
     func saveUsageHistory(record: KickBoardRecord) {
         let entity = UsageHistoryEntity(context: context)
         let now = Date()
@@ -58,56 +58,71 @@ final class CoreDataManager {
         entity.charge = 0
         entity.finishTime = nil
         entity.userID = record.userID
-
+        
         saveContext()
     }
-
+    
     func updateUsageHistory(for identifier: UUID) -> UsageHistoryEntity?  {
         guard let userID = UserManager.shared.getUser()?.id else {
             return nil
         }
-
+        
         let fetchRequest: NSFetchRequest<UsageHistoryEntity> = UsageHistoryEntity.fetchRequest()
-
+        
         fetchRequest.predicate = NSPredicate(
             format: "userID == %@ AND kickboardIdentifier == %@ AND finishTime == nil",
             userID,
             identifier as CVarArg
         )
-
+        
         fetchRequest.sortDescriptors = [
             NSSortDescriptor(key: "useDate", ascending: false),
             NSSortDescriptor(key: "startTime", ascending: false)
         ]
         fetchRequest.fetchLimit = 1
-
-
+        
+        
         guard let kickboardRecord = fetchRecord(with: identifier) else { return nil }
-
+        
         do {
             if let entity = try context.fetch(fetchRequest).first {
-
+                
                 let finishTime = Date().toString(format: "HH:mm")
-
+                
                 let diff = Date.minutesBetween(entity.startTime, and: finishTime)
-
-                entity.finishTime = finishTime
-                entity.charge = Int32(kickboardRecord.basicCharge + kickboardRecord.hourlyCharge * diff)
-                try context.save()
-                return entity
-            } else {
-                print("업데이트할 UsageHistory가 없습니다.")
+                
+                // RentViewModel의 haversineDistance 사용
+                if let kickboardRecord = fetchRecord(with: identifier) {
+                    let startLocation = Location(latitude: kickboardRecord.latitude, longitude: kickboardRecord.longitude)
+                    let endLocation = Location(
+                        latitude: RentViewModel.shared.currentLocation.latitude,
+                        longitude: RentViewModel.shared.currentLocation.longitude
+                    )
+                    
+                    let distance = RentViewModel.shared.haversineDistance(
+                        from: startLocation,
+                        to: endLocation
+                    )
+                    
+                    entity.finishTime = finishTime
+                    entity.charge = Int32(kickboardRecord.basicCharge + kickboardRecord.hourlyCharge * diff)
+                    entity.distance = distance  // 계산된 거리 저장
+                    try context.save()
+                    return entity
+                } else {
+                    print("업데이트할 UsageHistory가 없습니다.")
+                }
             }
         } catch {
             print("업데이트 중 에러: \(error.localizedDescription)")
         }
         return nil
     }
-
+    
     func deleteRecord(with identifier: UUID) {
         let fetchRequest: NSFetchRequest<KickBoardRecordEntity> = KickBoardRecordEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "kickboardIdentifier == %@", identifier as CVarArg)
-
+        
         do {
             let results = try context.fetch(fetchRequest)
             results.forEach { context.delete($0) }
@@ -116,10 +131,10 @@ final class CoreDataManager {
             print("Delete error: \(error.localizedDescription)")
         }
     }
-
+    
     func fetchAllRecords() -> [KickBoardRecord] {
         let request: NSFetchRequest<KickBoardRecordEntity> = KickBoardRecordEntity.fetchRequest()
-
+        
         do {
             let entities = try context.fetch(request)
             return entities.compactMap { entity -> KickBoardRecord in
@@ -138,34 +153,34 @@ final class CoreDataManager {
             return []
         }
     }
-
+    
     func fetchRecord(with Id: UUID) -> KickBoardRecord? {
         let fetchRequest: NSFetchRequest<KickBoardRecordEntity> = KickBoardRecordEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "kickboardIdentifier == %@", Id as CVarArg)
-
-
+        
+        
         do {
             let results = try context.fetch(fetchRequest)
             if let target = results.first {
                 return KickBoardRecord(latitude: target.latitude, longitude: target.longitude,
-
-                    kickboardIdentifier: target.kickboardIdentifier,
-                    basicCharge: Int(target.basicCharge), hourlyCharge: Int(target.hourlyCharge), type: target.type, userID: target.userID)
+                                       
+                                       kickboardIdentifier: target.kickboardIdentifier,
+                                       basicCharge: Int(target.basicCharge), hourlyCharge: Int(target.hourlyCharge), type: target.type, userID: target.userID)
             }
         } catch {
             print("Fetch error: \(error.localizedDescription)")
         }
         return nil
     }
-
+    
     func fetchRecordsForCurrentUser() -> [KickBoardRecord] {
         guard let userID = UserManager.shared.getUser()?.id else {
             return []
         }
-
+        
         let fetchRequest: NSFetchRequest<KickBoardRecordEntity> = KickBoardRecordEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "userID == %@", userID)
-
+        
         do {
             let entities = try context.fetch(fetchRequest)
             return entities.compactMap { entity -> KickBoardRecord in
@@ -184,11 +199,11 @@ final class CoreDataManager {
             return []
         }
     }
-
-
+    
+    
     func fetchAllUsageHistorys() -> [UsageHistory] {
         let request: NSFetchRequest<UsageHistoryEntity> = UsageHistoryEntity.fetchRequest()
-
+        
         do {
             let entities = try context.fetch(request)
             return entities.compactMap { entity -> UsageHistory in
@@ -198,7 +213,8 @@ final class CoreDataManager {
                     finishTime: entity.finishTime,
                     startTime: entity.startTime,
                     useDate: entity.useDate,
-                    userID: entity.userID
+                    userID: entity.userID,
+                    distance: entity.distance
                 )
             }
         } catch {
@@ -211,10 +227,10 @@ final class CoreDataManager {
         guard let userID = UserManager.shared.getUser()?.id else {
             return []
         }
-
+        
         let fetchRequest: NSFetchRequest<UsageHistoryEntity> = UsageHistoryEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "userID == %@", userID)
-
+        
         do {
             let entities = try context.fetch(fetchRequest)
             return entities.compactMap { entity -> UsageHistory in
@@ -224,7 +240,8 @@ final class CoreDataManager {
                     finishTime: entity.finishTime,
                     startTime: entity.startTime,
                     useDate: entity.useDate,
-                    userID: entity.userID
+                    userID: entity.userID,
+                    distance: entity.distance
                 )
             }
         } catch {
@@ -232,7 +249,7 @@ final class CoreDataManager {
             return []
         }
     }
-
+    
     private func saveContext() {
         if context.hasChanges {
             do {

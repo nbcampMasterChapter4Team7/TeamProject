@@ -70,7 +70,7 @@ final class RentViewModel: NSObject {
         }
     }
     
-    private func haversineDistance(from start: Location, to end: Location) -> Double {
+    func haversineDistance(from start: Location, to end: Location) -> Double {
         let earthRadius = 6_371.0
         
         let startLatRad = start.latitude * .pi / 180
