@@ -17,6 +17,8 @@ final class RentModalViewController: UIViewController {
     private let viewModel = RentModalViewModel.shared
     private var kickboardId: UUID
     private var kickBoardRecord: KickBoardRecord?
+    private var timer: Timer?
+    private var rentStartDate: Date?
 
     // MARK: - UI Components
 
@@ -107,6 +109,13 @@ final class RentModalViewController: UIViewController {
         make.layer.cornerRadius = 8
     }
 
+    private let timerLabel = UILabel().then {
+        $0.font = UIFont.fontGuide(.RentBasicCharge)
+        $0.textColor = UIColor.asset(.gray3)
+        $0.textAlignment = .left
+        $0.text = "00:00:00"
+    }
+
     // MARK: Initializer
 
     init(kickboardId: UUID) {
@@ -134,6 +143,11 @@ final class RentModalViewController: UIViewController {
         if let kickBoardRecord = kickBoardRecord {
             configure(with: kickBoardRecord)
         }
+
+        if UserDefaultsManager.shared.isRent(),
+           let start = RentModalViewModel.shared.rentStartDate {
+          startTimer(from: start)
+        }
     }
 
     // MARK: - Style Helper
@@ -150,7 +164,7 @@ final class RentModalViewController: UIViewController {
         view.addSubviews(kickboardImage, kickboardID,
             kickboardTypeTitle, kickboardType,
             basicChargeTitle, hourlyChargeTitle,
-            basicCharge, hourlyCharge, rentButton, buttonStackView)
+            basicCharge, hourlyCharge, rentButton, buttonStackView,timerLabel)
 
         kickboardImage.snp.makeConstraints {
             $0.width.height.equalTo(112)
@@ -162,12 +176,17 @@ final class RentModalViewController: UIViewController {
             $0.top.equalTo(kickboardImage)
             $0.leading.equalTo(kickboardImage.snp.trailing).offset(17)
         }
+
+        timerLabel.snp.makeConstraints {
+               $0.leading.equalTo(kickboardID.snp.trailing).offset(8)
+            $0.bottom.equalTo(kickboardID.snp.bottom)
+           }
         
         kickboardTypeTitle.snp.makeConstraints {
             $0.top.equalTo(kickboardID.snp.bottom).offset(14)
             $0.leading.equalTo(kickboardID.snp.leading)
         }
-
+        
         kickboardType.snp.makeConstraints {
             $0.top.equalTo(kickboardTypeTitle.snp.top)
             $0.leading.equalTo(kickboardTypeTitle.snp.trailing).offset(10)
@@ -243,6 +262,22 @@ final class RentModalViewController: UIViewController {
             buttonStackView.isHidden = true
         }
     }
+    
+    private func startTimer(from start: Date) {
+      timer?.invalidate()
+      rentStartDate = start
+      timerLabel.text = "00:00:00"
+      
+      timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+        guard let self = self else { return }
+        let elapsed = Date().timeIntervalSince(start)
+        let h = Int(elapsed) / 3600
+        let m = (Int(elapsed) % 3600) / 60
+        let s = Int(elapsed) % 60
+        self.timerLabel.text = String(format: "%02d:%02d:%02d", h, m, s)
+      }
+    }
+
     // MARK: - @objc Methods
 
     @objc private func didTapRentButton() {
@@ -251,10 +286,13 @@ final class RentModalViewController: UIViewController {
         showAlert(title: "알림", message: "대여를 시작합니다.") { _ in
             self.dismiss(animated: true)
         }
+        let start = Date()
+         RentModalViewModel.shared.rentStartDate = start
+         startTimer(from: start)
 
         UserDefaultsManager.shared.saveKickboardID(kickboardID: self.kickboardId.uuidString)
         UserDefaultsManager.shared.setRentStatus(isRent: true)
-        
+
         guard let kickboardRecord = kickBoardRecord else {
             fatalError("이용 기록 저장 실패")
         }
@@ -268,13 +306,22 @@ final class RentModalViewController: UIViewController {
     @objc private func didTapReturnButton() {
         rentButton.isHidden = false
         buttonStackView.isHidden = true
-        showAlert(title: "알림", message: "반납이 완료되었습니다.") { _ in
-            self.dismiss(animated: true)
-        }
         
+        timer?.invalidate()
+        RentModalViewModel.shared.rentStartDate = nil
+
         UserDefaultsManager.shared.saveKickboardID(kickboardID: "")
         UserDefaultsManager.shared.setRentStatus(isRent: false)
-        viewModel.updateUsageHistory(with: kickboardId)
+        guard let entity = viewModel.updateUsageHistory(with: kickboardId) else {
+            return
+        }
+        let diff = Date.minutesBetween(entity.startTime, and: entity.finishTime!) == 0 ? 1 : Date.minutesBetween(entity.startTime, and: entity.finishTime!)
+
+        showAlert(title: "알림", message: "반납이 완료되었습니다.\n \(diff)분 사용 - \(entity.charge)원 청구") { _ in
+            self.dismiss(animated: true)
+        }
+
+
     }
 
 }
