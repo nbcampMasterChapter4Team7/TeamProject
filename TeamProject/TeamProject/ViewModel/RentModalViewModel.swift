@@ -12,6 +12,8 @@ final class RentModalViewModel {
     // MARK: - Properties
     
     private let coreDataManager = CoreDataManager.shared
+    private let userDefaultsMansger = UserDefaultsManager.shared
+    static let shared = RentModalViewModel()
     var rentStartDate: Date?
     
     // MARK: - Methods
@@ -21,11 +23,14 @@ final class RentModalViewModel {
     }
     
     func saveUsageHistory(with data: KickBoardRecord) {
-        return coreDataManager.saveUsageHistory(record: data)
+        guard let currentID = userDefaultsMansger.getCurrentUser()?.id else {
+            return
+        }
+        return coreDataManager.saveUsageHistory(record: data,id: currentID)
     }
     
     func updateUsageHistory(with id: UUID) -> UsageHistoryEntity? {
-        return coreDataManager.updateUsageHistory(for: id, currentLocation: RentViewModel.shared.currentLocation,distanceCalculator: RentViewModel.shared.haversineDistance
-        )
+        let distance = RentViewModel.shared.calculateDistance(for: id)
+        return coreDataManager.updateUsageHistory(for: id, distance: distance)
     }
 }

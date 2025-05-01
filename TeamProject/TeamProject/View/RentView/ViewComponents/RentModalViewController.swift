@@ -14,7 +14,7 @@ final class RentModalViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let viewModel = RentModalViewModel()
+    private let viewModel = RentModalViewModel.shared
     private var kickboardId: UUID
     private var kickBoardRecord: KickBoardRecord?
     private var timer: Timer?
@@ -241,7 +241,6 @@ final class RentModalViewController: UIViewController {
     
     private func setAction() {
         rentButton.addTarget(self, action: #selector(didTapRentButton), for: .touchUpInside)
-        pauseButton.addTarget(self, action: #selector(didTapPauseButton), for: .touchUpInside)
         returnButton.addTarget(self, action: #selector(didTapReturnButton), for: .touchUpInside)
     }
     
@@ -297,10 +296,6 @@ final class RentModalViewController: UIViewController {
             fatalError("이용 기록 저장 실패")
         }
         viewModel.saveUsageHistory(with: kickboardRecord)
-    }
-    
-    @objc private func didTapPauseButton() {
-        
     }
     
     @objc private func didTapReturnButton() {

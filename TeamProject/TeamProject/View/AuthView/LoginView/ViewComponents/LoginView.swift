@@ -39,7 +39,7 @@ final class LoginView: UIView, UITextFieldDelegate {
         $0.borderStyle = .roundedRect
         $0.backgroundColor = UIColor.asset(.gray4)
         $0.font = UIFont.fontGuide(.LoginPlaceholder)
-        $0.autocapitalizationType = .none //첫글자 대문자 설정 해제
+        $0.autocapitalizationType = .none /// 첫글자 대문자 설정 해제
     }
     
     private let passwordTextField = UITextField().then {
@@ -48,7 +48,7 @@ final class LoginView: UIView, UITextFieldDelegate {
         $0.backgroundColor = UIColor.asset(.gray4)
         $0.font = UIFont.fontGuide(.LoginPlaceholder)
         $0.isSecureTextEntry = true /// 입력된 텍스트를 보이지 않게 설정
-        $0.autocapitalizationType = .none //첫글자 대문자 설정 해제
+        $0.autocapitalizationType = .none /// 첫글자 대문자 설정 해제
         $0.textContentType = .password
     }
     
@@ -77,71 +77,21 @@ final class LoginView: UIView, UITextFieldDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setStyle()
+        setUp()
         setLayout()
-        
         textFieldSetupDelegate()
-        
-        signUpButton.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
-        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        buttonAction()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Methods
+    // MARK: - Layout Helper
     
-    private func textFieldSetupDelegate() {
-        idTextField.delegate = self
-        passwordTextField.delegate = self
-    }
-    
-    /// 리턴 키 눌렀을 때 키보드 내리기
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    private func setStyle() {
+    private func setUp() {
         self.backgroundColor = .systemBackground
     }
-    
-    /// 확장을 사용하여 영어, 숫자, 특수문자만 입력 가능하도록 바꿈
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == idTextField {
-            let allowCharacters = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz0123456789")
-            if string.rangeOfCharacter(from: allowCharacters.inverted) != nil {
-                return false
-            }
-        } else if textField == passwordTextField {
-            let allowCharacters = CharacterSet(charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;':\",.<>/?`~")
-            if string.rangeOfCharacter(from: allowCharacters.inverted) != nil {
-                return false
-            }
-        }
-        return true
-    }
-    
-    // 아이디와 비밀번호를 가져오는 메서드
-    func getId() -> String? {
-        return idTextField.text
-    }
-    
-    func getPassword() -> String? {
-        return passwordTextField.text
-    }
-    
-    // 아이디 설정 메서드 (자동완성용)
-    func setId(_ id: String) {
-        idTextField.text = id
-    }
-    
-    func setPassword(_ password: String) {
-        passwordTextField.text = password
-    }
-    
-    // MARK: - Layout Helper
     
     private func setLayout() {
         self.addSubviews(loginPageTitle, loginPageDescription, idTextField, passwordTextField, loginButton, signUpButton)
@@ -178,6 +128,58 @@ final class LoginView: UIView, UITextFieldDelegate {
             $0.top.equalTo(loginButton.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
         }
+    }
+    
+    // MARK: - Methods
+    
+    private func textFieldSetupDelegate() {
+        idTextField.delegate = self
+        passwordTextField.delegate = self
+    }
+    
+    /// 리턴 키 눌렀을 때 키보드 내리기
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    /// 확장을 사용하여 영어, 숫자, 특수문자만 입력 가능하도록 바꿈
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == idTextField {
+            let allowCharacters = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyz0123456789")
+            if string.rangeOfCharacter(from: allowCharacters.inverted) != nil {
+                return false
+            }
+        } else if textField == passwordTextField {
+            let allowCharacters = CharacterSet(charactersIn: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;':\",.<>/?`~")
+            if string.rangeOfCharacter(from: allowCharacters.inverted) != nil {
+                return false
+            }
+        }
+        return true
+    }
+    
+    /// 아이디와 비밀번호를 가져오는 메서드
+    func getId() -> String? {
+        return idTextField.text
+    }
+    
+    func getPassword() -> String? {
+        return passwordTextField.text
+    }
+    
+    /// 아이디, 비밀번호 자동완성용 메서드
+    func setId(_ id: String) {
+        idTextField.text = id
+    }
+    
+    func setPassword(_ password: String) {
+        passwordTextField.text = password
+    }
+    
+    func buttonAction() {
+        signUpButton.addTarget(self, action: #selector(signupButtonTapped), for: .touchUpInside)
+        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
     }
     
     // MARK: - @objc Methods

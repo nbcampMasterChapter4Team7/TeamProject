@@ -14,35 +14,41 @@ final class RegistrationHistoryViewController: UIViewController {
     // MARK: - Properties
     
     private var registrationHistoryView = RegistrationHistoryView()
-    private let KickBoardRecordVM = KickBoardRecordViewModel.shared
+    private let kickBoardRecordVM = KickBoardRecordViewModel.shared
 
        
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupRegistrationHistoryView()
+        setUp()
+        setLayout()
         setupNavigationBar()
         setupViewModel()
     }
     
-    // MARK: - Methods
+    // MARK: - Layout Helper
     
+    private func setUp() {
+        view.addSubview(registrationHistoryView)
+    }
+    
+    private func setLayout() {
+        registrationHistoryView.snp.makeConstraints { $0.edges.equalToSuperview() }
+    }
+
     private func setupNavigationBar() {
         navigationItem.title = "등록 내역"
     }
     
-    private func setupRegistrationHistoryView() {
-        view.addSubview(registrationHistoryView)
-        registrationHistoryView.snp.makeConstraints { $0.edges.equalToSuperview() }
-    }
+    // MARK: - Methods
     
     private func setupViewModel() {
-        KickBoardRecordVM.onRegistrationHistoriesUpdated = { [weak self] histories in
+        kickBoardRecordVM.onRegistrationHistoriesUpdated = { [weak self] histories in
             self?.registrationHistoryView.updateData(histories)
         }
         
-        KickBoardRecordVM.fetchFilteredKickBoardRecords()
-        KickBoardRecordVM.fetchRegistrationHistories()
+        kickBoardRecordVM.fetchFilteredKickBoardRecords()
+        kickBoardRecordVM.fetchRegistrationHistories()
     }
 }
