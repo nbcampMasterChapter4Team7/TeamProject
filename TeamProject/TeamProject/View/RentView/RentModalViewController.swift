@@ -232,6 +232,7 @@ final class RentModalViewController: UIViewController {
         kickboardID.text = String(kickBoardRecord.kickboardIdentifier.uuidString.prefix(6))
         basicCharge.text = kickBoardRecord.basicCharge.formattedPrice + "원"
         hourlyCharge.text = kickBoardRecord.hourlyCharge.formattedPrice + "원"
+        kickboardType.text = kickBoardRecord.type
         kickboardImage.image = UIImage(named: "kickboard_\(kickBoardRecord.type)")
 
         if UserDefaultsManager.shared.isRent() {
