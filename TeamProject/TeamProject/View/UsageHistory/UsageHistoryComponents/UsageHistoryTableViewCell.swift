@@ -25,8 +25,7 @@ final class UsageHistoryTableViewCell: UITableViewCell {
     }
     
     private let kickboardImageView = UIImageView().then {
-        $0.image = ImageLiterals.kickboard
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
     }
     
@@ -133,15 +132,18 @@ final class UsageHistoryTableViewCell: UITableViewCell {
     
     func configure(with model: UsageHistory) {
         
-        kickboardIdLabel.text = model.kickboardIdentifier.uuidString
+        kickboardIdLabel.text = model.kickboardIdentifier.uuidString.prefix(8).uppercased()
+        
         if model.finishTime != nil {
-            let diff = Date.minutesBetween(model.startTime, and: model.finishTime!)
-            usageTimeLabel.text = "사용시간: \(model.startTime) ~ \(model.finishTime!) (\(diff)분)"
+            let distance = Date.minutesBetween(model.startTime, and: model.finishTime!)
+            usageTimeLabel.text = "사용시간: \(model.startTime) ~ \(model.finishTime!) (\(distance)분)"
         } else {
-            usageTimeLabel.text = "사용시간: 이용중"
+            usageTimeLabel.text = "사용시간: \(model.startTime) ~ (이용중)"
         }
-//        distanceLabel.text = "이동거리: \(model.distance)km"
+        
+        distanceLabel.text = "이동거리: \(String(format: "%.2f", model.distance))km"
         dateLabel.text = model.useDate
         priceLabel.text = "\(model.charge.formattedPrice)원"
+        kickboardImageView.image = UIImage(named: "kickboard_\(model.type)")
     }
 }

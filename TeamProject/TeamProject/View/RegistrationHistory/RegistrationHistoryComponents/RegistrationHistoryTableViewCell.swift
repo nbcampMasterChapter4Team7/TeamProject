@@ -20,12 +20,12 @@ final class RegistrationHistoryTableViewCell: UITableViewCell {
     
     private let containerStackView = UIStackView().then {
         $0.axis = .horizontal
-        $0.spacing = 15
+        $0.spacing = 10
         $0.alignment = .center
     }
     
     private let kickboardImageView = UIImageView().then {
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
     }
     
@@ -97,7 +97,7 @@ final class RegistrationHistoryTableViewCell: UITableViewCell {
         }
         
         kickboardImageView.snp.makeConstraints { make in
-            make.width.height.equalTo(40)
+            make.width.height.equalTo(50)
         }
         
         containerStackView.snp.makeConstraints { make in

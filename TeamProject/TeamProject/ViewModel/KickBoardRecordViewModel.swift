@@ -84,7 +84,7 @@ final class KickBoardRecordViewModel: NSObject {
             dateFormatter.dateFormat = "yyyy.MM.dd"
             
             return RegistrationHistory(
-                kickboardId: record.kickboardIdentifier.uuidString.prefix(6).uppercased(),
+                kickboardId: record.kickboardIdentifier.uuidString.prefix(8).uppercased(),
                 basicFee: record.basicCharge,
                 hourlyFee: record.hourlyCharge,
                 date: dateFormatter.string(from: Date()),

@@ -22,6 +22,7 @@ extension UsageHistoryEntity {
     @NSManaged public var startTime: String
     @NSManaged public var useDate: String
     @NSManaged public var userID: String
+    @NSManaged public var distance: Double
 
 }
 
