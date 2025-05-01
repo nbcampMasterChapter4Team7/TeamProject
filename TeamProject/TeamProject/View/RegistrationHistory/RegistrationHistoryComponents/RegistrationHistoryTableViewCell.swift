@@ -62,7 +62,6 @@ final class RegistrationHistoryTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
         setConstraints()
-        configureUI()
     }
     
     required init?(coder: NSCoder) {
