@@ -94,10 +94,17 @@ final class LoginViewController: UIViewController,LoginViewContollerProtocol {
         }
     }
     
+    // 로그인 후 완전히 새로운 시작점을 만들어 네비게이션 컨트롤러 중첩 문제를 해결
     private func navigateToMain() {
         let mainVC = MainViewController()
-        // 네비게이션 스택을 초기화하고 메인화면을 루트로 설정
-        navigationController?.setViewControllers([mainVC], animated: true)
+        if let window = view.window {
+            window.rootViewController = mainVC
+            UIView.transition(with: window,
+                              duration: 0.3,
+                              options: .transitionCrossDissolve,
+                              animations: nil,
+                              completion: nil)
+        }
     }
     
     func signUpButtonTapped() {
