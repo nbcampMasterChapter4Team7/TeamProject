@@ -62,9 +62,9 @@ final class CoreDataManager {
         saveContext()
     }
 
-    func updateUsageHistory(for identifier: UUID) {
+    func updateUsageHistory(for identifier: UUID) -> UsageHistoryEntity?  {
         guard let userID = UserManager.shared.getUser()?.id else {
-            return
+            return nil
         }
 
         let fetchRequest: NSFetchRequest<UsageHistoryEntity> = UsageHistoryEntity.fetchRequest()
@@ -82,7 +82,7 @@ final class CoreDataManager {
         fetchRequest.fetchLimit = 1
 
 
-        guard let kickboardRecord = fetchRecord(with: identifier) else { return }
+        guard let kickboardRecord = fetchRecord(with: identifier) else { return nil }
 
         do {
             if let entity = try context.fetch(fetchRequest).first {
@@ -94,12 +94,14 @@ final class CoreDataManager {
                 entity.finishTime = finishTime
                 entity.charge = Int32(kickboardRecord.basicCharge + kickboardRecord.hourlyCharge * diff)
                 try context.save()
+                return entity
             } else {
                 print("업데이트할 UsageHistory가 없습니다.")
             }
         } catch {
             print("업데이트 중 에러: \(error.localizedDescription)")
         }
+        return nil
     }
 
     func deleteRecord(with identifier: UUID) {

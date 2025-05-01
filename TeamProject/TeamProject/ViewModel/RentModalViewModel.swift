@@ -16,6 +16,7 @@ final class RentModalViewModel {
     // MARK: - Properties
 
     private let coreDataManager = CoreDataManager.shared
+    var rentStartDate: Date?
     
     // MARK: - Initializer
     
@@ -31,7 +32,7 @@ final class RentModalViewModel {
         return coreDataManager.saveUsageHistory(record: data)
     }
     
-    func updateUsageHistory(with id: UUID) {
+    func updateUsageHistory(with id: UUID) -> UsageHistoryEntity? {
         return coreDataManager.updateUsageHistory(for: id)
     }
 }
