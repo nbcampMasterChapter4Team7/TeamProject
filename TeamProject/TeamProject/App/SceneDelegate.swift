@@ -8,19 +8,36 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
-
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let vc = ViewController()
-        let navigationController = UINavigationController(rootViewController: vc)
-        window?.rootViewController = navigationController
+        _ = LoginViewController()
+        
+        
+        // UserDefaults에서 로그인 상태 확인
+        let isLoggedIn = UserDefaultsManager.shared.defaults.bool(forKey: UserDefaultsManager.Keys.isLoggedIn)
+        
+        if isLoggedIn {
+            //id 가져오는 메서드
+            if let id = UserDefaultsManager.shared.getUserId() {
+                UserManager.shared.save(user: User(id: id)) // UserManager에 현재 사용자 정보 저장
+                
+                // 로그인된 상태면 MainVC로 이동
+                let mainVC = MainViewController()
+                window?.rootViewController = mainVC
+            }
+        } else {
+            // 로그인되지 않은 상태면 LoginVC로 이동
+            let loginVC = LoginViewController()
+            let navigationController = UINavigationController(rootViewController: loginVC)
+            window?.rootViewController = navigationController
+        }
         window?.makeKeyAndVisible()
     }
-
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

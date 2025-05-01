@@ -1,0 +1,11 @@
+//
+//  KakaoAPIKey.xcconfig
+//  TeamProject
+//
+//  Created by yimkeul on 4/28/25.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+KAKAO_API_KEY = d6b052fb04b20a9be1fbb390a64bff21
+KAKAO_REST_API_KEY = a9c43409beb3af6f376d09906b9f8006

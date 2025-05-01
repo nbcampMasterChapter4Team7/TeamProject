@@ -6,14 +6,17 @@
 //
 
 import UIKit
+import KakaoMapsSDK
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        if let apiKey = Bundle.main.object(forInfoDictionaryKey: "KAKAO_API_KEY") as? String {
+             SDKInitializer.InitSDK(appKey: apiKey)
+         } else {
+             fatalError("KAKAO_API 키를 읽어올 수 없습니다.")
+         }
         return true
     }
 
