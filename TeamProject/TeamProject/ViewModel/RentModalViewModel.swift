@@ -12,6 +12,7 @@ final class RentModalViewModel {
     // MARK: - Properties
     
     private let coreDataManager = CoreDataManager.shared
+    static let shared = RentModalViewModel()
     var rentStartDate: Date?
     
     // MARK: - Methods
