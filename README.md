@@ -1,4 +1,4 @@
-# 🛴 KickSpot: 킥보드 대여 및 관리 iOS 앱
+# 🛴 GodRide: 킥보드 대여 및 관리 iOS 앱
 
 ## 📱 프로젝트 소개
 
