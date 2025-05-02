@@ -182,7 +182,7 @@ TeamProject
 
 |                       로그인/회원가입                       |                      메인 지도                      |                           킥보드 등록                          |                     마이페이지 / 이용 이력                          |
 | :-------------------------------------------------: | :---------------------------------------------: | :-------------------------------------------------------: | :-----------------------------------------------------: |
-| ![login](https://github.com/user-attachments/assets/27132d8c-a798-44e9-be9d-1bf9b66cc0af) | ![map](https://github.com/user-attachments/assets/c2dfb8f7-4be7-478b-9ff4-e79cc2301308) | ![Regist](https://github.com/user-attachments/assets/ac9ec6e1-0202-4532-b7f4-8f52ae10de33) | ![history](https://github.com/user-attachments/assets/1d38efc5-7d35-4920-a1da-f4070b7c4f0d) |
+| ![login](https://github.com/user-attachments/assets/f81cd8c8-2f05-48c6-8ff5-cda75fd4daa9) | ![map](https://github.com/user-attachments/assets/c2dfb8f7-4be7-478b-9ff4-e79cc2301308) | ![Regist](https://github.com/user-attachments/assets/ac9ec6e1-0202-4532-b7f4-8f52ae10de33) | ![history](https://github.com/user-attachments/assets/1d38efc5-7d35-4920-a1da-f4070b7c4f0d) |
 
 ---
 
