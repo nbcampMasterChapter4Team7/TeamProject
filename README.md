@@ -174,6 +174,7 @@ TeamProject
 ├── ViewModel         // 화면별 ViewModel
 ├── APIKey.xcconfig   // API 키 관리
 └── KakaoAPIKey.xcconfig
+```
 
 ---
 
