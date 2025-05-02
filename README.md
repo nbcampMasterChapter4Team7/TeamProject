@@ -16,6 +16,15 @@
 
 ---
 
+## 👨‍👩‍👧‍👦 팀원 소개
+
+- 이세준 : 발표, 프로젝트 셋팅, 지도 API 분석, 대여 View
+- 신재욱 : 지도 API 분석, 등록 View
+- 이부용 : 로그인, 회원가입, 마이페이지, 등록 내역, 이용 내역 View, Readme 작성
+- **공통** : SA 작성, 스크럼 일지 정리, QnA 정리 등.. + 시연 영상, 발표 자료, 디자인
+
+---
+
 ## 🧩 핵심 기능 요약
 
 | 기능 구분     | 주요 기능 설명                              |
@@ -38,6 +47,16 @@
 | **데이터**      | CoreData, UserDefaults |
 | **아키텍처**     | MVVM                   |
 | **버전 관리**    | Git, GitHub            |
+
+---
+
+## 🧠 아키텍처
+
+| 아키텍처 타입           | 사용 이유                           |
+| ----------------- | ------------------------------- |
+| **MVVM**          | View 로직과 비즈니스 로직 분리, 테스트 용이성 확보 |
+| **CoreData 저장구조** | 사용자 이력 및 킥보드 등록 정보의 영속적 관리      |
+| **UserDefaults**  | 로그인 상태 및 사용자 정보 저장              |
 
 ---
 
@@ -205,25 +224,6 @@ TeamProject
 
 ---
 
-## 🧠 아키텍처
-
-| 아키텍처 타입           | 사용 이유                           |
-| ----------------- | ------------------------------- |
-| **MVVM**          | View 로직과 비즈니스 로직 분리, 테스트 용이성 확보 |
-| **CoreData 저장구조** | 사용자 이력 및 킥보드 등록 정보의 영속적 관리      |
-| **UserDefaults**  | 로그인 상태 및 사용자 정보 저장              |
-
----
-
-## 👨‍👩‍👧‍👦 팀원 소개
-
-- 이세준 : 발표, 프로젝트 셋팅, 지도 API 분석, 대여 View
-- 신재욱 : 지도 API 분석, 등록 View
-- 이부용 : 로그인, 회원가입, 마이페이지, 등록 내역, 이용 내역 View, Readme 작성
-- **공통** : SA 작성, 스크럼 일지 정리, QnA 정리 등.. + 시연 영상, 발표 자료, 디자인
-
----
-
 ## 🧪 시연 영상
 
 | 화면          | 링크      |
@@ -234,10 +234,10 @@ TeamProject
 
 ## 🔗 프로젝트 문서 및 리소스
 
-1. 노션 정리문서 ([https://www.notion.so/teamsparta/07-1e02dc3ef51480b0b232dec00133e751](https://www.notion.so/teamsparta/07-1e02dc3ef51480b0b232dec00133e751))
-2. 팀 프로젝트 노션 ([https://www.notion.so/teamsparta/7-TJ-1d42dc3ef51480e9ada2d6cad9dfcec1](https://www.notion.so/teamsparta/7-TJ-1d42dc3ef51480e9ada2d6cad9dfcec1))
-3. 피그마 링크 ([https://www.figma.com/design/ohl26DfH7JOqVSkxe3CmiU/TJ%ED%8A%B9%EA%B3%B5%EB%8C%80?node-id=0-1\&p=f\&t=ezS4fR9iKBDTTqYZ-0](https://www.figma.com/design/ohl26DfH7JOqVSkxe3CmiU/TJ%ED%8A%B9%EA%B3%B5%EB%8C%80?node-id=0-1&p=f&t=ezS4fR9iKBDTTqYZ-0))
-4. 카카오 API 공식문서 가이드 ([https://apis.map.kakao.com/ios\_v2/](https://apis.map.kakao.com/ios_v2/))
-5. 아이콘을 가져온 구글 머터리얼 디자인 ([https://fonts.google.com/icons?icon.set=Material+Icons](https://fonts.google.com/icons?icon.set=Material+Icons))
+1. [노션 정리문서](https://www.notion.so/teamsparta/07-1e02dc3ef51480b0b232dec00133e751)
+2. [팀 프로젝트 노션](https://www.notion.so/teamsparta/7-TJ-1d42dc3ef51480e9ada2d6cad9dfcec1)
+3. [피그마 링크](https://www.figma.com/design/ohl26DfH7JOqVSkxe3CmiU/TJ%ED%8A%B9%EA%B3%B5%EB%8C%80?node-id=0-1\&p=f\&t=ezS4fR9iKBDTTqYZ-0)
+4. [카카오 API 공식문서 가이드](https://apis.map.kakao.com/ios_v2/)
+5. [아이콘을 가져온 구글 머터리얼 디자인](https://fonts.google.com/icons?icon.set=Material+Icons)
 
 ---
