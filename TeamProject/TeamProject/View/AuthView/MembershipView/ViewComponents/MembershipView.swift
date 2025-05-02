@@ -52,7 +52,7 @@ final class MembershipView: UIView, UITextFieldDelegate {
         $0.font = UIFont.fontGuide(.LoginPlaceholder)
         $0.isSecureTextEntry = true
         $0.autocapitalizationType = .none /// 첫글자 대문자 설정 해제
-        $0.textContentType = .newPassword
+        $0.textContentType = .password
     }
     
     let signUpButton = UIButton(type: .system).then {

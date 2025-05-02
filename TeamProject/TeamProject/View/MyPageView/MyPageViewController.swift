@@ -103,11 +103,11 @@ final class MyPageViewController: UIViewController, LogoutViewControllerProtocol
     
     func usageHistoryButtonTapped() {
         let usageHistoryVC = UsageHistoryViewController()
-        navigationController?.pushViewController(usageHistoryVC, animated: true)
+        navigationController?.pushViewController(usageHistoryVC, animated: false)
     }
     
     func registrationHistoryButtonTapped() {
         let registrationHistoryVC = RegistrationHistoryViewController()
-        navigationController?.pushViewController(registrationHistoryVC, animated: true)
+        navigationController?.pushViewController(registrationHistoryVC, animated: false)
     }
 }
