@@ -226,7 +226,7 @@ TeamProject
 
 | 화면          | 링크      |
 | ----------- | ------- |
-| 유튜브 시연 영상     | 바로가기(https://youtu.be/kJfitA46cZU?si=fqw-tWM9eqy9pLft) |
+| 유튜브 시연 영상     | [바로가기](https://youtu.be/kJfitA46cZU?si=fqw-tWM9eqy9pLft) |
 
 ---
 
