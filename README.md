@@ -174,17 +174,14 @@ TeamProject
 ├── ViewModel         // 화면별 ViewModel
 ├── APIKey.xcconfig   // API 키 관리
 └── KakaoAPIKey.xcconfig
-```
 
 ---
 
 ## ✨ 화면 미리보기
 
-|                       로그인/회원가입                       |                      메인 지도                      |                           킥보드 등록                          |                          이용 이력                          |
+|                       로그인/회원가입                       |                      메인 지도                      |                           킥보드 등록                          |                     마이페이지 / 이용 이력                          |
 | :-------------------------------------------------: | :---------------------------------------------: | :-------------------------------------------------------: | :-----------------------------------------------------: |
-| ![login](https://github.com/user-attachments/assets/a2ebbf81-5282-4e4d-8706-163a4f47cfdb) | ![map](https://github.com/user-attachments/assets/835abf71-dd07-474e-a825-033a00583473) | ![register](https://github.com/user-attachments/assets/2a6eb363-34db-4383-87be-1fd9e5e2942f) | ![history](https://github.com/user-attachments/assets/b0b90bae-cd2d-4b98-bb3d-e7c321e79570) |
-| ![login](https://github.com/user-attachments/assets/de0be642-f16d-482a-a3c4-4955c61ee8dc)
-) | ![map](https://github.com/user-attachments/assets/216824f3-fb38-4d7e-bbf6-10776bb34f43) | ![register](https://github.com/user-attachments/assets/c1b2924d-1e6d-4490-a962-11a2ff81e5f7) | ![history](https://github.com/user-attachments/assets/04f311d0-d901-4f0d-ae8d-9133f3e6b1ad) |
+| ![login](https://github.com/user-attachments/assets/27132d8c-a798-44e9-be9d-1bf9b66cc0af)) | ![map](https://github.com/user-attachments/assets/c2dfb8f7-4be7-478b-9ff4-e79cc2301308) | ![Regist](https://github.com/user-attachments/assets/ac9ec6e1-0202-4532-b7f4-8f52ae10de33) | ![history](https://github.com/user-attachments/assets/1d38efc5-7d35-4920-a1da-f4070b7c4f0d) |
 
 ---
 
