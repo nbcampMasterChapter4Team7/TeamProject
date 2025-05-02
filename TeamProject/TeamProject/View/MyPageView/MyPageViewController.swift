@@ -24,6 +24,7 @@ final class MyPageViewController: UIViewController, LogoutViewControllerProtocol
     
     private var mypageView = MyPageView()
     private var mypageTableViewCell = MyPageTableViewCell()
+    private let navDelegate = YourNavigationControllerDelegate()
     
     // MARK: - View Life Cycle
     
@@ -51,6 +52,7 @@ final class MyPageViewController: UIViewController, LogoutViewControllerProtocol
     
     /// 네비게이션 뒤로가기 타이틀 없애기
     private func setupNavigationBar() {
+        navigationController?.delegate = navDelegate
         navigationItem.backButtonTitle = ""
     }
     
@@ -58,6 +60,7 @@ final class MyPageViewController: UIViewController, LogoutViewControllerProtocol
     
     /// 화면 전환을 위한 델리게이트 설정
     private func setupDelegates() {
+        navigationController?.delegate = navDelegate
         mypageView.delegate = self
         mypageView.cellDelegate = self
     }
@@ -103,11 +106,13 @@ final class MyPageViewController: UIViewController, LogoutViewControllerProtocol
     
     func usageHistoryButtonTapped() {
         let usageHistoryVC = UsageHistoryViewController()
-        navigationController?.pushViewController(usageHistoryVC, animated: false)
+        usageHistoryVC.view.backgroundColor = .systemBackground  // 이 줄 추가
+        navigationController?.pushViewController(usageHistoryVC, animated: true)
     }
     
     func registrationHistoryButtonTapped() {
         let registrationHistoryVC = RegistrationHistoryViewController()
-        navigationController?.pushViewController(registrationHistoryVC, animated: false)
+        registrationHistoryVC.view.backgroundColor = .systemBackground  // 이 줄 추가
+        navigationController?.pushViewController(registrationHistoryVC, animated: true)
     }
 }
