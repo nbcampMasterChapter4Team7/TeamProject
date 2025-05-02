@@ -135,7 +135,7 @@ class KakaoMapViewController: UIViewController, MapControllerDelegate, KakaoMapE
             return
         }
 
-        let targetSize = CGSize(width: 20, height: 20)
+        let targetSize = CGSize(width: 14, height: 20)
         let renderer = UIGraphicsImageRenderer(size: targetSize)
         let resizedImage = renderer.image { _ in
             locImage.draw(in: CGRect(origin: .zero, size: targetSize))

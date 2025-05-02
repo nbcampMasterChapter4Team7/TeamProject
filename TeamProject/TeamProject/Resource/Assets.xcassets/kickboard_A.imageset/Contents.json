@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "kickboard.png",
+      "filename" : "kickboard_A.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "kickboard@2x.png",
+      "filename" : "kickboard_A 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "kickboard@3x.png",
+      "filename" : "kickboard_A 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
