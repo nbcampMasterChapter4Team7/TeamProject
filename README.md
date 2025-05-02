@@ -180,11 +180,11 @@ TeamProject
 
 ## ✨ 화면 미리보기
 
-|                         로그인                         |                      메인 지도                      |                           킥보드 등록                          |                          이용 이력                          |
+|                       로그인/회원가입                       |                      메인 지도                      |                           킥보드 등록                          |                          이용 이력                          |
 | :-------------------------------------------------: | :---------------------------------------------: | :-------------------------------------------------------: | :-----------------------------------------------------: |
-| ![login](https://github.com/user/example/login.png) | ![map](https://github.com/user/example/map.png) | ![register](https://github.com/user/example/register.png) | ![history](https://github.com/user/example/history.png) |
-
-> *📌 이미지 링크는 팀 저장소 이미지로 추후 교체 가능.*
+| ![login](https://github.com/user-attachments/assets/a2ebbf81-5282-4e4d-8706-163a4f47cfdb) | ![map](https://github.com/user-attachments/assets/835abf71-dd07-474e-a825-033a00583473) | ![register](https://github.com/user-attachments/assets/2a6eb363-34db-4383-87be-1fd9e5e2942f) | ![history](https://github.com/user-attachments/assets/b0b90bae-cd2d-4b98-bb3d-e7c321e79570) |
+| ![login](https://github.com/user-attachments/assets/de0be642-f16d-482a-a3c4-4955c61ee8dc)
+) | ![map](https://github.com/user-attachments/assets/216824f3-fb38-4d7e-bbf6-10776bb34f43) | ![register](https://github.com/user-attachments/assets/c1b2924d-1e6d-4490-a962-11a2ff81e5f7) | ![history](https://github.com/user-attachments/assets/04f311d0-d901-4f0d-ae8d-9133f3e6b1ad) |
 
 ---
 
@@ -228,7 +228,7 @@ TeamProject
 
 | 화면          | 링크      |
 | ----------- | ------- |
-| 앱 소개 영상     | (링크 예정) |
+| 유튜브 시연 영상     | 바로가기(https://youtu.be/kJfitA46cZU?si=fqw-tWM9eqy9pLft) |
 
 ---
 
