@@ -166,7 +166,7 @@ extension KickBoardRegisterViewController {
         guard let mapView = mapController?.getView("mapview") as? KakaoMap else { return }
         let manager = mapView.getLabelManager()
         let layer = manager.getLabelLayer(layerID: "PoiLayer")
-        let option = PoiOptions(styleID: "kickboardMarkStyleID")
+        let option = PoiOptions(styleID: "kickboardMarkStyleID_A")
         option.clickable = true
         
         if let poi = layer?.addPoi(option: option, at: position) {

@@ -34,7 +34,7 @@ extension UIViewController {
     @objc func keyboardWillShow(notification: NSNotification) {
         /// 키보드 크기에 맞게 UI 변경 시 아래 코드 활성화(현재 기본 0으로 세팅)
         UIView.animate(withDuration: 0.3) {
-            self.view.frame.origin.y = 0
+            self.view.frame.origin.y = -100
         }
     }
     
